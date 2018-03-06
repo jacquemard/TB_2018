@@ -1,0 +1,94 @@
+% -----------------------------------------------------------------------
+% --- DOCUMENT ---
+% -----------------------------------------------------------------------
+\documentclass[11pt, a4paper, french, twoside, margin=2cm]{report}
+% Margin
+\usepackage[top=3.5cm,
+            bottom=3cm,
+            left=2cm,
+            right=2cm,
+            footskip=1.5cm,
+            headheight=1.5cm,
+            headsep=0.9cm]{geometry}
+
+% Français
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+% Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Lorem ipsum
+\usepackage{blindtext}
+
+% Styles de titres
+\usepackage{titlesec}
+\titleformat{\chapter}
+  {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+
+% En-têtes
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\pagestyle{fancy}
+\fancyhf{} % Supprime les en-têtes et pieds de page existants
+
+\fancyhead[R]{Rémi Jacquemard}
+\fancyhead[LE]{\leftmark}
+
+\fancyfoot[LE,RO]{\thepage{}}
+\fancyfoot[RO]{\includegraphics[width=4cm]{img/logo_heig.png}}
+\fancyfoot[LO]{TB - 2018\\Mesure de l'occupation de parkings à l'aide de caméras vidéo}
+
+\renewcommand{\footrulewidth}{1pt}
+
+% -----------------------------------------------------------------------
+% --- DEBUT DU DOCUMENT ---
+% -----------------------------------------------------------------------
+\begin{document}
+\selectlanguage{french}
+
+% \newpage
+
+% \raggedbottom
+
+% Table des matières
+\tableofcontents
+
+%====================== INCLUSION DES PARTIES ======================
+
+\chapter{Introduction}
+\section{Test}
+\blindtext
+
+\blindtext
+
+\blindtext
+
+\blindtext
+
+\blindtext
+
+\blindtext
+\section{Testsec}
+\blindtext
+\blindtext
+\subsection{Testsub}
+\blindtext
+
+\chapter{Bases technologiques}
+\blindtext
+\chapter{Conception}
+\blindtext
+\chapter{Réalisation}
+\blindtext
+\chapter{Tests et validation}
+\blindtext
+
+\chapter{Conclusions}
+
+
+\end{document}
