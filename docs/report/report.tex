@@ -11,6 +11,9 @@
             headheight=1.5cm,
             headsep=0.9cm]{geometry}
 
+% Todo
+\usepackage{todonotes}
+
 % Français
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
@@ -27,6 +30,7 @@
 \titleformat{\chapter}
   {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
 \titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titleformat{\paragraph}{\normalfont\normalsize\bfseries}{}{}{\textit}
 
 % En-têtes
 \usepackage{fancyhdr}
@@ -49,6 +53,8 @@
 % --- DEBUT DU DOCUMENT ---
 % -----------------------------------------------------------------------
 \begin{document}
+\todo{style des paragraphes}
+
 \selectlanguage{french}
 
 % \newpage

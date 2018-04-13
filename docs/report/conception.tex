@@ -1,2 +1,63 @@
 \chapter{Conception}
-\blindtext
+
+\section{Architecture du système}\label{conception.architecture}
+
+\subsection{Architecture logique}
+
+\todo{VM, etc.}
+
+\subsection{Architecture physique}
+\subsubsection{Connexion de la caméra}\label{conception.architecture.physique.camera}
+\todo{Schéma des différentes connexions possible + choix}
+
+\subsubsection{Réseau}
+\todo{Schéma réseau physique}
+
+
+\todo{Architecture choisie : sur le toit, construction d'une salle en cours --> panneau solaire}
+
+\section{Choix technologiques}
+
+\subsection{Caméra réseau}
+Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. 
+
+\todo{Orientation vers des caméras de sécurités qui semblent le plus adaptées}
+
+\subsubsection{Contraintes}
+Installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont décrites ci-dessous.
+
+\paragraph{Usage extérieur}
+La caméra doit être prévue pour un usage extérieur, avec une protection contre les intempéries (pluie, neige, froid, chaud, etc.).
+
+\paragraph{Caméra auto-alimentée}
+Comme vu en section \ref{conception.architecture.physique.camera}, la caméra doit être auto-alimentée. Ainsi, une combinaison de batteries et de panneaux solaires semble être l'idéal. On peut noter que l'utilisation unique de batteries est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
+
+\paragraph{Connexion réseau}
+En lien avec le paragraphe précédent, la caméra doit nécessairement avoir une interface Wifi permettant de se connecter au réseau de l'école. Une connexion par Ethernet n'est pas envisageable.
+
+\paragraph{Capture de photo}
+\todo{Parler de capture de photo au minimum, flux vidéo non nécessaire}
+
+
+\subsubsection{Critères}
+Afin de choisir une caméra satisfaisante, plusieurs critères ont été définis. On les trouvera ci-après.
+
+\paragraph{Qualité d'image}
+La caméra doit avoir une bonne qualité d'image. On jugera:
+\begin{itemize}
+    \item La résolutions de l'image. Celle-ci doit être d'au minimum 1280x720 pixel.
+    \item La qualité de l'image (si possible).
+\end{itemize}
+
+\paragraph{Fonctionnalités réseau}
+La caméra doit pouvoir fournir des images via le réseau et il doit être possible d'en récupérer à intervalles réguliers. Pour ce faire, on pensera à des protocoles comme ONVIF, RTSP, flux HTTP, vidéo H264 flux, HTTP interface, FTP etc.
+\todo{Décrire les protocoles}
+
+
+\paragraph{Fonctionnement auto-alimenté}
+
+\paragraph{Angle de vue}
+\paragraph{Vision de nuit}
+\paragraph{Facilité d'installation}
+
+\paragraph{Prix}
