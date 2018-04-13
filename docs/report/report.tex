@@ -11,7 +11,7 @@
             headheight=1.5cm,
             headsep=0.9cm]{geometry}
 
-% Todo
+% Todos
 \usepackage{todonotes}
 
 % Français
@@ -30,23 +30,29 @@
 \titleformat{\chapter}
   {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
 \titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titleformat{\paragraph}{\normalfont\normalsize\bfseries}{}{}{\textit}
+\titleformat{\paragraph}{\normalfont\normalsize}{}{}{\textit}
+\titlespacing*{\paragraph}{0pt}{1.5ex plus 1ex minus .2ex}{0.0ex}
+
+% Styles de paragraphes
+\setlength{\parindent}{0pt}
 
 % En-têtes
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 
-\pagestyle{fancy}
-\fancyhf{} % Supprime les en-têtes et pieds de page existants
+%\pagestyle{fancy}
+\fancypagestyle{plain}{
+  \fancyhf{} % Supprime les en-têtes et pieds de page existants
 
-\fancyhead[R]{Rémi Jacquemard}
-\fancyhead[LE]{\leftmark}
-\fancyhead[LO]{\includegraphics[width=4cm]{img/logo_heig.png}}
+  \fancyhead[R]{Rémi Jacquemard}
+  \fancyhead[LE]{\leftmark}
+  \fancyhead[LO]{\includegraphics[width=4cm]{img/logo_heig.png}}
 
-\fancyfoot[LE,RO]{\thepage{}}
-\fancyfoot[LO]{Juin 2018 - TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo}
-\fancyfoot[RE]{TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo - Juin 2018}
-
+  \fancyfoot[LE,RO]{\thepage{}}
+  \fancyfoot[LO]{Juin 2018 - TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo}
+  \fancyfoot[RE]{TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo - Juin 2018}
+}
+\pagestyle{plain}
 \renewcommand{\footrulewidth}{1pt}
 
 % -----------------------------------------------------------------------
