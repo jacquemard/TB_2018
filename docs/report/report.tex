@@ -28,7 +28,6 @@
   {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
 \titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 
-
 % En-têtes
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -60,54 +59,17 @@
 \tableofcontents
 
 %====================== INCLUSION DES PARTIES ======================
+\include{introduction}
 
-\chapter{Introduction}
-\section{Test}
-\blindtext
+\include{technologies}
 
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
-\blindtext
+\include{conception}
 
-\blindtext
+\include{realisation}
 
-\blindtext
+\include{test}
 
-\blindtext
-
-\blindtext
-\section{Testsec}
-\blindtext
-\blindtext
-\subsection{Testsub}
-\blindtext
-
-\chapter{Bases technologiques}
-\blindtext
-\chapter{Conception}
-\blindtext
-\chapter{Réalisation}
-\blindtext
-\chapter{Tests et validation}
-\blindtext
-
-\chapter{Conclusions}
+\include{conclusion}
 
 
 \end{document}
