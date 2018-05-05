@@ -57,6 +57,10 @@
 
 \renewcommand{\footrulewidth}{1pt}
 
+% Bibliographie
+\usepackage[backend=biber, style=authoryear-icomp]{biblatex}
+\addbibresource{report.bib}
+
 % -----------------------------------------------------------------------
 % --- DEBUT DU DOCUMENT ---
 % -----------------------------------------------------------------------
@@ -85,5 +89,7 @@
 
 \include{conclusion}
 
+\nocite{*}
+\printbibliography
 
 \end{document}
