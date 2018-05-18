@@ -51,15 +51,18 @@ La caméra doit avoir une bonne qualité d'image. On jugera:
 \paragraph{Fonctionnalités réseau}
 La caméra doit pouvoir fournir des images via le réseau et il doit être possible d'en récupérer à intervalles réguliers. Pour ce faire, on pensera à des protocoles comme les suivants: 
 \begin{description}
-    \item[ONVIF] \cite{wiki:onvif} protocole ouvert 
+    \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \footnote{\cite{wiki:onvif}, \citetitle{wiki:onvif}}
+    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \footnote{\cite{wiki:RTSP}, \citetitle{wiki:RTSP}}
+    \item[requêtes HTTP] Il pourrait être possible de capturer et de récupérer à la demande une photo à l'aide de requêtes HTTP.
+    \item[flux sur HTTP] Permet la lecture de flux vidéo sur HTTP en s'appuyant sur des formats tel que MPEG-4.
+    \item[interface Web HTTP] Permet la configuration d'une caméra IP via un serveur Web qu'elle expose. 
+    \item[FTP] La caméra peut exposer un serveur FTP contenant les photos capturées. Elle pourrait aussi "pusher" des photos capturées sur un serveur FTP distant.
 \end{description}
-
-
-ONVIF, RTSP, flux HTTP, vidéo H264 flux, HTTP interface, FTP etc.
-\todo{Décrire les protocoles}
 
 \paragraph{Fonctionnement auto-alimenté}
 
+\paragraph{Capture de photo}
+\todo{capture de photo automatique}
 \paragraph{Angle de vue}
 \paragraph{Vision de nuit}
 \paragraph{Facilité d'installation}
