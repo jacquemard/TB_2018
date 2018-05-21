@@ -2,7 +2,11 @@ import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
-import time
+
+import logging
+# Formatting logging
+FORMAT = '%(asctime)s: %(message)s'
+logging.basicConfig(format=FORMAT)
 
 class CameraClient:
     """
@@ -77,14 +81,30 @@ class CameraClient:
 
 class CameraCrawler:
     """
-    Used to request the camera for a snap periodically. Handle connection loss.
+    Used to request the camera for a snap periodically. It handles connection loss.
     """
 
     def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0):
+        """
+        Creates an image crawler. It request for an image to the camera_client provided as an argument once every
+        timelaps, which is defined by the hours, minutes and seconds parameters. For the crawler to start, use camera_crawler.start().
+        For every image that has been received, the 'handle_image_callback(image_bytes_stream)' is called. The image_bytes_stream
+        can be easily converted to an skimage/opencv images with image = io.imread(image_bytes_stream).
+        
+        Arguments:
+            camera_client {CameraClient} -- The camera from which we want to retreive images
+            handle_image_callback {Function} -- A function that has the following signature: func(image_bytes_stream)
+        
+        Keyword Arguments:
+            hours {int} -- Hours between each request (default: {0})
+            minutes {int} -- Minutes between each request (default: {0})
+            seconds {int} -- Seconds between each request (default: {0})
+        """
+
         self.camera_client = camera_client
         self.handle_image_callback = handle_image_callback
 
-        # saving the wanted interval
+        # saving the base interval
         self.interval = (hours, minutes, seconds)
 
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
@@ -95,30 +115,38 @@ class CameraCrawler:
         self.connection_error = False
 
     def request_image(self):
+        """
+        Used locally to request for an image to the camera. This is executed once every timelaps
+        """
+
         try:
             image = self.camera_client.capture_raw()
 
             if self.connection_error == True:
                 # There is no more error now, we can use the main interval
-                print("Camera reconnected !")
+                logging.warning("The camera has been reconnected !")
                 self.connection_error = False
                 self.job.reschedule(trigger='interval', hours = self.interval[0], minutes = self.interval[1], seconds = self.interval[2])
-                
+            
+            logging.info("Image fetched")
+
             self.handle_image_callback(image)
         except requests.RequestException :
             # Here, the camera could not be found
             # Retrying once every minute
-            print("Connection to camera lost, retrying in 1 minute")
+            logging.error("Connection to camera lost, retrying in 1 minute")
             self.connection_error = True
-            self.job.reschedule(trigger='interval', seconds = 5)
-        except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception) as e:
-            print("An error has occured while retreiving the image")
-            print(e)
+            self.job.reschedule(trigger='interval', minutes = 1)
+        except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception):
+            logging.exception("An error has occured while retreiving the image")
             # Doing nothing, retrying the next time
-
            
 
     def start(self):
+        """
+        Starting capturing image from the camera
+        """
+
         # we firstly get one image immediately
         self.request_image()
 
@@ -140,7 +168,7 @@ if __name__ == "__main__":
         ImageViewer(image).show()
 
     print("Creating crawler...")
-    crawler = CameraCrawler(camera, handle_image, seconds=20)
+    crawler = CameraCrawler(camera, handle_image, minutes=20)
     print("Starting crawler")
     crawler.start()
     
