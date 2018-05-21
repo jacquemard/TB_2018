@@ -8,6 +8,9 @@ import logging
 FORMAT = '%(asctime)s: %(message)s'
 logging.basicConfig(format=FORMAT)
 
+logger = logging.getLogger("capture_module")
+logger.setLevel("INFO")
+
 class CameraClient:
     """
     Can be used to interact with the camera over the network. 
@@ -124,21 +127,21 @@ class CameraCrawler:
 
             if self.connection_error == True:
                 # There is no more error now, we can use the main interval
-                logging.warning("The camera has been reconnected !")
+                logger.warning("The camera has been reconnected !")
                 self.connection_error = False
                 self.job.reschedule(trigger='interval', hours = self.interval[0], minutes = self.interval[1], seconds = self.interval[2])
             
-            logging.info("Image fetched")
+            logger.info("Image fetched")
 
             self.handle_image_callback(image)
         except requests.RequestException :
             # Here, the camera could not be found
             # Retrying once every minute
-            logging.error("Connection to camera lost, retrying in 1 minute")
+            logger.error("Connection to camera lost, retrying in 1 minute")
             self.connection_error = True
             self.job.reschedule(trigger='interval', minutes = 1)
         except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception):
-            logging.exception("An error has occured while retreiving the image")
+            logger.exception("An error has occured while retreiving the image")
             # Doing nothing, retrying the next time
            
 
