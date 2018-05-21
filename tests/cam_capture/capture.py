@@ -1,8 +1,14 @@
 import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
+from apscheduler.schedulers.background import BackgroundScheduler
 
 class CameraClient:
+    """
+    Can be used to interact with the camera over the network. 
+    This has been especially designed to work with the Wanscam HW0029 camera.
+    """
+    
     SNAP_ENDPOINT = "/web/tmpfs/snap.jpg"
     WEB_PORT = 80
 
@@ -38,7 +44,8 @@ class CameraClient:
 
         Raises:
             RequestException -- if the connection was not succesfully completed, for ex. if the host can not be reached.
-            
+            BadCredentialsError -- if the credentials cannot be used to connect to the camera
+            BadResponseFormat -- if womething went wrong with the camera response
         """
         response = requests.get(self.url, auth=self.auth)
         if response.status_code == 401: # bad credentials
@@ -60,7 +67,7 @@ class CameraClient:
 
     class BadResponseFormat(Error):
         def __init__(self):
-            super().__init__("Something was wrong with the camera response")
+            super().__init__("Something went wrong with the camera response")
 
 
 if __name__ == "__main__":
