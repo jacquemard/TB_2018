@@ -2,6 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
+import time
 
 class CameraClient:
     """
@@ -83,14 +84,39 @@ class CameraCrawler:
         self.camera_client = camera_client
         self.handle_image_callback = handle_image_callback
 
+        # saving the wanted interval
+        self.interval = (hours, minutes, seconds)
+
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
         self.scheduler = BlockingScheduler()
-        self.scheduler.add_job(self.request_image, 'interval', hours=hours, minutes = minutes, seconds = seconds)
+        self.job = self.scheduler.add_job(self.request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds)
+
+        # This is set to True when a connection error occured. 
+        self.connection_error = False
 
     def request_image(self):
-        image = self.camera_client.capture_raw()
+        try:
+            image = self.camera_client.capture_raw()
 
-        self.handle_image_callback(image)
+            if self.connection_error == True:
+                # There is no more error now, we can use the main interval
+                print("Camera reconnected !")
+                self.connection_error = False
+                self.job.reschedule(trigger='interval', hours = self.interval[0], minutes = self.interval[1], seconds = self.interval[2])
+                
+            self.handle_image_callback(image)
+        except requests.RequestException :
+            # Here, the camera could not be found
+            # Retrying once every minute
+            print("Connection to camera lost, retrying in 1 minute")
+            self.connection_error = True
+            self.job.reschedule(trigger='interval', seconds = 5)
+        except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception) as e:
+            print("An error has occured while retreiving the image")
+            print(e)
+            # Doing nothing, retrying the next time
+
+           
 
     def start(self):
         # we firstly get one image immediately
@@ -114,12 +140,8 @@ if __name__ == "__main__":
         ImageViewer(image).show()
 
     print("Creating crawler...")
-
     crawler = CameraCrawler(camera, handle_image, seconds=20)
+    print("Starting crawler")
     crawler.start()
-
-    print("Crawler created")
-
-    #image = camera.capture_raw()
     
    
