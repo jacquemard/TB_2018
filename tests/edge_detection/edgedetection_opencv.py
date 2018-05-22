@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 # loading image
-image = cv.imread(r"C:\Users\Remi\Desktop\2013-03-13_08_50_03.jpg")
+image = cv.imread(r"park.jpg")
 
 # gray scale
 image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)

@@ -6,7 +6,7 @@ import numpy as np
 #from scipy import ndimage as ndi
 
 print("Reading")
-image = io.imread(r"C:\Users\Remi\Desktop\2013-03-13_08_50_03.jpg")
+image = io.imread(r"park.jpg")
 print("Read")
 
 # done for each chanel (http://scikit-image.org/docs/0.12.x/auto_examples/color_exposure/plot_adapt_rgb.html)
