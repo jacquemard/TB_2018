@@ -89,3 +89,4 @@ downsample_first = transform.resize(img, (270, 480), mode='reflect')
 downsample_first = exposure.rescale_intensity(1 - fil_hsv(downsample_first, filters.scharr))
 
 CollectionViewer([edge_first, downsample_first]).show()
+# the downsample_first seems better
