@@ -2,20 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
-from email.message import EmailMessage
-from logging.handlers import SMTPHandler
-import smtplib
 import logging
-
-import sys
-print(sys.path)
-
-from ..logger import custom_logging_handlers
-
-# Formatting logging
-FORMAT = '[%(levelname)s] %(asctime)s: %(message)s'
-formatter = logging.Formatter(FORMAT)
-#logging.basicConfig(format=FORMAT)
 
 class CameraClient:
     """
@@ -181,40 +168,3 @@ class CameraCrawler:
         """
 
         return self.logger
-
-print(__name__)
-
-if __name__ == "__main__":
-    # camera connection tests
-    from skimage import io
-    from skimage.viewer import ImageViewer
-
-    ##import sys
-    #sys.path.append("../")
-    #print(sys.path)
-    #from logger import custom_logging_handlers
-
-    camera = CameraClient("10.0.0.29")
-
-    def handle_image(image_bytes_stream):
-        # converting to a skimage/opencv image (simply a [x, y, 3] numpy array)
-        image = io.imread(image_bytes_stream)
-
-        ImageViewer(image).show()
-
-    print("Creating crawler...")
-    crawler = CameraCrawler(camera, handle_image, minutes=20)
-
-    # sending mail when error
-    '''
-    handler = SMTPHandler("smtp.heig-vd.ch", "remi.jacquemard@heig-vd.ch", ["remi.jacquemard@heig-vd.ch"], "[TB] Monitor - Wanscam Camera Crawler - error or warning occured")
-    handler.setLevel(logging.WARNING)
-    handler.setFormatter(formatter)
-    crawler.get_logger().addHandler(handler)
-    '''
-    print("Adding handlers")
-    custom_logging_handlers.add_logger(crawler.get_logger(), "[TB] Monitor - Wanscam Camera Crawler - error or warning occured", "crawler_log.txt")
-    print("ADDED")
-
-    print("Starting crawler")
-    crawler.start()

@@ -12,6 +12,8 @@
 *.blg
 *.run.xml
 
-
 # VSCode
 *.vscode
+
+# Python
+*__pycache__*
