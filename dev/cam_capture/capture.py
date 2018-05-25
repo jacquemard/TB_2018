@@ -33,7 +33,7 @@ class CameraClient:
         self.auth = HTTPBasicAuth(self.username, self.password)
 
         # Defining the http request url which can be used to request an image to the camera
-        self.url = "http://{}:{}{}".format(host, self.WEB_PORT, self.SNAP_ENDPOINT)
+        self.url = f"http://{self.host}:{self.WEB_PORT}{self.SNAP_ENDPOINT}"
 
     def capture_raw(self): 
         """
