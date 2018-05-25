@@ -122,9 +122,6 @@ class CameraCrawler:
         self.logger = logging.getLogger("capture_module")
         self.logger.setLevel(logging.INFO)
 
-    def get_logger(self):
-        return self.logger
-
     def request_image(self):
         """
         Used locally to request for an image to the camera. This is executed once every timelaps
@@ -170,24 +167,21 @@ class CameraCrawler:
         self.scheduler.start()
 
 
+    def get_logger(self):
+        """
+        Returns the logger of this crawler. Can be usefull to monitorate
+        
+        Returns:
+            Logger -- The current logger
+        """
+
+        return self.logger
+
+
+
 if __name__ == "__main__":
-    '''
-    # here are some tests when not used as a module
-    # mail connection test
-    # Creating a monitoring message
-    msg = EmailMessage()
-    msg.set_content("Monitoring test")
-    msg['Subject'] = "Test de monitoring"
-    msg['From'] = "remi.jacquemard@heig-vd.ch"
-    msg['To'] = "remi.jacquemard@heig-vd.ch"
-
-    # SMTP server connection
-    with smtplib.SMTP("mailcl0.heig-vd.ch") as smtp:
-        smtp.send_message(msg)
-    '''
-
     # camera connection tests
-    
+        
     from skimage import io
     from skimage.viewer import ImageViewer
 
