@@ -2,14 +2,15 @@ import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
-
+from email.message import EmailMessage
+import smtplib
 import logging
-# Formatting logging
-FORMAT = '%(asctime)s: %(message)s'
-logging.basicConfig(format=FORMAT)
+from logging.handlers import SMTPHandler
 
-logger = logging.getLogger("capture_module")
-logger.setLevel("INFO")
+# Formatting logging
+FORMAT = '[%(levelname)s] %(asctime)s: %(message)s'
+formatter = logging.Formatter('[%(levelname)s] %(asctime)s: %(message)s')
+logging.basicConfig(format=FORMAT)
 
 class CameraClient:
     """
@@ -117,6 +118,13 @@ class CameraCrawler:
         # This is set to True when a connection error occured. 
         self.connection_error = False
 
+        # logging
+        self.logger = logging.getLogger("capture_module")
+        self.logger.setLevel(logging.INFO)
+
+    def get_logger(self):
+        return self.logger
+
     def request_image(self):
         """
         Used locally to request for an image to the camera. This is executed once every timelaps
@@ -127,21 +135,26 @@ class CameraCrawler:
 
             if self.connection_error == True:
                 # There is no more error now, we can use the main interval
-                logger.warning("The camera has been reconnected !")
+                self.logger.warning("The camera has been reconnected after a loss of connection !")
                 self.connection_error = False
+
                 self.job.reschedule(trigger='interval', hours = self.interval[0], minutes = self.interval[1], seconds = self.interval[2])
-            
-            logger.info("Image fetched")
+                
+            self.logger.info("Image fetched")
 
             self.handle_image_callback(image)
         except requests.RequestException :
             # Here, the camera could not be found
             # Retrying once every minute
-            logger.error("Connection to camera lost, retrying in 1 minute")
-            self.connection_error = True
+            if self.connection_error == False: # New error, logging it 
+                self.logger.error("Connection to camera lost, retrying in 1 minute")
+                self.connection_error = True
+            else: # This error is not new, logging it as an info
+                self.logger.info("Camera still not connected, retrying in 1 minute")
+
             self.job.reschedule(trigger='interval', minutes = 1)
         except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception):
-            logger.exception("An error has occured while retreiving the image")
+            self.logger.exception("An error has occured while retreiving the image")
             # Doing nothing, retrying the next time
            
 
@@ -158,7 +171,23 @@ class CameraCrawler:
 
 
 if __name__ == "__main__":
+    '''
     # here are some tests when not used as a module
+    # mail connection test
+    # Creating a monitoring message
+    msg = EmailMessage()
+    msg.set_content("Monitoring test")
+    msg['Subject'] = "Test de monitoring"
+    msg['From'] = "remi.jacquemard@heig-vd.ch"
+    msg['To'] = "remi.jacquemard@heig-vd.ch"
+
+    # SMTP server connection
+    with smtplib.SMTP("mailcl0.heig-vd.ch") as smtp:
+        smtp.send_message(msg)
+    '''
+
+    # camera connection tests
+    
     from skimage import io
     from skimage.viewer import ImageViewer
 
@@ -172,6 +201,13 @@ if __name__ == "__main__":
 
     print("Creating crawler...")
     crawler = CameraCrawler(camera, handle_image, minutes=20)
+
+    # sending mail when error
+    handler = SMTPHandler("smtp.heig-vd.ch", "remi.jacquemard@heig-vd.ch", ["remi.jacquemard@heig-vd.ch"], "[TB] Monitor - Wanscam Camera Crawler - error or warning occured")
+    handler.setLevel(logging.WARNING)
+    handler.setFormatter(formatter)
+    crawler.get_logger().addHandler(handler)
+
     print("Starting crawler")
     crawler.start()
     
