@@ -3,14 +3,19 @@ from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
 from email.message import EmailMessage
+from logging.handlers import SMTPHandler
 import smtplib
 import logging
-from logging.handlers import SMTPHandler
+
+import sys
+print(sys.path)
+
+from ..logger import custom_logging_handlers
 
 # Formatting logging
 FORMAT = '[%(levelname)s] %(asctime)s: %(message)s'
-formatter = logging.Formatter('[%(levelname)s] %(asctime)s: %(message)s')
-logging.basicConfig(format=FORMAT)
+formatter = logging.Formatter(FORMAT)
+#logging.basicConfig(format=FORMAT)
 
 class CameraClient:
     """
@@ -113,7 +118,7 @@ class CameraCrawler:
 
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
         self.scheduler = BlockingScheduler()
-        self.job = self.scheduler.add_job(self.request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds)
+        self.job = self.scheduler.add_job(self._request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds)
 
         # This is set to True when a connection error occured. 
         self.connection_error = False
@@ -122,7 +127,7 @@ class CameraCrawler:
         self.logger = logging.getLogger("capture_module")
         self.logger.setLevel(logging.INFO)
 
-    def request_image(self):
+    def _request_image(self):
         """
         Used locally to request for an image to the camera. This is executed once every timelaps
         """
@@ -161,7 +166,7 @@ class CameraCrawler:
         """
 
         # we firstly get one image immediately
-        self.request_image()
+        self._request_image()
 
         # then, we start the scheduler
         self.scheduler.start()
@@ -177,13 +182,17 @@ class CameraCrawler:
 
         return self.logger
 
-
+print(__name__)
 
 if __name__ == "__main__":
     # camera connection tests
-        
     from skimage import io
     from skimage.viewer import ImageViewer
+
+    ##import sys
+    #sys.path.append("../")
+    #print(sys.path)
+    #from logger import custom_logging_handlers
 
     camera = CameraClient("10.0.0.29")
 
@@ -197,12 +206,15 @@ if __name__ == "__main__":
     crawler = CameraCrawler(camera, handle_image, minutes=20)
 
     # sending mail when error
+    '''
     handler = SMTPHandler("smtp.heig-vd.ch", "remi.jacquemard@heig-vd.ch", ["remi.jacquemard@heig-vd.ch"], "[TB] Monitor - Wanscam Camera Crawler - error or warning occured")
     handler.setLevel(logging.WARNING)
     handler.setFormatter(formatter)
     crawler.get_logger().addHandler(handler)
+    '''
+    print("Adding handlers")
+    custom_logging_handlers.add_logger(crawler.get_logger(), "[TB] Monitor - Wanscam Camera Crawler - error or warning occured", "crawler_log.txt")
+    print("ADDED")
 
     print("Starting crawler")
     crawler.start()
-    
-   
