@@ -36,7 +36,7 @@ La caméra doit être prévue pour un usage extérieur, avec une protection cont
 En lien avec le paragraphe précédent, la caméra doit nécessairement avoir une interface Wifi permettant de se connecter au réseau de l'école. Une connexion par Ethernet n'est pas envisageable.
 
 \paragraph{Caméra auto-alimentée}
-Comme vu en section \ref{conception.architecture.physique.camera}, la caméra doit être auto-alimentée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
+Comme vu en section \ref{conception.architecture.physique.camera}, la caméra doit être auto-alimentée et non cablée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
 
 \subsubsection{Critères}
 Afin de choisir une caméra satisfaisante, plusieurs critères ont été définis. On les trouvera ci-après.
@@ -51,20 +51,32 @@ La caméra doit avoir une bonne qualité d'image. On jugera:
 \paragraph{Fonctionnalités réseau}
 La caméra doit pouvoir fournir des images via le réseau et il doit être possible d'en récupérer à intervalles réguliers. Pour ce faire, on pensera à des protocoles comme les suivants: 
 \begin{description}
-    \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \footnote{\cite{wiki:onvif}, \citetitle{wiki:onvif}}
-    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \footnote{\cite{wiki:RTSP}, \citetitle{wiki:RTSP}}
-    \item[requêtes HTTP] Il pourrait être possible de capturer et de récupérer à la demande une photo à l'aide de requêtes HTTP.
-    \item[flux sur HTTP] Permet la lecture de flux vidéo sur HTTP en s'appuyant sur des formats tel que MPEG-4.
-    \item[interface Web HTTP] Permet la configuration d'une caméra IP via un serveur Web qu'elle expose. 
-    \item[FTP] La caméra peut exposer un serveur FTP contenant les photos capturées. Elle pourrait aussi "pusher" des photos capturées sur un serveur FTP distant.
+    \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \footcite{wiki:onvif}
+    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \footcite{wiki:RTSP}
+    \item[Requêtes HTTP] Il pourrait être possible de capturer et de récupérer à la demande une photo à l'aide de requêtes HTTP.
+    \item[Flux sur HTTP] Permet la lecture de flux vidéo sur HTTP en s'appuyant sur des formats tel que MPEG-4.
+    \item[Interface Web HTTP] Permet la configuration de la caméra IP via un serveur Web qu'elle expose. 
+    \item[FTP] La caméra peut exposer un serveur FTP contenant les photos capturées. Elle pourrait aussi téléverser des photos capturées sur un serveur FTP distant.
 \end{description}
 
 \paragraph{Fonctionnement auto-alimenté}
+La caméra doit être auto-alimentée et non cablée. Comme critères, on pensera donc à:
+\begin{itemize}
+    \item La durée de vie de la caméra en fonctionnement auto-alimenté. Idéalement, la caméra ne devrait nécessiter aucune intervention humaine.
+    \item La portée du Wifi. La puissance du signal doit être assez forte afin de pouvoir capter les bornes Wifi de l'école depuis le toit de la HEIG-VD. Il est important de noter que ce critère peut être difficilement évalué avant l'achat de la caméra.
+\end{itemize}
 
 \paragraph{Capture de photo}
-\todo{capture de photo automatique}
+La caméra doit être capable de fournir un moyen pour capturer des photos à intervalles réguliers. Pour ce faire, la caméra peut fournir un système de capture de photos automatique, ce qui est un plus. On évaluera donc les moyens fournis par la caméra permettant ces captures.
+
 \paragraph{Angle de vue}
+L'angle de vue de la caméra doit être suffisamment grand afin d'obtenir une image du parking dans son ensemble. Il est suffisant à partir de 60°, mais semble satisfaisant à 90°. Ces angles ont été définis à l'aide des informations fournies par \textit{videosurveillance-boutique.fr}. \footcite{cam_securite:info}
+
 \paragraph{Vision de nuit}
+Idéalement, la caméra devrait pouvoir fournir une vision de nuit afin de pouvoir capturer des images de parking par toute heure. On pensera notamment aux matinées et aux soirées d'hiver, où les véhicules arrivent et partent alors que la luminosité est encore très faible. Cependant, dans le cadre de ce TB, cette fonctionnalité n'est pas strictement nécessaire.
+
 \paragraph{Facilité d'installation}
+La facilité d'installation de la caméra sera prise en compte. On pensera aux dimensions de celle-ci, à son poids, au nombre de ses composants (par exemple, est-il nécessaire d'installer une batterie en plus de la caméra, ou est-elle incorporée à celle-ci?), ou encore aux accessoires fournis pour son installation. 
 
 \paragraph{Prix}
+Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.

@@ -18,9 +18,11 @@
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 
-% Font
+% Font & Encoding
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{gensymb}
 
 % Lorem ipsum
 \usepackage{blindtext}
@@ -49,8 +51,8 @@
   \fancyhead[LO]{\includegraphics[width=4cm]{img/logo_heig.png}}
 
   \fancyfoot[LE,RO]{\thepage{}}
-  \fancyfoot[LO]{Juin 2018 - TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo}
-  \fancyfoot[RE]{TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo - Juin 2018}
+  \fancyfoot[LO]{2018 - TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo}
+  \fancyfoot[RE]{TB - Mesure de l'occupation de parkings à l'aide de caméras vidéo - 2018}
 }
 \pagestyle{plain}
 % \thispagestyle{empty} pour faire en sorte d'enlever les headers
@@ -58,8 +60,9 @@
 \renewcommand{\footrulewidth}{1pt}
 
 % Bibliographie
-\usepackage[backend=biber, style=authoryear-icomp]{biblatex}
+\usepackage[backend=biber, style=verbose]{biblatex}
 \addbibresource{report.bib}
+\usepackage{csquotes}
 
 % -----------------------------------------------------------------------
 % --- DEBUT DU DOCUMENT ---
