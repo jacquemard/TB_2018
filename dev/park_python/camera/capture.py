@@ -105,7 +105,7 @@ class CameraCrawler:
 
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
         self.scheduler = BlockingScheduler()
-        self.job = self.scheduler.add_job(self._request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds)
+        self.job = self.scheduler.add_job(self._request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds, id="cam_capture")
 
         # This is set to True when a connection error occured. 
         self.connection_error = False
@@ -138,10 +138,10 @@ class CameraCrawler:
             if self.connection_error == False: # New error, logging it 
                 self.logger.error("Connection to camera lost, retrying in 1 minute")
                 self.connection_error = True
+                self.job.reschedule(trigger='interval', minutes = 1)
             else: # This error is not new, logging it as an info
                 self.logger.info("Camera still not connected, retrying in 1 minute")
-
-            self.job.reschedule(trigger='interval', minutes = 1)
+                
         except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception):
             self.logger.exception("An error has occured while retreiving the image")
             # Doing nothing, retrying the next time

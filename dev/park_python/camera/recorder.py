@@ -1,5 +1,5 @@
-from cam_capture.capture import CameraClient, CameraCrawler
-from logger.custom_logger import CustomLogger
+from .capture import CameraClient, CameraCrawler
+from ..logger.custom_logger import CustomLogger
 import skimage
 from skimage import io, transform, exposure, filters
 from skimage.color.adapt_rgb import adapt_rgb, hsv_value
@@ -35,7 +35,14 @@ os.makedirs(MONITORING_LOG_FOLDER, exist_ok=True)
 # Creating a camera client
 camera = CameraClient(CAMERA_HOST, USERNAME, PASSWORD)
 
-# 
+'''
+We are using a scharr filter to detect edges. 
+The @adapt_rgb is a skimage annotation which adapts any grayscale filters to a per 
+channel basis
+The 'image' will be separated by channel (using the hsv color space here)
+and the filter will be applied to each of them. The final image results of a concatenation
+of these channels.
+'''
 @adapt_rgb(hsv_value)
 def scharr_hsv(image):
     return filters.scharr(image)
