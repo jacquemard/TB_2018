@@ -1,4 +1,4 @@
-from .capture import CameraClient, CameraCrawler
+from .capture import CameraClient, CameraAgent
 from ..logger.custom_logger import CustomLogger
 import skimage
 from skimage import io, transform, exposure, filters
@@ -77,7 +77,7 @@ def handle_image(image_stream):
 
 
 # Creating a crawler which request the camera for an image once every 20 minutes
-crawler = CameraCrawler(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA)
+crawler = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA)
 
 # Listening for the crawler logs to send email when an error occures
 logger = CustomLogger(crawler.get_logger())

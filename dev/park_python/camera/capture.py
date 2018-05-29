@@ -75,15 +75,15 @@ class CameraClient:
             super().__init__("Something went wrong with the camera response")
 
 
-class CameraCrawler:
+class CameraAgent:
     """
     Used to request the camera for a snap periodically. It handles connection loss.
     """
 
     def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0):
         """
-        Creates an image crawler. It request for an image to the camera_client provided as an argument once every
-        timelaps, which is defined by the hours, minutes and seconds parameters. For the crawler to start, use camera_crawler.start().
+        Creates an image agent. It request for an image to the camera_client provided as an argument once every
+        timelaps, which is defined by the hours, minutes and seconds parameters. For the agent to start, use camera_agent.start().
         For every image that has been received, the 'handle_image_callback(image_bytes_stream)' is called. The image_bytes_stream
         can be easily converted to an skimage/opencv images with image = io.imread(image_bytes_stream).
         
@@ -161,7 +161,7 @@ class CameraCrawler:
 
     def get_logger(self):
         """
-        Returns the logger of this crawler. Can be usefull to monitorate
+        Returns the logger of this agent. Can be usefull to monitorate
         
         Returns:
             Logger -- The current logger

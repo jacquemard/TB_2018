@@ -1,9 +1,25 @@
 from skimage import io, transform, filters, exposure, util, color
 from skimage.viewer.viewers import ImageViewer, CollectionViewer
 from skimage.color.adapt_rgb import adapt_rgb, each_channel, hsv_value
+import numpy as np
+from matplotlib import pyplot as plt
+import math
+import os
+import datetime
 
 # Loading the image. This is a numpy array with a [x, y, 3] shape
-img = io.imread("park.jpg")
+img = io.imread("park_python/tests/cam_image_processing/heig-park.jpg")
+
+def save_images(images, folder):    
+    d = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
+    folder = folder + "/" + d + "/"
+    
+    os.makedirs(folder)
+
+    for i, image in enumerate(images):
+        io.imsave(folder + str(i) + ".png", image)
+
+    print("Images saved")
 
 # Downsampling tests
 # The image is 1280x720px, which is a 16/9 ratio
@@ -57,8 +73,9 @@ def get_edges_images(image):
 #imgs = get_downsampled_images(img)
 #CollectionViewer(imgs).show()
 
-"""
+
 # ---------- 1) edge, 2) downsample
+"""
 # The get_edges_images(img)[4] seems better (scharr filter, hsv values)
 edge_image = exposure.rescale_intensity(1 - fil_hsv(img, filters.scharr))
 # Exploring downsampling
@@ -67,8 +84,8 @@ CollectionViewer(downsampled_images).show()
 # The downsampled_images[2] seems ok (270x480)
 """
 
+
 # ---------- 1) downsample, 2) edge
-"""
 # The get_downsampled_images(img)[1] seems ok (180x320)
 #downsampled_image = transform.resize(img, (180, 320), mode='reflect')
 # Exploring edge detections
@@ -77,11 +94,16 @@ CollectionViewer(downsampled_images).show()
 # Scharr hsv filter seems better
 # Exploring differents downsampling with scharr hsv filter
 images = list(map(lambda i: exposure.rescale_intensity(1 - fil_hsv(i, filters.scharr)), get_downsampled_images(img)))
-CollectionViewer(images).show()
+# displaying images
+save_images(images, "downs-schar")
+
+
+#CollectionViewer(images).show()
 # images[2] seems better (270x480), with scharr filter
-"""
+
 
 # ---------- downsample or edge detection first ?
+"""
 edge_first = exposure.rescale_intensity(1 - fil_hsv(img, filters.scharr))
 edge_first = transform.resize(edge_first, (270, 480), mode='reflect')
 
@@ -90,3 +112,4 @@ downsample_first = exposure.rescale_intensity(1 - fil_hsv(downsample_first, filt
 
 CollectionViewer([edge_first, downsample_first]).show()
 # the downsample_first seems better
+"""
