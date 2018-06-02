@@ -1,31 +1,15 @@
 \chapter{Conception}
 
-\section{Architecture du système}\label{conception.architecture}
-
-\subsection{Architecture logique}
-
-\todo{VM, etc.}
-
-\subsection{Architecture physique}
-\subsubsection{Connexion de la caméra}\label{conception.architecture.physique.camera}
-\todo{Schéma des différentes connexions possible + choix}
-
-\subsubsection{Réseau}
-\todo{Schéma réseau physique}
-
-
-\todo{Architecture choisie : sur le toit, construction d'une salle en cours --> panneau solaire}
-
 \section{Choix technologiques}
 
 \subsection{Caméra réseau}
 Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. 
 
-\subsubsection{Contraintes}
+\subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
 Installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont décrites dans cette section.
 
 \paragraph{Capture de photo}
-La caméra devra au minimum permettre la capture de photos d'une façon ou d'une autre. La capture de vidéos n'est pas nécessaire.  On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
+La caméra devra au minimum permettre la capture de photos à intervalles réguliers d'une façon ou d'une autre. La capture de vidéos n'est pas nécessaire.  On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
 
 \paragraph{Usage extérieur}
 La caméra doit être prévue pour un usage extérieur, avec une protection contre les intempéries (pluie, neige, froid, chaud, etc.).
@@ -36,21 +20,24 @@ En lien avec le paragraphe précédent, la caméra doit nécessairement avoir un
 \paragraph{Caméra auto-alimentée}
 Comme vu en section \ref{conception.architecture.physique.camera}, la caméra doit être auto-alimentée et non cablée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
 
+\paragraph{Résolution d'image}
+Dans le but d'obtenir des images de qualités suffisantes, la résolution de l'image capturées devra nécessairement être d'au minimum 1280x720 pixels.
+
 \subsubsection{Critères}
 Afin de choisir une caméra satisfaisante, plusieurs critères ont été définis. On les trouvera ci-après.
 
 \paragraph{Qualité d'image}
 La caméra doit avoir une bonne qualité d'image. On jugera:
 \begin{itemize}
-    \item La résolutions de l'image. Celle-ci doit être d'au minimum 1280x720 pixel.
+    \item La résolutions de l'image. Celle-ci doit être d'au minimum 1280x720 pixels.
     \item La qualité de l'image (si possible).
 \end{itemize}
 
 \paragraph{Fonctionnalités réseau}
 La caméra doit pouvoir fournir des images via le réseau et il doit être possible d'en récupérer à intervalles réguliers. Pour ce faire, on pensera à des protocoles comme les suivants: 
 \begin{description}
-    \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \footcite{wiki:onvif}
-    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \footcite{wiki:RTSP}
+    \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \autocite{wiki:onvif}
+    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \autocite{wiki:RTSP}
     \item[Requêtes HTTP] Il pourrait être possible de capturer et de récupérer à la demande une photo à l'aide de requêtes HTTP.
     \item[Flux sur HTTP] Permet la lecture de flux vidéo sur HTTP en s'appuyant sur des formats tel que MPEG-4.
     \item[Interface Web HTTP] Permet la configuration de la caméra IP via un serveur Web qu'elle expose. 
@@ -68,7 +55,7 @@ La caméra doit être auto-alimentée et non cablée. Comme critères, on penser
 La caméra doit être capable de fournir un moyen pour capturer des photos à intervalles réguliers. Pour ce faire, la caméra peut fournir un système de capture de photos automatique, ce qui est un plus. On évaluera donc les moyens fournis par la caméra permettant ces captures.
 
 \paragraph{Angle de vue}
-L'angle de vue de la caméra doit être suffisamment grand afin d'obtenir une image du parking dans son ensemble. Il est suffisant à partir de 60°, mais semble satisfaisant à 90°. Ces angles ont été définis à l'aide des informations fournies par \textit{videosurveillance-boutique.fr}. \footcite{cam_securite:info}
+L'angle de vue de la caméra doit être suffisamment grand afin d'obtenir une image du parking dans son ensemble. Il est suffisant à partir de 60°, mais semble satisfaisant à 90°. Ces angles ont été définis à l'aide des informations fournies par \url{videosurveillance-boutique.fr}. \autocite{cam:securite_info}
 
 \paragraph{Vision de nuit}
 Idéalement, la caméra devrait pouvoir fournir une vision de nuit afin de pouvoir capturer des images de parking par toute heure. On pensera notamment aux matinées et aux soirées d'hiver, où les véhicules arrivent et partent alors que la luminosité est encore très faible. Cependant, dans le cadre de ce TB, cette fonctionnalité n'est pas strictement nécessaire.
@@ -76,18 +63,71 @@ Idéalement, la caméra devrait pouvoir fournir une vision de nuit afin de pouvo
 \paragraph{Facilité d'installation}
 La facilité d'installation de la caméra sera prise en compte. On pensera aux dimensions de celle-ci, à son poids, au nombre de ses composants (par exemple, est-il nécessaire d'installer une batterie en plus de la caméra, ou est-elle incorporée à celle-ci?), ou encore aux accessoires fournis pour son installation. 
 
-\paragraph{Prix}
-Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.
+\paragraph{Prix} Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.
 
 \subsubsection{Caméras adaptées}
 Bien que la surveillance n'est pas un but de ce TB, les caméras de sécurités semblent être les plus adaptées. En effet, elles fournissent généralement des fonctionnalités de capture de photos, de connexion réseau, de vision de nuit, possèdent un angle de vue suffisant et sont souvent résistantes à un environnement extérieur. De plus, elles sont spécialement concues pour un usage qui s'apparente à celui qui est fait de ce TB, et sont donc adaptées à la prise d'images de parking.
 
 L'achat distinct d'une caméra, de panneaux solaires et de batteries est envisageable. Néanmoins, dans un premier temps, seuls des kits complets (caméra, batteries, panneaux solaires) ont été analysés. En effet, l'installation et le choix des différents composants nécessaires à un système solaire complet semble difficile lorsqu'on est pas du domaine, et des problèmes d'interopérabilité pourraient survenir. Ceci reste cependant une solution viable si aucun kit ne correspond aux contraintes définies.
 
-De part la
+De part les contraintes très spécifiques précisées jusqu'ici, le nombre de caméras les satisfaisant toutes sont peu nombreuses. On trouvera ci-après les kits complets solaires auto-suffisants qui ont été évalués. Il faut aussi noter que seules les caméras les plus appropriées sont indiquées ici.
 
+\paragraph{\textbf{Electrosun} -- Caméra-surveillance-solaire}
+\textit{Electrosun} est une entreprise de domotique solaire française. Entre autres, un kit solaire de caméra complet est mis en vente. \autocite{cam:electrosun_site}
 
+\begin{figure}[h]
+    \includegraphics[width=50mm]{img/conception/electrosun_cam.jpg}
+    \centering
+    \captionsource{\textbf{Electrosun} Caméra de surveillance solaire}{\autocite{cam:electrosun_site}}
+\end{figure}
 
-Peu de caméra sastisfont tous les contraintes
+Bien qu'elle satisfasse la plupart des contraintes, elle n'a pas été retenue pour l'évaluation. En effet, la résolution des images capturées n'est que de 640x480 pixels, ce qui n'est pas suffisant.
+
+\paragraph{\textbf{Reolink} -- Argus 2}
+L'entreprise \textit{Reolink} développe des caméras 100\% sans fil, avec batteries rechargeables et panneaux solaires. Elle est auto-suffisante.\autocite{cam:argus2}
+
+\begin{figure}[h]
+    \includegraphics[width=50mm]{img/conception/argus2_cam.jpg}
+    \centering
+    \captionsource{\textbf{Reolink} Argus 2}{\autocite{cam:argus2}}
+\end{figure}
+
+Elle permet de capturer des photos FullHD (1920x1080 pixels), possède une fonction de vision de nuit ou encore, l'utilisation en extérieur est possible. Cependant, cette caméra n'a elle non plus pas pu être prise en considération. En effet, elle a été pensée pour un usage privé, et bien que la caméra puisse être connectée à un réseau Wifi, l'accès à celle-ci n'est possible qu'à l'aide d'une application smartphone (tel que décrit dans les spécifications disponibles sur le site officiel \url{https://reolink.com/product/argus-2}\autocite{cam:argus2}). Récupérer des photographies à intervalles réguliers semble donc difficilement réalisable.
+
+\paragraph{\textbf{Wanscam} -- HW0029-3}
+
+\textit{Wanscam} est une entreprise chinoise spécialisées dans la production de caméra réseau. Plusieurs versions de son modèle \textit{HW0029} sont disponibles. Ici est présenté le modèle \textit{HW0029-3}. \autocite{cam:wan3}
+
+\begin{figure}[h]
+    \includegraphics[width=50mm]{img/conception/wan3_cam.jpg}
+    \centering
+    \captionsource{\textbf{Wanscam} HW0029-3}{\autocite{cam:wan3}}
+\end{figure}
+
+Cette caméra satisfait toutes les contraintes définies en section \ref{conception.techno.camera.contraintes}. 
 
 \subsubsection{Evaluation}
+
+
+
+
+
+
+%% ------------------------------------------ %%
+%%               ARCHITECTURE                 %%
+%% ------------------------------------------ %%
+\section{Architecture du système}\label{conception.architecture}
+
+\subsection{Architecture logique}
+
+\todo{VM, etc.}
+
+\subsection{Architecture physique}
+\subsubsection{Connexion de la caméra}\label{conception.architecture.physique.camera}
+\todo{Schéma des différentes connexions possible + choix}
+
+\subsubsection{Réseau}
+\todo{Schéma réseau physique}
+
+
+\todo{Architecture choisie : sur le toit, construction d'une salle en cours --> panneau solaire}

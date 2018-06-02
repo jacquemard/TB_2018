@@ -62,15 +62,25 @@
 \renewcommand{\footrulewidth}{1pt}
 
 % Bibliographie
-\usepackage[backend=biber, style=verbose]{biblatex}
+\usepackage[backend=biber, style=verbose-note, autocite=footnote, sorting=none]{biblatex}
 \addbibresource{report.bib}
 \usepackage{csquotes}
+
+% Figure citation
+%\usepackage{caption}[format=hang]
+%\usepackage[perpage]{footmisc}
+% Thanks to Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+\newcommand*{\captionsource}[2]{
+  \caption[{#1}]{
+    #1.#2
+  }
+}
+
 
 % -----------------------------------------------------------------------
 % --- DEBUT DU DOCUMENT ---
 % -----------------------------------------------------------------------
-\begin{document}
-\todo{style des paragraphes}
+\begin{document} 
 
 \selectlanguage{french}
 
@@ -96,5 +106,8 @@
 
 \nocite{*}
 \printbibliography
+
+\listoffigures
+\listoftables   
 
 \end{document}

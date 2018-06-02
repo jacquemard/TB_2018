@@ -11,9 +11,12 @@
 *.bcf
 *.blg
 *.run.xml
+*.lof
+*.lot
 
 # VSCode
 *.vscode
 
 # Python
 *__pycache__*
+
