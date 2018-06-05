@@ -10,8 +10,9 @@ import logging
 import timeit
 import warnings
 from datetime import time
+from pathlib import Path
 
-# Requirements: scikit-image
+# Requirements: scikit-image 0.15
 
 # ------- CONSTANTS ------- #
 
@@ -19,7 +20,7 @@ CAMERA_HOST = "ipcam.einet.ad.eivd.ch"
 USERNAME = "admin"
 PASSWORD = "Lfg3hgPhLdNYW"
 
-BASE_FOLDER = "~/TB/"
+BASE_FOLDER = "{}/TB/".format(Path.home())
 
 IMAGE_REQUEST_MIN_DELTA = 60
 IMAGE_REQUEST_START_TIME = time(5) # Start time at 5 AM
@@ -59,7 +60,7 @@ def handle_image(image_stream):
     image = io.imread(image_stream)
 
     # Firstly, downsampling the image
-    image = transform.resize(image, IMAGE_OUTPUT_SIZE, mode='reflect')
+    image = transform.resize(image, IMAGE_OUTPUT_SIZE, mode='reflect', anti_aliasing=True)
 
     # Secondly, detecting the edges
     image = scharr_hsv(image)
