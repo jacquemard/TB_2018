@@ -1,5 +1,5 @@
-from .capture import CameraClient, CameraAgent
-from ..logger.custom_logger import CustomLogger
+from park_python.camera.capture import CameraClient, CameraAgent
+from park_python.logger.custom_logger import CustomLogger
 import skimage
 from skimage import io, transform, exposure, filters
 from skimage.color.adapt_rgb import adapt_rgb, hsv_value
@@ -9,6 +9,7 @@ import os
 import logging
 import timeit
 import warnings
+from datetime import time
 
 # ------- CONSTANTS ------- #
 
@@ -19,6 +20,9 @@ PASSWORD = "Lfg3hgPhLdNYW"
 BASE_FOLDER = "/TB/"
 
 IMAGE_REQUEST_MIN_DELTA = 60
+IMAGE_REQUEST_START_TIME = time(5) # Start time at 5 AM
+IMAGE_REQUEST_STOP_TIME = time(23) # Stop time at 11 PM
+
 IMAGE_OUTPUT_SIZE = (270, 480)
 IMAGE_FOLDER = BASE_FOLDER + "output_images/"
 
@@ -78,6 +82,9 @@ def handle_image(image_stream):
 
 # Creating a crawler which request the camera for an image once every 20 minutes
 crawler = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA)
+
+crawler._is_running()
+
 
 # Listening for the crawler logs to send email when an error occures
 logger = CustomLogger(crawler.get_logger())

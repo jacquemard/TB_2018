@@ -3,6 +3,7 @@ from requests.auth import HTTPBasicAuth
 from io import BytesIO
 from apscheduler.schedulers.background import BlockingScheduler
 import logging
+from datetime import datetime, time
 
 class CameraClient:
     """
@@ -80,13 +81,14 @@ class CameraAgent:
     Used to request the camera for a snap periodically. It handles connection loss.
     """
 
-    def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0):
+    def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0, running_time=None):
         """
         Creates an image agent. It request for an image to the camera_client provided as an argument once every
         timelaps, which is defined by the hours, minutes and seconds parameters. For the agent to start, use camera_agent.start().
         For every image that has been received, the 'handle_image_callback(image_bytes_stream)' is called. The image_bytes_stream
         can be easily converted to an skimage/opencv images with image = io.imread(image_bytes_stream).
-        
+        A running time (ie. when the images have to be fetched) can be passed as a parameter. If None, it is always running 
+
         Arguments:
             camera_client {CameraClient} -- The camera from which we want to retreive images
             handle_image_callback {Function} -- A function that has the following signature: func(image_bytes_stream)
@@ -95,6 +97,7 @@ class CameraAgent:
             hours {int} -- Hours between each request (default: {0})
             minutes {int} -- Minutes between each request (default: {0})
             seconds {int} -- Seconds between each request (default: {0})
+            running_time {(time, time)} -- The start and stop hours of the agent. (default: {None})
         """
 
         self.camera_client = camera_client
@@ -102,6 +105,7 @@ class CameraAgent:
 
         # saving the base interval
         self.interval = (hours, minutes, seconds)
+        self.running_time = running_time
 
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
         self.scheduler = BlockingScheduler()
@@ -118,7 +122,12 @@ class CameraAgent:
         """
         Used locally to request for an image to the camera. This is executed once every timelaps
         """
+        # Checking if we are currently running
+        if not self._is_running():
+            self.logger.info("Currently not running - not fetching an image")
+            return
 
+        # capturing the image
         try:
             image = self.camera_client.capture_raw()
 
@@ -145,7 +154,19 @@ class CameraAgent:
         except (CameraClient.BadCredentialsError, CameraClient.BadResponseFormat, Exception):
             self.logger.exception("An error has occured while retreiving the image")
             # Doing nothing, retrying the next time
-           
+
+    def _is_running(self):
+        if self.running_time == None:
+            return True
+
+        cur_t = datetime.now().time()
+        start_t = self.running_time[0]
+        stop_t = self.running_time[1]
+        
+        if start_t <= stop_t: # classic range of time
+            return start_t <= cur_t <= stop_t
+        else: # the range covers the 00:00 hour
+            return start_t <= cur_t or cur_t <= stop_t
 
     def start(self):
         """
