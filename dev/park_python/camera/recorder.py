@@ -11,13 +11,15 @@ import timeit
 import warnings
 from datetime import time
 
+# Requirements: scikit-image
+
 # ------- CONSTANTS ------- #
 
 CAMERA_HOST = "ipcam.einet.ad.eivd.ch"
 USERNAME = "admin"
 PASSWORD = "Lfg3hgPhLdNYW"
 
-BASE_FOLDER = "/TB/"
+BASE_FOLDER = "~/TB/"
 
 IMAGE_REQUEST_MIN_DELTA = 60
 IMAGE_REQUEST_START_TIME = time(5) # Start time at 5 AM

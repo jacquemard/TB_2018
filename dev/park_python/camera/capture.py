@@ -9,6 +9,8 @@ class CameraClient:
     """
     Can be used to interact with the camera over the network. 
     This has been especially designed to work with the Wanscam HW0029 camera.
+
+    Requirement: apscheduler
     """
     
     SNAP_ENDPOINT = "/web/tmpfs/snap.jpg"
