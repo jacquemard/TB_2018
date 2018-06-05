@@ -84,9 +84,7 @@ def handle_image(image_stream):
 
 
 # Creating a crawler which request the camera for an image once every 20 minutes
-crawler = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA)
-
-crawler._is_running()
+crawler = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA, running_time=(IMAGE_REQUEST_START_TIME, IMAGE_REQUEST_STOP_TIME)
 
 
 # Listening for the crawler logs to send email when an error occures
