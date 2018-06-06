@@ -23,7 +23,7 @@ PASSWORD = "Lfg3hgPhLdNYW"
 BASE_FOLDER = "{}/TB/".format(Path.home())
 
 IMAGE_REQUEST_MIN_DELTA = 60
-IMAGE_REQUEST_START_TIME = time(5) # Start time at 5 AM
+IMAGE_REQUEST_START_TIME = time(4, 30) # Start time at  3h30 AM
 IMAGE_REQUEST_STOP_TIME = time(23) # Stop time at 11 PM
 
 IMAGE_OUTPUT_SIZE = (270, 480)
