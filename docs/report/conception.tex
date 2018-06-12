@@ -27,16 +27,22 @@
 \section{Choix technologiques}
 
 \subsection{Caméra réseau}
-Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. 
+Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. Celle-ci sera utilisée principalement dans 2 buts, précisés ci-après.
+
+\paragraph{Entrainement du modèle}
+Dans un premier temps, il s'agit d'entrainer le modèle à partir des images fournies par la caméra. Pour ce faire, il doit être possible de capturer des photos à intervalles réguliers. Ces images seront ensuite annotées, puis utilisées pour entrainer le modèle du réseau de neurones à convolutions. 
+
+\paragraph{Utilisation du modèle}
+Une fois le modèle définit, le but de ce projet est de l'utiliser afin de détecter le nombre de voiture présentes courant sur le parking. Ainsi, dans un second temps, la caméra doit pouvoir fournir des images du parking "en direct", dans le but d'obtenir un état courant du parking. Il faut noter qu'ici, la notion "en direct" signifie "relativement court", soit de l'ordre de la minute. En effet, en tant qu'utilisateur, obtenir le taux d'occupation du parking à la minute près semble suffisant. Bien entendu, un intervalle plus court entre chaque prise, ou un flux vidéo, est un plus.
 
 \subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
 Installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont décrites dans cette section.
 
 \paragraph{Capture de photo}
-La caméra devra au minimum permettre la capture de photos à intervalles réguliers d'une façon ou d'une autre. La capture de vidéos n'est pas nécessaire.  On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
+La caméra devra au minimum permettre la capture de photos à intervalles réguliers d'une façon ou d'une autre. L'intervalle minimum de capture est de l'ordre de la minute, afin de pouvoir obtenir l'état courant du parking filmé . La capture de vidéos n'est pas nécessaire. On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
 
 \paragraph{Usage extérieur}
-La caméra doit être prévue pour un usage extérieur, avec une protection contre les intempéries (pluie, neige, froid, chaud, etc.).
+La caméra doit être prévue pour un usage extérieur, avec une protection contre les intempéries (pluie, neige, froid, chaud, etc.)
 
 \paragraph{Connexion réseau}
 En lien avec le paragraphe précédent, la caméra doit nécessairement avoir une interface Wifi permettant de se connecter au réseau de l'école. Une connexion par Ethernet n'est pas envisageable.
@@ -77,7 +83,7 @@ La caméra doit être auto-alimentée et non cablée. Comme critères, on penser
 \end{itemize}
 
 \paragraph{Capture de photo [2]}
-La caméra doit être capable de fournir un moyen pour capturer des photos à intervalles réguliers. Pour ce faire, la caméra peut fournir un système de capture de photos automatique, ce qui est un plus. On évaluera donc les moyens fournis par la caméra permettant ces captures.
+La caméra doit être capable de fournir un moyen pour capturer des photos à intervalles réguliers, de l'ordre de la minute. Pour ce faire, la caméra peut fournir un système de capture de photos automatique, ce qui est un plus. On évaluera donc les moyens fournis par la caméra permettant ces captures.
 
 \paragraph{Angle de vue [2]}
 L'angle de vue de la caméra doit être suffisamment grand afin d'obtenir une image du parking dans son ensemble. Il peut être suffisant à partir de 40°, de par la hauteur à laquelle elle sera placée. Cependant, un angle de 90° semble plus satisfaisant. Ces angles ont été définis à l'aide des informations fournies par \url{videosurveillance-boutique.fr} \autocite{cam:securite_info}.
@@ -88,7 +94,7 @@ Idéalement, la caméra devrait pouvoir fournir une vision de nuit afin de pouvo
 \paragraph{Facilité d'installation [1]}
 La facilité d'installation de la caméra sera prise en compte. On pensera aux dimensions de celle-ci, à son poids, au nombre de ses composants (par exemple, est-il nécessaire d'installer une batterie en plus de la caméra, ou est-elle incorporée à celle-ci?), ou encore aux accessoires fournis pour son installation. 
 
-\paragraph{Prix [2]} Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.
+\paragraph{Prix [4]} Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.
 
 \subsubsection{Caméras disponibles et évaluation}
 Bien que la surveillance n'est pas un but de ce TB, les caméras de sécurités semblent être les plus adaptées. En effet, elles fournissent généralement des fonctionnalités de capture de photos, de connexion réseau, de vision de nuit, possèdent un angle de vue suffisant et sont souvent résistantes à un environnement extérieur. De plus, elles sont spécialement concues pour un usage qui s'apparente à celui qui de ce TB, et sont donc adaptées à la prise d'images de parking.
@@ -131,21 +137,21 @@ Elle permet de capturer des photos FullHD (1920x1080 pixels), possède une fonct
 
 Cette caméra satisfait toutes les contraintes définies en section \ref{conception.techno.camera.contraintes}. On trouvera en table \ref{tab:HW0029-3} ses principales caractéristiques.\footnote{Tirées des spécifications officielles \autocite{cam:wan3} et d'un test indépendant \autocite{cam:wan3-test}}
 
-\begin{table}[!h]
+\begin{table}[H]
     \centering
     \caption{Caractéristiques de la caméra \textbf{Wanscam} \textit{HW0029-3}}
     \label{tab:HW0029-3}
     \begin{tabular}{@{}ll@{}}
     \toprule
     Caractéristique        & Valeurs                                                                                                                                                                                                                                                                                     \\ \midrule
-    Image                  & 1280 x 720, 25fps, compression H.264                                                                                                                                                                                                                                                        \\
-    Angle de vue           & 40°                                                                                                                                                                                                                                                                                         \\
-    Vision nocture         & Visibilité jusqu'à 15 mètres                                                                                                                                                                                                                                                                \\
-    Réseau                 & RJ45, WiFi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\
-    Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 48h d'utilisation. \\ Faible température (\textless 26°) des rayons de soleil: 7 jours d'utilisations. \\ Grande température (\textgreater 33°) des rayons de soleil: fonctionnement continu\end{tabular} \\
-    Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\
-    Détection de mouvement & Oui                                                                                                                                                                                                                                                                                         \\
-    Accès aux images       & Flux HTTP, ONVIF, RTSP, requêtes HTTP                                                                                                                                                                                                                                                       \\
+    Image                  & 1280 x 720, 25fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
+    Angle de vue           & 40°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
+    Vision nocture         & Visibilité jusqu'à 15 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
+    Réseau                 & RJ45, WiFi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
+    Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 48h d'utilisation. \\ Faible température (\textless 26°) des rayons de soleil: 7 jours d'utilisations. \\ Grande température (\textgreater 33°) des rayons de soleil: fonctionnement continu\end{tabular} \\ [0.8ex]
+    Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
+    Détection de mouvement & Oui                                                                                                                                                                                                                                                                                         \\ [0.8ex]
+    Accès aux images       & Flux HTTP, ONVIF, RTSP, requêtes HTTP                                                                                                                                                                                                                                                       \\ [0.8ex]
     Dimensions et poids    & 370x290x110 mm, 2.7 kg                                                                                                                                                                                                                                                                      \\ \bottomrule
     \end{tabular}
 \end{table}
@@ -154,27 +160,148 @@ On notera que le panneau solaire est fixé sur la caméra. Ainsi, dans le but de
 
 Concernant la capture d'image, la caméra fournit des \textit{endpoints HTTP} (dont une liste peut être trouvée sur le site \url{tutoriels.domotique-store.fr}\autocite{cam:wan3-url}) permettant de récupérer l'image actuelle. Il est donc facile d'imaginer un simple agent qui, à intervalle régulier, demandera à la caméra une image, et l'enregistrera en local.
 
-Les caméras \textbf{Wanscam} ne sont pas des plus faciles à trouver dans le commerce. Elles sont principalement disponibles sur \url{aliexpress.com}. Le modèle \textit{HW0029-3} peut être trouvé à partir de 170CHF (en date du 09.03.2018).
+Les caméras \textbf{Wanscam} ne sont pas des plus faciles à trouver dans le commerce. Elles sont principalement disponibles sur \url{aliexpress.com}. Le modèle \textit{HW0029-3} peut être trouvé à partir de 170CHF (en date du 09.03.2018, \url{aliexpress.com}).
 
-La grille d'évaluation \ref{cam:wan3_eval} a pu être remplie à l'aide des différents critères.
+La grille d'évaluation \ref{cam:wan3_eval} a pu être remplie à l'aide de ces spécifications.
 
-\begin{table}[!h]
+\begin{table}[H]
     \centering
     \caption{Evaluation de la caméra \textbf{Wanscam} \textit{HW0029-3}}
     \label{cam:wan3_eval}
     \begin{tabular}{@{}llp{8cm}@{}}
         \toprule
         Critère                              & Note (de 1 à 5) & Remarque                                                                                                                                                                   \\ \midrule
-        Qualité d'image              & 3 [1]               & La qualité d'image semble suffisante selon les tests effectué par \url{lesbonstuyauxgeeks.fr}\autocite{cam:wan3-test}.                                                                                                              \\
-        Fonctionnalités réseaux      & 5 [2]              & La caméra offre notamment un endpoint HTTP sur lequel récupérer les images.                                                                                                \\
-        Fonctionnement auto-alimenté & 4 [4]              & La caméra est totalement auto-suffisante s'il y a assez de soleil. On notera cependant le panneau solaire fixe qui peut nuire à l'exposition du soleil.                    \\
-        Capture de photo             & 5 [2]              & Il est facile de récupérer des images sur cette caméra. Elle offre en plus un système de capture de photos à intervalles réguliers automatique.                            \\
-        Angle de vue                 & 1 [2]              & Un angle de vue de 40° semble tout juste suffisant.                                                                                                                        \\
-        Vision de nuit               & 2 [1]               & Elle fournit une vision nocturne à 15m. Il est cependant possible d'ajouter des LEDs infrarouges supplémentaires afin d'obtenir une meilleure vision de nuit\autocite{cam:wan3-url}. \\
-        Facilité d'installation      & 3 [1]              & La caméra mesure jusqu'à 37 cm, ce qui nuit à sa facilité d'installation. De plus, le panneau solaire est fixe, ce qui contraint la position et l'angle de la caméra.      \\
-        Prix                         & 4 [2]              & A partir d'environ 170.- CHF \\ \bottomrule
-        && \textbf{Note finale: 3.86}
+        Qualité d'image              & 3 [1]               & La qualité d'image semble suffisante selon les tests effectué par \url{lesbonstuyauxgeeks.fr}\autocite{cam:wan3-test}. La résolution est de 1280x720 pixels, ce qui est suffisant. \\ [0.8ex]
+        Fonctionnalités réseaux      & 5 [2]              & La caméra offre notamment un endpoint HTTP sur lequel récupérer les images.                                                                                                \\ [0.8ex]
+        Fonctionnement auto-alimenté & 4 [4]              & La caméra est totalement auto-suffisante s'il y a assez de soleil. On notera cependant le panneau solaire fixe qui peut nuire à l'exposition du soleil. Elle supporte le Wifi 802.11n: à première vue, le signal semble suffisant.                   \\ [0.8ex]
+        Capture de photo             & 5 [2]              & Il est facile de récupérer des images sur cette caméra. Elle offre en plus un système de capture de photos à intervalles réguliers automatique. Elle offre aussi la possibilité de récupérer un flux vidéo.                            \\ [0.8ex]
+        Angle de vue                 & 1 [2]              & Un angle de vue de 40° semble tout juste suffisant.                                                                                                                        \\ [0.8ex]
+        Vision de nuit               & 2 [1]               & Elle fournit une vision nocturne à 15m. Il est cependant possible d'ajouter des LEDs infrarouges supplémentaires afin d'obtenir une meilleure vision de nuit\autocite{cam:wan3-url}. \\ [0.8ex]
+        Facilité d'installation      & 3 [1]              & La caméra mesure jusqu'à 37 cm, ce qui nuit à sa facilité d'installation. De plus, le panneau solaire est fixe, ce qui contraint la position et l'angle de la caméra.      \\ [0.8ex]
+        Prix                         & 4 [4]              & A partir d'environ 170.- CHF \\ \midrule
+        && \textbf{Note finale: 3.6/5} \\ \bottomrule
     \end{tabular}
 \end{table}
 
-\subsubsection{Evaluation}
+\paragraph{\textbf{Wanscam} -- HW0029-5}
+Le modèle \textit{HW0029-3} de \textbf{Wanscam} est la nouvelle version du modèle \textit{HW0029-3} décrit précédemment. Elle possède la plupart des mêmes caractéristiques, mais propose une meilleure résolution (1920x1080), des batteries à plus grande capacité, un meilleur champ de vision, ou encore, une vision de nuit accrue jusqu'à 100m. Son prix est cependant plus élevé que la caméra \textit{HW0029-3}. Les caractéristiques indiquées dans ce rapport proviennent du site officiel \url{wanscam.com}\autocite{cam:wan5}.
+
+\begin{figure}[h]
+    \includegraphics[width=50mm]{img/conception/wan5_cam.png}
+    \centering
+    \captionsource{\textbf{Wanscam} HW0029-5}{\autocite{cam:wan5}}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Caractéristiques de la caméra \textbf{Wanscam} \textit{HW0029-5}}
+    \label{tab:HW0029-5}
+    \begin{tabular}{@{}ll@{}}
+    \toprule
+    Caractéristique        & Valeurs                                                                                                                                                                                                                                                                                     \\ \midrule
+    Image                  & 1920 x 1080, 25-30fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
+    Angle de vue           & 80°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
+    Vision nocture         & Visibilité jusqu'à 100 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
+    Réseau                 & RJ45 100Mbps, WiFi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
+    Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 54h d'utilisation. \end{tabular} \\
+    Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
+    Détection de mouvement & Oui                                                                                                                                                                                                                                                                                         \\ [0.8ex]
+    Accès aux images       & Flux HTTP, ONVIF, RTSP, requêtes HTTP                                                                                                                                                                                                                                                       \\ [0.8ex]
+    Dimensions et poids    & 370x286x960 mm, 4.3 kg                                                                                                                                                                                                                                                                      \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+Il faudra noter que cette caméra est plus lourde, bien que plus petite, que le précédent modèle. 
+
+De ces caractéristiques, il a été possible d'évaluer cette caméra dans la grille d'évaluation \ref{cam:wan5_eval} 
+
+\begin{table}[H]
+    \centering
+    \caption{Evaluation de la caméra \textbf{Wanscam} \textit{HW0029-5}}
+    \label{cam:wan5_eval}
+    \begin{tabular}{@{}llp{8cm}@{}}
+        \toprule
+        Critère                      & Note (de 1 à 5) & Remarque                                           \\ \midrule
+        Qualité d'image              & 4 {[}1{]}       & La qualité de l'image est meilleure que le modèle précédent, avec une résolution de 1920x1080 pixel.                                                              \\ [0.8ex]
+        Fonctionnalités réseaux      & 5 {[}2{]}       & La caméra offre notamment un endpoint HTTP sur lequel récupérer les images.                                                                                       \\ [0.8ex]
+        Fonctionnement auto-alimenté & 4 {[}4{]}       & De la même manière que le modèle précédent, la caméra est totalement auto-suffisante s'il y a assez de soleil. Sans soleil, elle est auto-suffisante jusqu'à 54h. Elle support la norme Wifi 802.11n \\ [0.8ex]
+        Capture de photo             & 5 {[}2{]}       & Il est facile de récupérer des images sur cette caméra. De plus, elle offre un système de capture de photos à intervalles réguliers automatiques. Elle offre aussi la possibilité de récupérer un flux vidéo.                  \\ [0.8ex]
+        Angle de vue                 & 4 {[}2{]}       & Un angle de vue de 80° semble être approprié pour ce projet. Un angle supérieur n'aurait pas été superflu.                                                        \\ [0.8ex]
+        Vision de nuit               & 5 {[}1{]}       & Elle fournit une vision nocturne à 100m.                                                                                                                          \\ [0.8ex]
+        Facilité d'installation      & 3 {[}1{]}       & Tout comme le modèle HW0029-3, la caméra n'est pas des plus petites, mesurant jusqu'à 37 cm. Le panneau solaire est fixé à la caméra.                             \\ [0.8ex]
+        Prix                         & 3 {[}4{]}       & A partir d'environ 230.- CHF   \\ \midrule
+        && \textbf{Note finale: 4.0/5} \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\subparagraph{Remarque} Le modèle \textbf{Wanscam} \textit{HW0029-4} (ainsi que sa version améliorée \textit{HW0029-6}) n'a pas été pris en compte. En effet, il fourni en plus un système de puce 4G afin de pouvoir connecter la caméra à un réseau mobile. En conséquence, le prix est trop élevé, dépassant les 400.- CHF.
+
+\paragraph{\textbf{Visortech} -- Caméra Solaire IP}
+Cette caméra satisfait toutes les contraintes définies dans la section \ref{conception.techno.camera.contraintes} \nameref{conception.techno.camera.contraintes}. Ses caractéristiques principales sont décrites à la table \ref{tab:visortech_spec}. Il a été possible de remarquer que la caméra décrite ici est disponible sous différents noms, comme \textit{IdealSmartCam}.
+
+\begin{figure}[h]
+    \includegraphics[width=50mm]{img/conception/visortech_cam.jpg}
+    \centering
+    \captionsource{Caméra Visortech}{\autocite{cam:visortech}}
+\end{figure}
+
+On notera le peu d'information disponible concernant les spécifications de cette caméra. Par exemple, il est difficile de connaitre les méthodes disponibles afin de pouvoir récupérer des images depuis le réseau local, tant et si bien que cela soit possible. On notera que le vendeur a été contacté, sans réponse de sa part.
+
+\begin{table}[H]
+    \centering
+    \caption{Caractéristiques de la caméra \textit{Visortech}}
+    \label{tab:visortech_spec}
+    \begin{tabular}{@{}ll@{}}
+    \toprule
+    Caractéristique        & Valeurs                                                          \\ \midrule
+    Image                  & 1280 x 720, compression H.264. Prise de vue en continu possible. \\ [0.8ex]
+    Angle de vue           & 90°                                                              \\ [0.8ex]
+    Vision nocture         & Visibilité jusqu'à 5 mètres                                      \\ [0.8ex]
+    Réseau                 & Wifi 802.11 b/g/n                                                \\ [0.8ex]
+    Auto-alimentation      & Panneau solaire intégré de 0.8 Watt, jusqu'à 5 jours sans soleil. Auto-suffisante.     \\ [0.8ex]
+    Détection de mouvement & Oui                                                              \\ [0.8ex]
+    Dimensions et poids    & 161x155x108 mm, 0.8 kg                                            \\  [0.8ex]\bottomrule
+    \end{tabular}
+\end{table}
+
+Malgré le manque d'information, cette caméra a tout de même été évaluée. Il sera de ce fait possible de savoir si elle peut être un choix viable, ou non. La grille d'évaluation correspondante peut être trouvée en table \ref{tab:visortech_eval}
+
+\begin{table}[H]
+    \centering
+    \caption{Evaluation de la caméra \textit{Visortech}}
+    \label{tab:visortech_eval}
+    \begin{tabular}{@{}llp{8cm}@{}}
+        \toprule
+        Critère                      & Note (de 1 à 5) & Remarque                          \\ \midrule
+        Qualité d'image              & 3 {[}1{]}       & Sa résolution est de 1280x720 pixel.                                                                                                  \\ [0.8ex]
+        Fonctionnalités réseaux      & 2 {[}2{]}       & Accès via smartphone possible, peu d'informations concernant les protocoles réseaux disponibles.                                      \\ [0.8ex]
+        Fonctionnement auto-alimenté & 3 {[}4{]}       & Devrait être auto-suffisante. Cependant, informations peu claires si prises d'images en continu. Accepte la norme Wifi 802.11n. \\ [0.8ex]
+        Capture de photo             & 3 {[}2{]}       & Permet l'accès au flux vidéo en direct. Peu d'informations sur les protocoles disponibles.                                            \\ [0.8ex]
+        Angle de vue                 & 5 {[}2{]}       & Angle de vue de 90°. Meilleur champ de vision parmi les caméras évaluées.                                                              \\ [0.8ex]
+        Vision de nuit               & 2 {[}1{]}       & Elle fournit une vision nocturne à 5m.                                                                                                \\ [0.8ex]
+        Facilité d'installation      & 3 {[}1{]}       & La caméra est relativement petite, et ne pèse que 850g. On notera l'absence de pied: une fixation à un mur semble nécessaire.         \\ [0.8ex]
+        Prix                         & 3 {[}4{]}       & A partir d'environ 220.- CHF                                                                                                          \\ [0.8ex]
+                                    &                 & \textbf{Note finale: 3.1/5} \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Choix final}
+
+La caméra \textit{Visortech} arrive dernière du classement, avec une note de 3.1. Ceci est avant tout du au manque d'information sur les protocoles utilisables afin de récupérer via le réseau des images. Elle n'a donc pas été retenue.
+
+\begin{table}[!h]
+    \centering
+    \caption{Caméras - Synthèse des résultats}
+    \label{cam:synthese}
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+      & Caméra           & Note \\ \midrule
+    \textbf{1} & Wanscam HW0029-5 & 4.0  \\
+    \textbf{2} & Wanscam HW0029-3 & 3.6  \\
+    \textbf{3} & Visortech        & 3.1  \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des résultats proches. Elles sont avant tout distinguable par leur qualité d'image, leur vision de nuit, leur durée de fonctionnement sur batterie et leur angle de vue, où toutes ses caractéristiques sont améliorées sur le nouveau modèle (\textit{HW0029-5}). Ainsi, seul le rapport qualité/prix peut faire pencher la balance d'un côté ou d'un autre. Avec un peu de recherche, la version \textit{HW0029-5} a été trouvée à 187.50€ sur \url{aliexpress.com}\autocite{cam:wan5-buy} (frais de livraison inclu), soit 225.- CHF (1.17CHF/€ en date du 13 mars 2018\autocite{util:cours}, arrondi au dizième supérieur, soit 1.20 CHF/€). 
+
+Au prix indiqué plus haut, et vis-à-vis du classement présenté en table \ref{cam:synthese}, la caméra \textbf{Wanscam} \textit{HW0029-5} a été choisie pour la capture d'image que demande ce projet.

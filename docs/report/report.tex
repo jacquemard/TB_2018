@@ -21,7 +21,7 @@
 % Font & Encoding
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{textcomp}
+\usepackage{lmodern, textcomp}
 \usepackage{gensymb}
 
 % Lorem ipsum
@@ -31,11 +31,10 @@
 \usepackage{parskip}
 \setlength{\parindent}{0pt}
 
-% Table
+% Table et figures
 % \usepackage{array}
 \usepackage{booktabs}
-\newcommand{\vhtable}{\rule{0pt}{20pt}}% defines the separation and can be different if you so desire for each different row.
-
+\usepackage{float} 
 
 
 % Styles de titres
@@ -45,6 +44,8 @@
 \titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titleformat{\paragraph}{\normalfont\normalsize}{}{}{\textit}
 \titlespacing*{\paragraph}{0pt}{1.5ex plus 1ex minus .2ex}{-0.5em}
+\usepackage{setspace}
+
 
 % En-têtes
 \usepackage{fancyhdr}
@@ -68,11 +69,11 @@
 \renewcommand{\footrulewidth}{1pt}
 
 % Bibliographie
-\usepackage[backend=biber, style=verbose-note, autocite=footnote, sorting=none]{biblatex}
+\usepackage[backend=biber, style=ieee, autocite=footnote, sorting=none]{biblatex}
 \addbibresource{report.bib}
 \usepackage{csquotes}
 
-% Figure citation
+% Citation and references
 %\usepackage{caption}[format=hang]
 %\usepackage[perpage]{footmisc}
 % Thanks to Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
@@ -81,6 +82,7 @@
     #1.#2
   }
 }
+\usepackage{nameref}
 
 
 % -----------------------------------------------------------------------
@@ -90,12 +92,17 @@
 
 \selectlanguage{french}
 
+\include{title}
+
 % \newpage
 
 % \raggedbottom
 
 % Table des matières
+\setcounter{tocdepth}{3}
+\doublespacing
 \tableofcontents
+\singlespacing
 
 %====================== INCLUSION DES PARTIES ======================
 \include{introduction}
