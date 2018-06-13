@@ -9,25 +9,23 @@
 \todo{Description générale ?}
 
 \subsection{Capture des images}
-Cette section présente l'architecture du système de capture d'image du parking, nécessaire à ce projet. Une caméra IP sera choisie, qui sera connectée au réseau de la HEIG-VD de la manière décrite ici. La capture d'image a été pensée afin de permettre la connexion de multiple caméra.
+Cette section présente l'architecture du système de capture d'image du parking, nécessaire à ce projet. Une caméra IP sera choisie, qui sera connectée au réseau de la HEIG-VD de la manière décrite ici. La capture d'image a été pensée afin de permettre la connexion de multiples caméras.
 
 Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \nameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
 
-\todo{descritpion}
-
 \subsubsection{Architecture logique}
-%\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
+\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
 
 La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura donc une adresse IP, qu'il sera possible d'utiliser afin de dialoguer avec elle. Une machine virtuelle (abrégée \textit{VM}, pour \textit{Virtual Machine}) a été mise à disposition de ce projet. Située sur le réseau de l'école, elle permettra de récupérer ses images.
 
-\begin{figure}[h]
-    \includegraphics[width=150mm]{img/conception/logic_arch.png}
+\begin{figure}[!h]
+    \includegraphics[width=110mm]{img/conception/logic_arch.png}
     \label{fig:capture_cameras}
     \centering
     \caption{Capture d'images de plusieurs caméras}
 \end{figure}
 
-La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse sur \textit{HTTP} qui sera utilisé afin de récupérer des images à intervalles réguliers. On pourra la préciser ainsi:
+La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse sur \textit{HTTP} qui sera utilisé afin de récupérer des images à intervalles réguliers. Il est possible de la préciser ainsi:
 
 \begin{enumerate}
     \item La \textit{VM} emmet une requête demandant l'image du parking à une caméra. 
@@ -37,16 +35,59 @@ La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse s
 Les requêtes et réponses précitées sont fortement dépendantes de la caméra choisie. Ainsi, les détails d'implémentation pourront être trouvés en section \ref{realisation.capture} \nameref{realisation.capture}.
 
 
-\subsubsection{Architecture physique}
-\paragraph{Connexion de la caméra}\label{conception.architecture.physique.camera}
-\todo{Schéma des différentes connexions possible + choix}
+\subsubsection{Architecture physique}\label{conception.architecture.camera.physique}
+\paragraph{Positionnement de la caméra}\label{conception.architecture.camera.physique.position}
+La caméra doit pouvoir être capable de capturer des images de parking. Pour ce faire, une caméra sera installée sur le toit de la HEIG-VD. 
 
-%\paragraph{Réseau} % pas très important ?
-%\todo{Schéma réseau physique}
-\todo{Pas très important schéma réseau physique ?}
+Il faut remarquer que l'installation de périphériques sur la terrasse n'y ai pas des plus aisés. De plus, l'édification d'une salle de conférence y a débuté en date du 26 février 2018\footnote{informations tirées d'un mail envoyé aux collaborateurs et étudiant de la HEIG-VD}, ne facilitant pas l'installation. Il en sera tenu compte lors du choix de la caméra. Plus d'informations concernant l'installation de celle-ci est disponible en section \ref{realisation.capture} \nameref{realisation.capture}.
 
+\paragraph{Connexion de la caméra}
 
-\todo{Architecture choisie : sur le toit, construction d'une salle en cours --> panneau solaire}
+Ici, deux points sont principalement étudier: l'alimentation de la caméra, et sa connexion au réseau local de la HEIG-VD.  
+
+\begin{figure}[H]
+    \includegraphics[width=110mm]{img/conception/cam_con_1.png}
+    \label{fig:capture_cameras}
+    \centering
+    \caption{Caméra alimentée et connectée au réseau par câble}
+\end{figure}
+
+La caméra pourrait être cablée au réseau électrique, ainsi qu'au réseau local. Il est nécessaire de tirer 2 câble, à 2 endroits différents: l'un au réseau électrique, et l'autre à un switch ou une prise Ethernet présente dans le bâtiment.
+
+\begin{figure}[H]
+    \includegraphics[width=110mm]{img/conception/cam_con_2.png}
+    \label{fig:capture_cameras}
+    \centering
+    \caption{Caméra cablée au réseau et alimentée par \textit{PoE}}
+\end{figure}
+
+Elle pourrait aussi être cablée uniquement au réseau local. En effet, il serait possible de profiter de la technologie \textit{Power over Ethernet} (\textit{PoE}) permet de fournir en électricité un périphérique réseau via le câble Ethernet. Il faut cependant noter que le switch connecté à la caméra doit pouvoir fournir cette possibilité.
+
+\begin{figure}[H]
+    \includegraphics[width=110mm]{img/conception/cam_con_3.png}
+    \label{fig:capture_cameras}
+    \centering
+    \caption{Caméra alimentée par câble et connectée au réseau en Wifi}
+\end{figure}
+
+La caméra pourrait être connectée au réseau électrique par câble. La connexion au réseau local pourrait être effectuée par Wifi. Il faut cependant noter que le Wifi doit être puissant et fiable: la caméra, installé à l'extérieur du bâtiment, pourrait ne pas capter suffisamment un signal provenant de l'intérieur, ceci dû aux larges murs en bêton. 
+
+\begin{figure}[H]
+    \includegraphics[width=110mm]{img/conception/cam_con_4.png}
+    \label{fig:capture_cameras}
+    \centering
+    \caption{Caméra auto-alimentée et connectée en Wifi}
+\end{figure}
+
+Une batterie, ou un panneau solaire, pourrait l'alimenter. Munie du Wifi, cette solution ne demanderait aucun câblage. On notera cependant que le prix d'un tel équipement pourrait être élevé.
+
+\subparagraph{Solution choisie}
+
+Comme indiqué au paragraphe \nameref{conception.architecture.camera.physique.position}, la construction d'une salle pourrait compromettre l'installation de câble. C'est pourquoi une caméra auto-suffisante sera préférée. Ainsi, la caméra devra pouvoir fournir:
+\begin{itemize}
+    \item Une connexion à un signal Wifi puissante et fiable
+    \item Elle sera auto-alimentée. De préférence, un panneau solaire sera utilisé afin que des changements de batteries ne soit pas nécessaire.
+\end{itemize}
 
 %% ------------------------------------------ %%
 %%           CHOIX TECHNOLOGIQUES             %%
@@ -63,11 +104,15 @@ Dans un premier temps, il s'agit d'entrainer le modèle à partir des images fou
 \paragraph{Utilisation du modèle}
 Une fois le modèle définit, le but de ce projet est de l'utiliser afin de détecter le nombre de voiture présentes courant sur le parking. Ainsi, dans un second temps, la caméra doit pouvoir fournir des images du parking "en direct", dans le but d'obtenir un état courant du parking. Il faut noter qu'ici, la notion "en direct" signifie "relativement court", soit de l'ordre de la minute. En effet, en tant qu'utilisateur, obtenir le taux d'occupation du parking à la minute près semble suffisant. Bien entendu, un intervalle plus court entre chaque prise, ou un flux vidéo, est un plus.
 
-\subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
-Installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont décrites dans cette section.
+Il convient donc d'effectuer l'achat d'une caméra permettant le bon déroulement de ce projet. Pour ce faire, plusieurs caméras ont été évaluées. On rencontrera donc dans les prochaines sections les contraintes et critères nécessaires à une bonne évaluation. Les caméras seront notées, ce qui permettra d'en retirer celle qui convient le mieux à ce projet.
 
-\paragraph{Capture de photo}
-La caméra devra au minimum permettre la capture de photos à intervalles réguliers d'une façon ou d'une autre. L'intervalle minimum de capture est de l'ordre de la minute, afin de pouvoir obtenir l'état courant du parking filmé . La capture de vidéos n'est pas nécessaire. On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
+Il est important de noter qu'idéalement, des tests en condition réelles des différentes caméras auraient dû être effectués. Cependant, dans le cadre de ce travail de bachelor, le budget mis à disposition ne peut le permettre. C'est pourquoi une seule caméra sera choisie sur la base des critères définis.
+
+\subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
+Comme vu en section \ref{conception.architecture.camera.physique}, installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont explicitées dans cette section.
+
+\paragraph{Capture d'images}
+La caméra devra au minimum permettre la capture d'images à intervalles réguliers d'une façon ou d'une autre. L'intervalle minimum de capture est de l'ordre de la minute, afin de pouvoir obtenir l'état courant du parking filmé. La capture de vidéos n'est pas nécessaire. On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
 
 \paragraph{Usage extérieur}
 La caméra doit être prévue pour un usage extérieur, avec une protection contre les intempéries (pluie, neige, froid, chaud, etc.)
@@ -76,7 +121,7 @@ La caméra doit être prévue pour un usage extérieur, avec une protection cont
 En lien avec le paragraphe précédent, la caméra doit nécessairement avoir une interface Wifi permettant de se connecter au réseau de l'école. Une connexion par Ethernet n'est pas envisageable.
 
 \paragraph{Caméra auto-alimentée}
-Comme vu en section \ref{conception.architecture.physique.camera}, la caméra doit être auto-alimentée et non cablée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
+Comme vu en section \ref{conception.architecture.camera.physique}, la caméra doit être auto-alimentée et non cablée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
 
 \paragraph{Résolution d'image}
 Dans le but d'obtenir des images de qualités suffisantes, la résolution de l'image capturées devra nécessairement être d'au minimum 1280x720 pixels.
@@ -175,7 +220,7 @@ Cette caméra satisfait toutes les contraintes définies en section \ref{concept
     Image                  & 1280 x 720, 25fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
     Angle de vue           & 40°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
     Vision nocture         & Visibilité jusqu'à 15 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
-    Réseau                 & RJ45, WiFi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
+    Réseau                 & RJ45, Wifi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
     Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 48h d'utilisation. \\ Faible température (\textless 26°) des rayons de soleil: 7 jours d'utilisations. \\ Grande température (\textgreater 33°) des rayons de soleil: fonctionnement continu\end{tabular} \\ [0.8ex]
     Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
     Détection de mouvement & Oui                                                                                                                                                                                                                                                                                         \\ [0.8ex]
@@ -230,7 +275,7 @@ Le modèle \textit{HW0029-3} de \textbf{Wanscam} est la nouvelle version du mod�
     Image                  & 1920 x 1080, 25-30fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
     Angle de vue           & 80°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
     Vision nocture         & Visibilité jusqu'à 100 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
-    Réseau                 & RJ45 100Mbps, WiFi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
+    Réseau                 & RJ45 100Mbps, Wifi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
     Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 54h d'utilisation. \end{tabular} \\
     Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
     Détection de mouvement & Oui                                                                                                                                                                                                                                                                                         \\ [0.8ex]

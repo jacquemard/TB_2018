@@ -42,8 +42,10 @@
 \titleformat{\chapter}
   {\normalfont\LARGE\bfseries}{\thechapter}{1em}{}
 \titlespacing*{\chapter}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titleformat{\paragraph}{\normalfont\normalsize}{}{}{\textit}
+\titleformat{\paragraph}{\normalfont\large}{}{}{\textit}
 \titlespacing*{\paragraph}{0pt}{1.5ex plus 1ex minus .2ex}{-0.5em}
+\titleformat{\subparagraph}{\normalfont\normalsize}{}{}{\textit}
+\titlespacing*{\subparagraph}{0pt}{1.5ex plus 1ex minus .2ex}{-0.5em}
 \usepackage{setspace}
 
 
@@ -67,19 +69,24 @@
 % \thispagestyle{empty} pour faire en sorte d'enlever les headers
 
 %\renewcommand{\footrulewidth}{1pt}
+%\patchcmd{\footnoterule}{\vskip \z@ \@plus .05fil}{}{}{}
 
 % Bibliographie
 \usepackage{hyperref}
 \usepackage{csquotes}
-\usepackage[backend=biber, autocite=footnote, style=verbose-note]{biblatex}
+\usepackage[backend=biber, autocite=footnote, style=verbose-note, sorting=nty]{biblatex}
 \addbibresource{report.bib}
+\setlength\bibnamesep{0.5\baselineskip}
+\usepackage[nottoc,numbib]{tocbibind}
 % Nomenclature
-%\usepackage[french]{nomencl}
-%\makenomenclature
+\usepackage[french]{nomencl}
+\makenomenclature
 
 % Citation and references
 %\usepackage{caption}[format=hang]
 %\usepackage[perpage]{footmisc}
+\usepackage[bottom]{footmisc}
+%\usepackage{ftnxtra}
 % Thanks to Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 \newcommand*{\captionsource}[2]{
   \caption[{#1}]{
@@ -88,6 +95,10 @@
 }
 \usepackage{nameref}
 
+% Annexes
+\usepackage{appendix}
+
+\raggedbottom
 
 % -----------------------------------------------------------------------
 % --- DEBUT DU DOCUMENT ---
@@ -100,7 +111,9 @@
 
 \newpage
 
-\raggedbottom
+\include{remerciements}
+\include{cdc}
+
 
 % Table des matières
 \setcounter{tocdepth}{3}
@@ -109,6 +122,8 @@
 \singlespacing
 
 %====================== INCLUSION DES PARTIES ======================
+\include{resume}
+
 \include{introduction}
 
 \include{technologies}
@@ -123,9 +138,12 @@
 
 \nocite{*}
 \printbibliography
-%\printnomenclature
+\printnomenclature
 
 \listoffigures
 \listoftables   
+
+\include{annexes}
+\include{jdt}
 
 \end{document}
