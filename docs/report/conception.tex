@@ -18,7 +18,7 @@ Il faudra remarquer que les choix effectués ici non seulement influence la cam�
 
 La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura donc une adresse IP, qu'il sera possible d'utiliser afin de dialoguer avec elle. Une machine virtuelle (abrégée \textit{VM}, pour \textit{Virtual Machine}) a été mise à disposition de ce projet. Située sur le réseau de l'école, elle permettra de récupérer ses images.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \includegraphics[width=110mm]{img/conception/logic_arch.png}
     \label{fig:capture_cameras}
     \centering
@@ -47,7 +47,7 @@ Ici, deux points sont principalement étudier: l'alimentation de la caméra, et 
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_1.png}
-    \label{fig:capture_cameras}
+    \label{fig:cam_connection_1}
     \centering
     \caption{Caméra alimentée et connectée au réseau par câble}
 \end{figure}
@@ -56,7 +56,7 @@ La caméra pourrait être cablée au réseau électrique, ainsi qu'au réseau lo
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_2.png}
-    \label{fig:capture_cameras}
+    \label{fig:cam_connection_2}
     \centering
     \caption{Caméra cablée au réseau et alimentée par \textit{PoE}}
 \end{figure}
@@ -65,7 +65,7 @@ Elle pourrait aussi être cablée uniquement au réseau local. En effet, il sera
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_3.png}
-    \label{fig:capture_cameras}
+    \label{fig:cam_connection_3}
     \centering
     \caption{Caméra alimentée par câble et connectée au réseau en Wifi}
 \end{figure}
@@ -74,7 +74,7 @@ La caméra pourrait être connectée au réseau électrique par câble. La conne
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_4.png}
-    \label{fig:capture_cameras}
+    \label{fig:cam_connection_4}
     \centering
     \caption{Caméra auto-alimentée et connectée en Wifi}
 \end{figure}
@@ -88,6 +88,8 @@ Comme indiqué au paragraphe \nameref{conception.architecture.camera.physique.po
     \item Une connexion à un signal Wifi puissante et fiable
     \item Elle sera auto-alimentée. De préférence, un panneau solaire sera utilisé afin que des changements de batteries ne soit pas nécessaire.
 \end{itemize}
+
+\section{Distribution des informations à l'utilisateur}
 
 %% ------------------------------------------ %%
 %%           CHOIX TECHNOLOGIQUES             %%
@@ -179,10 +181,10 @@ De part les contraintes très spécifiques précisées jusqu'ici, le nombre de c
 \paragraph{\textbf{Electrosun} -- Caméra-surveillance-solaire}
 \textit{Electrosun} est une entreprise de domotique solaire française. Entre autres, un kit solaire de caméra complet est mis en vente. \autocite{cam:electrosun_site}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/electrosun_cam.jpg}
     \centering
-    \captionsource{\textbf{Electrosun} Caméra de surveillance solaire}{\autocite{cam:electrosun_site}}
+    \captionsource{\textbf{Electrosun} Caméra de surveillance solaire}{cam:electrosun_site}
 \end{figure}
 
 Bien qu'elle satisfasse la plupart des contraintes, elle n'a pas été retenue pour l'évaluation. En effet, la résolution des images capturées n'est que de 640x480 pixels, ce qui n'est pas suffisant.
@@ -190,10 +192,10 @@ Bien qu'elle satisfasse la plupart des contraintes, elle n'a pas été retenue p
 \paragraph{\textbf{Reolink} -- Argus 2}
 L'entreprise \textit{Reolink} développe des caméras 100\% sans fil, avec batteries rechargeables et panneaux solaires. Elle est auto-suffisante.\autocite{cam:argus2}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/argus2_cam.jpg}
     \centering
-    \captionsource{\textbf{Reolink} Argus 2}{\autocite{cam:argus2}}
+    \captionsource{\textbf{Reolink} Argus 2}{cam:argus2}
 \end{figure}
 
 Elle permet de capturer des photos FullHD (1920x1080 pixels), possède une fonction de vision de nuit ou encore, l'utilisation en extérieur est possible. Cependant, cette caméra n'a elle non plus pas pu être prise en considération. En effet, elle a été pensée pour un usage privé, et bien que la caméra puisse être connectée à un réseau Wifi, l'accès à celle-ci n'est possible qu'à l'aide d'une application smartphone (tel que décrit dans les spécifications disponibles sur le site officiel \url{https://reolink.com/product/argus-2}\autocite{cam:argus2}). Récupérer des photographies à intervalles réguliers semble donc difficilement réalisable.
@@ -202,10 +204,10 @@ Elle permet de capturer des photos FullHD (1920x1080 pixels), possède une fonct
 
 \textit{Wanscam} est une entreprise chinoise spécialisées dans la production de caméra réseau. Plusieurs versions de son modèle \textit{HW0029} sont disponibles. Ici est présenté le modèle \textit{HW0029-3}. \autocite{cam:wan3}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/wan3_cam.jpg}
     \centering
-    \captionsource{\textbf{Wanscam} HW0029-3}{\autocite{cam:wan3}}
+    \captionsource{\textbf{Wanscam} HW0029-3}{cam:wan3}
 \end{figure}
 
 Cette caméra satisfait toutes les contraintes définies en section \ref{conception.techno.camera.contraintes}. On trouvera en table \ref{tab:HW0029-3} ses principales caractéristiques.\footnote{Tirées des spécifications officielles \autocite{cam:wan3} et d'un test indépendant \autocite{cam:wan3-test}}
@@ -259,10 +261,10 @@ La grille d'évaluation \ref{cam:wan3_eval} a pu être remplie à l'aide de ces 
 \paragraph{\textbf{Wanscam} -- HW0029-5}
 Le modèle \textit{HW0029-3} de \textbf{Wanscam} est la nouvelle version du modèle \textit{HW0029-3} décrit précédemment. Elle possède la plupart des mêmes caractéristiques, mais propose une meilleure résolution (1920x1080), des batteries à plus grande capacité, un meilleur champ de vision, ou encore, une vision de nuit accrue jusqu'à 100m. Son prix est cependant plus élevé que la caméra \textit{HW0029-3}. Les caractéristiques indiquées dans ce rapport proviennent du site officiel \url{wanscam.com}\autocite{cam:wan5}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/wan5_cam.png}
     \centering
-    \captionsource{\textbf{Wanscam} HW0029-5}{\autocite{cam:wan5}}
+    \captionsource{\textbf{Wanscam} HW0029-5}{cam:wan5}
 \end{figure}
 
 \begin{table}[H]
@@ -312,10 +314,10 @@ De ces caractéristiques, il a été possible d'évaluer cette caméra dans la g
 \paragraph{\textbf{Visortech} -- Caméra Solaire IP}
 Cette caméra satisfait toutes les contraintes définies dans la section \ref{conception.techno.camera.contraintes} \nameref{conception.techno.camera.contraintes}. Ses caractéristiques principales sont décrites à la table \ref{tab:visortech_spec}. Il a été possible de remarquer que la caméra décrite ici est disponible sous différents noms, comme \textit{IdealSmartCam}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/visortech_cam.jpg}
     \centering
-    \captionsource{Caméra Visortech}{\autocite{cam:visortech}}
+    \captionsource{Caméra Visortech}{cam:visortech}
 \end{figure}
 
 On notera le peu d'information disponible concernant les spécifications de cette caméra. Par exemple, il est difficile de connaitre les méthodes disponibles afin de pouvoir récupérer des images depuis le réseau local, tant et si bien que cela soit possible. On notera que le vendeur a été contacté, sans réponse de sa part.
@@ -362,7 +364,7 @@ Malgré le manque d'information, cette caméra a tout de même été évaluée. 
 
 La caméra \textit{Visortech} arrive dernière du classement, avec une note de 3.1. Ceci est avant tout du au manque d'information sur les protocoles utilisables afin de récupérer via le réseau des images. Elle n'a donc pas été retenue.
 
-\begin{table}[!h]
+\begin{table}[!ht]
     \centering
     \caption{Caméras - Synthèse des résultats}
     \label{cam:synthese}
@@ -379,6 +381,21 @@ Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des
 
 Au prix indiqué plus haut, et vis-à-vis du classement présenté en table \ref{cam:synthese}, la caméra \textbf{Wanscam} \textit{HW0029-5} a été choisie pour la capture d'image que demande ce projet.
 
+
+
+\subsection{Langage de développement}
+\subsubsection{Choix du langage}
+\subsubsection{Limitation}
+
+\subsection{Traitement d'images}
+\subsubsection{Librairies disponibles}
+\subsubsection{Comparaison}
+\subsubsection{Choix final}
+
+\subsection{Réseau de neurones}
+\subsubsection{Librairies disponibles}
+\subsubsection{Comparaison}
+\subsubsection{Choix final}
 
 
 

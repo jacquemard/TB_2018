@@ -90,9 +90,11 @@
 % Thanks to Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 \newcommand*{\captionsource}[2]{
   \caption[{#1}]{
-    #1.#2
+    #1
   }
+  \tiny \fullcite{#2}
 }
+
 \usepackage{nameref}
 
 % Annexes
