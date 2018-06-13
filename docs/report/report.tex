@@ -66,12 +66,16 @@
 \pagestyle{plain}
 % \thispagestyle{empty} pour faire en sorte d'enlever les headers
 
-\renewcommand{\footrulewidth}{1pt}
+%\renewcommand{\footrulewidth}{1pt}
 
 % Bibliographie
-\usepackage[backend=biber, style=ieee, autocite=footnote, sorting=none]{biblatex}
-\addbibresource{report.bib}
+\usepackage{hyperref}
 \usepackage{csquotes}
+\usepackage[backend=biber, autocite=footnote, style=verbose-note]{biblatex}
+\addbibresource{report.bib}
+% Nomenclature
+%\usepackage[french]{nomencl}
+%\makenomenclature
 
 % Citation and references
 %\usepackage{caption}[format=hang]
@@ -94,9 +98,9 @@
 
 \include{title}
 
-% \newpage
+\newpage
 
-% \raggedbottom
+\raggedbottom
 
 % Table des matières
 \setcounter{tocdepth}{3}
@@ -119,6 +123,7 @@
 
 \nocite{*}
 \printbibliography
+%\printnomenclature
 
 \listoffigures
 \listoftables   

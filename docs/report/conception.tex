@@ -6,16 +6,44 @@
 %% ------------------------------------------ %%
 \section{Architecture du système}\label{conception.architecture}
 
-\subsection{Architecture logique}
+\todo{Description générale ?}
 
-\todo{VM, etc.}
+\subsection{Capture des images}
+Cette section présente l'architecture du système de capture d'image du parking, nécessaire à ce projet. Une caméra IP sera choisie, qui sera connectée au réseau de la HEIG-VD de la manière décrite ici. La capture d'image a été pensée afin de permettre la connexion de multiple caméra.
 
-\subsection{Architecture physique}
-\subsubsection{Connexion de la caméra}\label{conception.architecture.physique.camera}
+Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \nameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
+
+\todo{descritpion}
+
+\subsubsection{Architecture logique}
+%\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
+
+La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura donc une adresse IP, qu'il sera possible d'utiliser afin de dialoguer avec elle. Une machine virtuelle (abrégée \textit{VM}, pour \textit{Virtual Machine}) a été mise à disposition de ce projet. Située sur le réseau de l'école, elle permettra de récupérer ses images.
+
+\begin{figure}[h]
+    \includegraphics[width=150mm]{img/conception/logic_arch.png}
+    \label{fig:capture_cameras}
+    \centering
+    \caption{Capture d'images de plusieurs caméras}
+\end{figure}
+
+La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse sur \textit{HTTP} qui sera utilisé afin de récupérer des images à intervalles réguliers. On pourra la préciser ainsi:
+
+\begin{enumerate}
+    \item La \textit{VM} emmet une requête demandant l'image du parking à une caméra. 
+    \item La caméra répond à la \textit{VM} avec ladite image.
+\end{enumerate}
+
+Les requêtes et réponses précitées sont fortement dépendantes de la caméra choisie. Ainsi, les détails d'implémentation pourront être trouvés en section \ref{realisation.capture} \nameref{realisation.capture}.
+
+
+\subsubsection{Architecture physique}
+\paragraph{Connexion de la caméra}\label{conception.architecture.physique.camera}
 \todo{Schéma des différentes connexions possible + choix}
 
-\subsubsection{Réseau}
-\todo{Schéma réseau physique}
+%\paragraph{Réseau} % pas très important ?
+%\todo{Schéma réseau physique}
+\todo{Pas très important schéma réseau physique ?}
 
 
 \todo{Architecture choisie : sur le toit, construction d'une salle en cours --> panneau solaire}
@@ -26,7 +54,7 @@
 
 \section{Choix technologiques}
 
-\subsection{Caméra réseau}
+\subsection{Caméra réseau}\label{conception.techno.camera}
 Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. Celle-ci sera utilisée principalement dans 2 buts, précisés ci-après.
 
 \paragraph{Entrainement du modèle}
@@ -305,3 +333,37 @@ La caméra \textit{Visortech} arrive dernière du classement, avec une note de 3
 Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des résultats proches. Elles sont avant tout distinguable par leur qualité d'image, leur vision de nuit, leur durée de fonctionnement sur batterie et leur angle de vue, où toutes ses caractéristiques sont améliorées sur le nouveau modèle (\textit{HW0029-5}). Ainsi, seul le rapport qualité/prix peut faire pencher la balance d'un côté ou d'un autre. Avec un peu de recherche, la version \textit{HW0029-5} a été trouvée à 187.50€ sur \url{aliexpress.com}\autocite{cam:wan5-buy} (frais de livraison inclu), soit 225.- CHF (1.17CHF/€ en date du 13 mars 2018\autocite{util:cours}, arrondi au dizième supérieur, soit 1.20 CHF/€). 
 
 Au prix indiqué plus haut, et vis-à-vis du classement présenté en table \ref{cam:synthese}, la caméra \textbf{Wanscam} \textit{HW0029-5} a été choisie pour la capture d'image que demande ce projet.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Limitations}
