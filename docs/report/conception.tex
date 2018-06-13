@@ -13,8 +13,11 @@ Cette section présente l'architecture du système de capture d'image du parking
 
 Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \nameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
 
-\subsubsection{Architecture logique}
-\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
+\subsubsection{Architecture logique}\label{conception.architecture.capture.logique}
+%\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
+%\newacronym[longplural={Virtual Machines}]{VM}{VM}{Virtual Machine}
+
+%\todo{NOMENCLATURE PAS FONCTIONNEL}
 
 La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura donc une adresse IP, qu'il sera possible d'utiliser afin de dialoguer avec elle. Une machine virtuelle (abrégée \textit{VM}, pour \textit{Virtual Machine}) a été mise à disposition de ce projet. Située sur le réseau de l'école, elle permettra de récupérer ses images.
 
