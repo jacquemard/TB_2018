@@ -71,6 +71,26 @@
 %\renewcommand{\footrulewidth}{1pt}
 %\patchcmd{\footnoterule}{\vskip \z@ \@plus .05fil}{}{}{}
 
+% Code source
+\usepackage{color}
+\usepackage{listings}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+  frameround=fttt,
+  language=Python,
+  numbers=left,
+  breaklines=true,
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+%\lstMakeShortInline[columns=fixed]|
+
 % Bibliographie
 \usepackage{hyperref}
 \usepackage{csquotes}
@@ -149,6 +169,6 @@
 \listoftables   
 
 \include{annexes}
-\include{jdt}
+%\include{jdt}
 
 \end{document}

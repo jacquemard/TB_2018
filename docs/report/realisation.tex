@@ -6,7 +6,7 @@
 En date du 29 mai 2018, la caméra a été installée, connectée au réseau et est fonctionnelle. La photo présentée en figure \ref{fig:cam_parking_annotation} est une vue aérienne du site de Cheseaux de la HEIG-VD. C'est ici qu'un parking sera filmé.
 
 \begin{figure}[H]
-    \includegraphics[width=130mm]{img/conception/cam_parking_location.png}
+    \includegraphics[width=14cm]{img/conception/cam_parking_location.png}
     \label{fig:cam_parking_annotation}
     \centering
     \captionsource{Emplacement de la caméra (en rouge) et du parking filmé (en vert)}{map:heig-vd}
@@ -41,11 +41,38 @@ Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image
 \end{figure} 
 
 \subsection{Monitoring}
-La caméra utilisée fonctionne sur batterie et panneaux solaires. Ainsi, il a semblé important de pouvoir surveiller le bon fonctionnement du système, et d'être averti en cas de malfonctions. On pensera notamment à une perte de connexion dûe à des batteries faibles (par exemple, suite à un manque de soleil sur plusieurs jours consécutifs), ou encore à un câble déconnecté.
+La caméra utilisée fonctionne sur batterie et panneaux solaires. Ainsi, il a semblé important de pouvoir surveiller le bon fonctionnement du système, et d'être averti en cas de malfonctions afin de pouvoir agir au plus vite. On pensera notamment à une perte de connexion dûe à des batteries faibles (par exemple, suite à un manque de soleil sur plusieurs jours consécutifs), ou encore à un câble déconnecté.
 
-\textit{Python} offre un système complet natif de journalisation. Lorsque ce système est utilisé dans les modules créés, il est aisé de traiter des \textit{logs}, et même d'avertir par mail des erreurs produites.
+\textit{Python} offre un système complet natif de journalisation. Lorsque ce système est utilisé dans les modules créés, il est aisé de traiter des logs, et même d'avertir par mail des erreurs produites. Ce module peut être importé grâce à l'instruction \lstinline[columns=fixed]{import logging}.
 
-\todo{Logs}
+Ce système offre plusieurs niveau de log. On les trouvera ci-dessous, du plus critique au moins important\autocite{doc:log}:
+\begin{itemize}
+    \item \lstinline[columns=fixed]{CRITICAL}
+    \item \lstinline[columns=fixed]{ERROR}
+    \item \lstinline[columns=fixed]{WARNING}
+    \item \lstinline[columns=fixed]{INFO}
+    \item \lstinline[columns=fixed]{DEBUG}
+    \item \lstinline[columns=fixed]{NOTSET}
+\end{itemize}
+
+Ainsi, le niveau de chacun des logs effectués lors de la capture d'image a été défini. Une liste des logs importants concernant ce monitoring est proposée ci-dessous:
+\begin{description}
+    \item[INFO] Une image a été capturée et bien reçue
+    \item[ERROR] La connexion à la caméra a été perdue
+    \item[INFO] La caméra n'est toujours pas accessible
+    \item[WARNING] La connexion à la caméra a été rétablie
+\end{description}
+
+\textit{Python} permet d'écouter les logs émit par un module. Il est aussi possible de définir le niveau d'écoute. Par exemple, si celui-ci est défini comme étant \textit{WARNING}, tous les logs de ce type seront capturé, ainsi que tous les logs dont le niveau est supérieur (soit plus important). 
+
+Lors de l'arrivée d'un log, un système de \textit{handler} (proposé par \textit{Python}) a été mis en place. On en distinguera 3:
+\begin{description}
+    \item[Terminal handler] Ecoute les logs à partir du niveau \textit{INFO}. A l'arrivée d'un log, celui-ci est affiché dans la console. Les informations de debug ne sont pas affichées.
+    \item[File handler] Ecoute tous les logs. Ainsi, une trace est gardée de tous les logs dans le système de fichier. Ce gestionnaire est de type \lstinline[columns=fixed]{TimedRotatingFileHandler}, qui permet de créer un nouveau fichier de logs par jour. 
+    \item[SMTPHandler] Ecoute les logs à partir du niveau \textit{WARNING}. Lors d'une erreur ou d'un avertissement, un mail est envoyé automatiquement.
+\end{description}
+
+Ainsi, il est possible d'agir rapidemment lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
 
 \section{Traitement des images}
 \subsection{Downsampling}
@@ -53,7 +80,7 @@ La caméra utilisée fonctionne sur batterie et panneaux solaires. Ainsi, il a s
 \subsection{Evaluation des différentes méthodes et choix}
 \subsection{Implémentation}
 \begin{figure}[H]
-    \includegraphics[width=130mm]{img/realisation/image_process.png}
+    \includegraphics[width=110mm]{img/realisation/image_process.png}
     \label{fig:image_process}
     \centering
     \caption{Requêtes d'images et traitement}

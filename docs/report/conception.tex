@@ -6,8 +6,6 @@
 %% ------------------------------------------ %%
 \section{Architecture du système}\label{conception.architecture}
 
-\todo{Description générale ?}
-
 \subsection{Capture des images}
 Cette section présente l'architecture du système de capture d'image du parking, nécessaire à ce projet. Une caméra IP sera choisie, qui sera connectée au réseau de la HEIG-VD de la manière décrite ici. La capture d'image a été pensée afin de permettre la connexion de multiples caméras.
 
@@ -213,7 +211,7 @@ Elle permet de capturer des photos FullHD (1920x1080 pixels), possède une fonct
     \captionsource{\textbf{Wanscam} HW0029-3}{cam:wan3}
 \end{figure}
 
-Cette caméra satisfait toutes les contraintes définies en section \ref{conception.techno.camera.contraintes}. On trouvera en table \ref{tab:HW0029-3} ses principales caractéristiques.\footnote{Tirées des spécifications officielles \autocite{cam:wan3} et d'un test indépendant \autocite{cam:wan3-test}}
+Cette caméra satisfait toutes les contraintes définies en section \ref{conception.techno.camera.contraintes}. On trouvera en table \ref{tab:HW0029-3} ses principales caractéristiques.\footnote{Tirées des spécifications officielles \autocite{cam:wan3} et d'un test indépendant \autocite{cam:wan3-test}.}
 
 \begin{table}[H]
     \centering
@@ -329,7 +327,7 @@ On notera le peu d'information disponible concernant les spécifications de cett
     \centering
     \caption{Caractéristiques de la caméra \textit{Visortech}}
     \label{tab:visortech_spec}
-    \begin{tabular}{@{}ll@{}}
+    \begin{tabular}{@{}lp{10cm}@{}}
     \toprule
     Caractéristique        & Valeurs                                                          \\ \midrule
     Image                  & 1280 x 720, compression H.264. Prise de vue en continu possible. \\ [0.8ex]
@@ -384,11 +382,35 @@ Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des
 
 Au prix indiqué plus haut, et vis-à-vis du classement présenté en table \ref{cam:synthese}, la caméra \textbf{Wanscam} \textit{HW0029-5} a été choisie pour la capture d'image que demande ce projet.
 
-
-
 \subsection{Langage de développement}
-\subsubsection{Choix du langage}
-\subsubsection{Limitation}
+Afin de choisir le langage de programmation qui sera majoritairement utilisé dans ce projet, il est premièrement nécessaire de définir quel en sera son utilisation. On résumera donc ses objectifs principaux ainsi:
+\begin{itemize}
+    \item Le langage sera utilisé afin de capturer des images sur HTTP.
+    \item Le langage sera fortement utilisé pour du traitement d'image.
+    \item Le langage sera fortement utilisé pour du \textit{Machine Learning}, plus spécifiquement des réseaux de neurones à convolutions.
+\end{itemize}
+
+De ce fait, se tourner vers un langage s'approchant du \textit{script} (qu'on pourra par exemple opposer au langage \textit{Java}) semble avoir plusieurs avantages:
+\begin{itemize}
+    \item Le langage sera beaucoup utilisé afin de traiter des informations. Ces traitements seront relativement courts, mais multiples. Un langage de script semble suffisant.
+    \item Les langages de scripts sont légers, aisément maintenables et évolutifs. Il est cependant important de noter qu'ils le sont seulement si les programmes développés restes courts et bien construit. 
+    \item Les scripts ressemblent souvent à de la programmation procédurale, ce qui peut en faciliter son écriture. Puisqu'avant tout, des traitements seront effectués, un style de programmation procédurale semble idéal.
+\end{itemize}
+
+Dans le cadre de ce TB, du \textit{Machine Learning} sera effectué. Il convient donc aussi de s'informer sur les langages de développement les plus populaires utilisés dans ce contexte. On en tirera une liste, non-exhaustive. Il faut noter que cette liste a été définie par ce qui a pu être vu par l'expérience, et non par un réel classement:
+\begin{description}
+    \item[R] Environnement gratuit de statistiques et graphiques.\autocite{lang:R}
+    \item[MATLAB] Développé par \textit{MathWorks}, combine un environnement \textit{desktop} pour de l'analyse et un langage de programmation spécialisés.\autocite{lang:matlab}
+    \item[Python] Langage de programmation permettant un développement rapide et efficace. \autocite{lang:python}
+\end{description}
+
+Le choix du langage dépend aussi fortement des librairies qui sont disponibles et utilisées. Dans le cadre du \textit{Machine Learning} et du traitement d'images, elles sont très souvent disponibles en \textit{Python}.
+
+\paragraph{Choix du langage}
+De part ce qui a été précisé précédemment, \textit{Python} semble être le langage idéal.
+
+\paragraph{Limitation}
+Une des principales limitations de ce langages et qu'il est interprété. Ainsi, les performances peuvent être plus faible qu'un langage compilé\footnote{ On notera cependant qu'il est possible, si on le souhaite, de compiler du \textit{Python}. Là n'est cependant pas son but premier}. Cependant, et comme on le verra plus tard, les librairies fournies sont souvent des \textit{wrappers} interfaçant du code compilé. Ainsi, les traitements lourds sont souvent efficaces, où \textit{Python} peut ne servir qu'à connecter des composants et définir des configurations. 
 
 \subsection{Traitement d'images}
 \subsubsection{Librairies disponibles}
