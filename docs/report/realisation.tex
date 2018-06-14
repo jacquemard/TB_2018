@@ -1,7 +1,6 @@
 \chapter{Réalisation}\label{realisation}
 
-
-\section{Capture d'image}\label{realisation.capture}
+\section{Capture d'images}\label{realisation.capture}
 \subsection{Emplacement de la caméra}
 En date du 29 mai 2018, la caméra a été installée, connectée au réseau et est fonctionnelle. La photo présentée en figure \ref{fig:cam_parking_annotation} est une vue aérienne du site de Cheseaux de la HEIG-VD. C'est ici qu'un parking sera filmé.
 
@@ -14,7 +13,7 @@ En date du 29 mai 2018, la caméra a été installée, connectée au réseau et 
 
 Y est désigné par un cercle rouge l'emplacement de la caméra. Elle se situe sur la terrasse du bâtiment est, accessible au niveau K. Elle est orientée afin de pouvoir capturer des images du parking désigné en vert. 
 
-Malheureusement, lors des tests effectués après réception de la caméra \textbf{Wanscam} \textit{HW0029-5}, il a été remarqué que le signal Wifi présent sur le toît n'était pas suffisamment fiable afin de connecter la caméra. Afin de palier à ce problème, un câble réseau Ethernet a été tiré de manière temporaire.
+Malheureusement, lors des tests effectués après réception de la caméra \textbf{Wanscam} \textit{HW0029-5}, il a été remarqué que le signal Wifi présent sur le toit n'était pas suffisamment fiable afin de connecter la caméra. Afin de palier à ce problème, un câble réseau Ethernet a été tiré de manière temporaire.
 
 \subsection{Configuration des périphériques}
 Dans cette sous-section, on trouvera des informations utiles concernant la caméra et la machine virtuelle. Ces informations seront utilisées dans la suite de ce rapport. 
@@ -40,8 +39,31 @@ Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image
     \caption{Requête d'une image à la caméra \textbf{Wanscam} \textit{HW0029-5}}
 \end{figure} 
 
+\subsection{Agent}
+Un agent a été développé, déployé sur la VM. Celui-ci permet de définir un intervalle auquel des images seront demandées à la caméra. Il permet donc de gérer la connexion à la caméra, mais aussi les pertes de connexions. A la réception d'une image, il permet de définir une méthode de traitement (décrite en section \ref{realisation.traitement} \nameref{realisation.traitement}). 
+Il permet aussi de définir, si tel est souhaité, une heure de début et une heure de fin durant lequel les requêtes seront effectuées. Lorsqu'on sort de cet intervalle, aucune photo ne sera capturée. Dans notre cas, celui-ci est utilisé afin d'éviter une multitude d'images prises du parking vide aux heures de nuit.
+
+On trouvera au listing \ref{lst:agent} la création en python de celui-ci. Il faut remarquer qu'il n'a pas été souhaité de préciser les constantes \lstinline[columns=fixed]{USERNAME} et \lstinline[columns=fixed]{PASSWORD} pour des raisons de confidentialité. Il faut aussi remarquer que \lstinline[columns=fixed]{handle_image} est la fonction qui décrit le traitement effectué sur chaque image reçue. Celle-ci sera décrite en section \ref{realisation.traitement}
+
+% spellcheck-language "en"
+\begin{lstlisting}[caption={Création d'un agent récupérant les images}, label={lst:agent}] 
+CAMERA_HOST = "ipcam.einet.ad.eivd.ch"
+IMAGE_REQUEST_MIN_DELTA = 60
+IMAGE_REQUEST_START_TIME = time(4, 30) # Start time at  4h30 AM
+IMAGE_REQUEST_STOP_TIME = time(23) # Stop time at 11 PM
+# [...]
+
+# Creating a camera client
+camera = CameraClient(CAMERA_HOST, USERNAME, PASSWORD)
+# Creating a agent which requests the camera for an image once every hour
+agent = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA, running_time=(IMAGE_REQUEST_START_TIME, IMAGE_REQUEST_STOP_TIME))
+\end{lstlisting}
+% spellcheck-language
+
+Ainsi, une image sera demandée toutes les heures, de 4h30 à 11h.
+
 \subsection{Monitoring}
-La caméra utilisée fonctionne sur batterie et panneaux solaires. Ainsi, il a semblé important de pouvoir surveiller le bon fonctionnement du système, et d'être averti en cas de malfonctions afin de pouvoir agir au plus vite. On pensera notamment à une perte de connexion dûe à des batteries faibles (par exemple, suite à un manque de soleil sur plusieurs jours consécutifs), ou encore à un câble déconnecté.
+La caméra utilisée fonctionne sur batterie et panneaux solaires. Ainsi, il a semblé important de pouvoir surveiller le bon fonctionnement du système, et d'être averti en cas de malfonctionnement afin de pouvoir agir au plus vite. On pensera notamment à une perte de connexion due à des batteries faibles (par exemple, suite à un manque de soleil sur plusieurs jours consécutifs), ou encore à un câble déconnecté.
 
 \textit{Python} offre un système complet natif de journalisation. Lorsque ce système est utilisé dans les modules créés, il est aisé de traiter des logs, et même d'avertir par mail des erreurs produites. Ce module peut être importé grâce à l'instruction \lstinline[columns=fixed]{import logging}.
 
@@ -72,10 +94,12 @@ Lors de l'arrivée d'un log, un système de \textit{handler} (proposé par \text
     \item[SMTPHandler] Ecoute les logs à partir du niveau \textit{WARNING}. Lors d'une erreur ou d'un avertissement, un mail est envoyé automatiquement.
 \end{description}
 
-Ainsi, il est possible d'agir rapidemment lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
+Ainsi, il est possible d'agir rapidement lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
 
-\section{Traitement des images}
-\subsection{Downsampling}
+
+\section{Traitement des images}\label{realisation.traitement}
+\todo{Anonymisation}
+\subsection{Sous-échantillonnage (\textit{Downsampling})}
 \subsection{Détection de bord}
 \subsection{Evaluation des différentes méthodes et choix}
 \subsection{Implémentation}

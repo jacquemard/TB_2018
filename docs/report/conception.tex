@@ -29,7 +29,7 @@ La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura don
 La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse sur \textit{HTTP} qui sera utilisé afin de récupérer des images à intervalles réguliers. Il est possible de la préciser ainsi:
 
 \begin{enumerate}
-    \item La \textit{VM} emmet une requête demandant l'image du parking à une caméra. 
+    \item La \textit{VM} émet une requête demandant l'image du parking à une caméra. 
     \item La caméra répond à la \textit{VM} avec ladite image.
 \end{enumerate}
 
@@ -53,16 +53,16 @@ Ici, deux points sont principalement étudier: l'alimentation de la caméra, et 
     \caption{Caméra alimentée et connectée au réseau par câble}
 \end{figure}
 
-La caméra pourrait être cablée au réseau électrique, ainsi qu'au réseau local. Il est nécessaire de tirer 2 câble, à 2 endroits différents: l'un au réseau électrique, et l'autre à un switch ou une prise Ethernet présente dans le bâtiment.
+La caméra pourrait être câblée au réseau électrique, ainsi qu'au réseau local. Il est nécessaire de tirer 2 câble, à 2 endroits différents: l'un au réseau électrique, et l'autre à un switch ou une prise Ethernet présente dans le bâtiment.
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_2.png}
     \label{fig:cam_connection_2}
     \centering
-    \caption{Caméra cablée au réseau et alimentée par \textit{PoE}}
+    \caption{Caméra câblée au réseau et alimentée par \textit{PoE}}
 \end{figure}
 
-Elle pourrait aussi être cablée uniquement au réseau local. En effet, il serait possible de profiter de la technologie \textit{Power over Ethernet} (\textit{PoE}) permet de fournir en électricité un périphérique réseau via le câble Ethernet. Il faut cependant noter que le switch connecté à la caméra doit pouvoir fournir cette possibilité.
+Elle pourrait aussi être câblée uniquement au réseau local. En effet, il serait possible de profiter de la technologie \textit{Power over Ethernet} (\textit{PoE}) permet de fournir en électricité un périphérique réseau via le câble Ethernet. Il faut cependant noter que le switch connecté à la caméra doit pouvoir fournir cette possibilité.
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/cam_con_3.png}
@@ -99,7 +99,7 @@ Comme indiqué au paragraphe \nameref{conception.architecture.camera.physique.po
 \section{Choix technologiques}
 
 \subsection{Caméra réseau}\label{conception.techno.camera}
-Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonable, est nécessaire dans ce projet afin de capturer des images. Celle-ci sera utilisée principalement dans 2 buts, précisés ci-après.
+Une caméra réseau fournissant des images de qualités, et ce dans un prix raisonnable, est nécessaire dans ce projet afin de capturer des images. Celle-ci sera utilisée principalement dans 2 buts, précisés ci-après.
 
 \paragraph{Entrainement du modèle}
 Dans un premier temps, il s'agit d'entrainer le modèle à partir des images fournies par la caméra. Pour ce faire, il doit être possible de capturer des photos à intervalles réguliers. Ces images seront ensuite annotées, puis utilisées pour entrainer le modèle du réseau de neurones à convolutions. 
@@ -109,7 +109,7 @@ Une fois le modèle définit, le but de ce projet est de l'utiliser afin de dét
 
 Il convient donc d'effectuer l'achat d'une caméra permettant le bon déroulement de ce projet. Pour ce faire, plusieurs caméras ont été évaluées. On rencontrera donc dans les prochaines sections les contraintes et critères nécessaires à une bonne évaluation. Les caméras seront notées, ce qui permettra d'en retirer celle qui convient le mieux à ce projet.
 
-Il est important de noter qu'idéalement, des tests en condition réelles des différentes caméras auraient dû être effectués. Cependant, dans le cadre de ce travail de bachelor, le budget mis à disposition ne peut le permettre. C'est pourquoi une seule caméra sera choisie sur la base des critères définis.
+Il est important de noter qu'idéalement, des tests en condition réelles des différentes caméras auraient dû être effectués. Cependant, dans le cadre de ce travail de Bachelor, le budget mis à disposition ne peut le permettre. C'est pourquoi une seule caméra sera choisie sur la base des critères définis.
 
 \subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
 Comme vu en section \ref{conception.architecture.camera.physique}, installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont explicitées dans cette section.
@@ -124,7 +124,7 @@ La caméra doit être prévue pour un usage extérieur, avec une protection cont
 En lien avec le paragraphe précédent, la caméra doit nécessairement avoir une interface Wifi permettant de se connecter au réseau de l'école. Une connexion par Ethernet n'est pas envisageable.
 
 \paragraph{Caméra auto-alimentée}
-Comme vu en section \ref{conception.architecture.camera.physique}, la caméra doit être auto-alimentée et non cablée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
+Comme vu en section \ref{conception.architecture.camera.physique}, la caméra doit être auto-alimentée et non câblée. Ainsi, une combinaison de batteries et de panneaux solaires semble être idéal. On peut noter que l'utilisation de batteries uniquement est envisageable dans le cadre d'un prototypage, mais ce uniquement si le remplacement de celles-ci doit être effectué à intervalles relativement éloignés, de l'ordre de la semaine.
 
 \paragraph{Résolution d'image}
 Dans le but d'obtenir des images de qualités suffisantes, la résolution de l'image capturées devra nécessairement être d'au minimum 1280x720 pixels.
@@ -143,7 +143,7 @@ La caméra doit avoir une bonne qualité d'image. On jugera:
 La caméra doit pouvoir fournir des images via le réseau et il doit être possible d'en récupérer à intervalles réguliers. Pour ce faire, on pensera à des protocoles comme les suivants: 
 \begin{description}
     \item[ONVIF (Open Network Video Interface Forum)] Standard industriel ouvert permettant de contrôler, configurer et communiquer avec des caméras de sécurité IP. Permet notamment la lecture de flux vidéo en temps réel et la capture de photos \autocite{wiki:onvif}
-    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Clumbia UNiversity, protocole de communication permettant de lire en temps réel un flux vidéo. \autocite{wiki:RTSP}
+    \item[RTSP (Real Time Streaming Protocol)] Développé par RealNetworks, Netscape et Columbia University, protocole de communication permettant de lire en temps réel un flux vidéo. \autocite{wiki:RTSP}
     \item[Requêtes HTTP] Il pourrait être possible de capturer et de récupérer à la demande une photo à l'aide de requêtes HTTP.
     \item[Flux sur HTTP] Permet la lecture de flux vidéo sur HTTP en s'appuyant sur des formats tel que MPEG-4.
     \item[Interface Web HTTP] Permet la configuration de la caméra IP via un serveur Web qu'elle expose. 
@@ -152,7 +152,7 @@ On notera avant tout sur la facilité d'utilisation des différents protocoles.
 \end{description}
 
 \paragraph{Fonctionnement auto-alimenté [4]}
-La caméra doit être auto-alimentée et non cablée. Comme critères, on pensera donc à:
+La caméra doit être auto-alimentée et non câblée. Comme critères, on pensera donc à:
 \begin{itemize}
     \item La durée de vie de la caméra en fonctionnement auto-alimenté. Idéalement, la caméra ne devrait nécessiter aucune intervention humaine.
     \item La portée du Wifi. La puissance du signal doit être assez forte afin de pouvoir capter les bornes Wifi de l'école depuis le toit de la HEIG-VD. Il est important de noter que ce critère peut être difficilement évalué avant l'achat de la caméra.
@@ -173,7 +173,7 @@ La facilité d'installation de la caméra sera prise en compte. On pensera aux d
 \paragraph{Prix [4]} Bien évidemment, le prix doit entrer en ligne de compte. 100.- CHF sera indiqué comme prix maximum afin d'obtenir la meilleure note. A partir de 500.- CHF, on évaluera ce prix comme étant mauvais.
 
 \subsubsection{Caméras disponibles et évaluation}
-Bien que la surveillance n'est pas un but de ce TB, les caméras de sécurités semblent être les plus adaptées. En effet, elles fournissent généralement des fonctionnalités de capture de photos, de connexion réseau, de vision de nuit, possèdent un angle de vue suffisant et sont souvent résistantes à un environnement extérieur. De plus, elles sont spécialement concues pour un usage qui s'apparente à celui qui de ce TB, et sont donc adaptées à la prise d'images de parking.
+Bien que la surveillance n'est pas un but de ce TB, les caméras de sécurités semblent être les plus adaptées. En effet, elles fournissent généralement des fonctionnalités de capture de photos, de connexion réseau, de vision de nuit, possèdent un angle de vue suffisant et sont souvent résistantes à un environnement extérieur. De plus, elles sont spécialement conçues pour un usage qui s'apparente à celui qui de ce TB, et sont donc adaptées à la prise d'images de parking.
 
 L'achat distinct d'une caméra, de panneaux solaires et de batteries est envisageable. Néanmoins, dans un premier temps, seuls des kits complets (caméra, batteries, panneaux solaires) ont été analysés. En effet, l'installation et le choix des différents composants nécessaires à un système solaire complet semble difficile lorsqu'on est pas du domaine, et des problèmes d'interopérabilité pourraient survenir. Ceci reste cependant une solution viable si aucun kit ne correspond aux contraintes définies.
 
@@ -222,7 +222,7 @@ Cette caméra satisfait toutes les contraintes définies en section \ref{concept
     Caractéristique        & Valeurs                                                                                                                                                                                                                                                                                     \\ \midrule
     Image                  & 1280 x 720, 25fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
     Angle de vue           & 40°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
-    Vision nocture         & Visibilité jusqu'à 15 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
+    Vision nocturne         & Visibilité jusqu'à 15 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
     Réseau                 & RJ45, Wifi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
     Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 48h d'utilisation. \\ Faible température (\textless 26°) des rayons de soleil: 7 jours d'utilisations. \\ Grande température (\textgreater 33°) des rayons de soleil: fonctionnement continu\end{tabular} \\ [0.8ex]
     Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
@@ -252,7 +252,7 @@ La grille d'évaluation \ref{cam:wan3_eval} a pu être remplie à l'aide de ces 
         Fonctionnement auto-alimenté & 4 [4]              & La caméra est totalement auto-suffisante s'il y a assez de soleil. On notera cependant le panneau solaire fixe qui peut nuire à l'exposition du soleil. Elle supporte le Wifi 802.11n: à première vue, le signal semble suffisant.                   \\ [0.8ex]
         Capture de photo             & 5 [2]              & Il est facile de récupérer des images sur cette caméra. Elle offre en plus un système de capture de photos à intervalles réguliers automatique. Elle offre aussi la possibilité de récupérer un flux vidéo.                            \\ [0.8ex]
         Angle de vue                 & 1 [2]              & Un angle de vue de 40° semble tout juste suffisant.                                                                                                                        \\ [0.8ex]
-        Vision de nuit               & 2 [1]               & Elle fournit une vision nocturne à 15m. Il est cependant possible d'ajouter des LEDs infrarouges supplémentaires afin d'obtenir une meilleure vision de nuit\autocite{cam:wan3-url}. \\ [0.8ex]
+        Vision de nuit               & 2 [1]               & Elle fournit une vision nocturne à 15m. Il est cependant possible d'ajouter des LED infrarouges supplémentaires afin d'obtenir une meilleure vision de nuit\autocite{cam:wan3-url}. \\ [0.8ex]
         Facilité d'installation      & 3 [1]              & La caméra mesure jusqu'à 37 cm, ce qui nuit à sa facilité d'installation. De plus, le panneau solaire est fixe, ce qui contraint la position et l'angle de la caméra.      \\ [0.8ex]
         Prix                         & 4 [4]              & A partir d'environ 170.- CHF \\ \midrule
         && \textbf{Note finale: 3.6/5} \\ \bottomrule
@@ -277,7 +277,7 @@ Le modèle \textit{HW0029-3} de \textbf{Wanscam} est la nouvelle version du mod�
     Caractéristique        & Valeurs                                                                                                                                                                                                                                                                                     \\ \midrule
     Image                  & 1920 x 1080, 25-30fps, compression H.264                                                                                                                                                                                                                                                        \\ [0.8ex]
     Angle de vue           & 80°                                                                                                                                                                                                                                                                                         \\ [0.8ex]
-    Vision nocture         & Visibilité jusqu'à 100 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
+    Vision nocturne         & Visibilité jusqu'à 100 mètres                                                                                                                                                                                                                                                                \\ [0.8ex]
     Réseau                 & RJ45 100Mbps, Wifi 802.11 b/g/n                                                                                                                                                                                                                                                                     \\ [0.8ex]
     Auto-alimentation      & \begin{tabular}[c]{@{}l@{}}2 batteries de 12A et panneau solaire. \\ Sans soleil: 54h d'utilisation. \end{tabular} \\
     Stockage               & Carte MicroSD de 16Gb incluse, support jusqu'à 128Gb                                                                                                                                                                                                                                        \\ [0.8ex]
@@ -332,7 +332,7 @@ On notera le peu d'information disponible concernant les spécifications de cett
     Caractéristique        & Valeurs                                                          \\ \midrule
     Image                  & 1280 x 720, compression H.264. Prise de vue en continu possible. \\ [0.8ex]
     Angle de vue           & 90°                                                              \\ [0.8ex]
-    Vision nocture         & Visibilité jusqu'à 5 mètres                                      \\ [0.8ex]
+    Vision nocturne         & Visibilité jusqu'à 5 mètres                                      \\ [0.8ex]
     Réseau                 & Wifi 802.11 b/g/n                                                \\ [0.8ex]
     Auto-alimentation      & Panneau solaire intégré de 0.8 Watt, jusqu'à 5 jours sans soleil. Auto-suffisante.     \\ [0.8ex]
     Détection de mouvement & Oui                                                              \\ [0.8ex]
@@ -378,7 +378,7 @@ La caméra \textit{Visortech} arrive dernière du classement, avec une note de 3
     \end{tabular}
 \end{table}
 
-Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des résultats proches. Elles sont avant tout distinguable par leur qualité d'image, leur vision de nuit, leur durée de fonctionnement sur batterie et leur angle de vue, où toutes ses caractéristiques sont améliorées sur le nouveau modèle (\textit{HW0029-5}). Ainsi, seul le rapport qualité/prix peut faire pencher la balance d'un côté ou d'un autre. Avec un peu de recherche, la version \textit{HW0029-5} a été trouvée à 187.50€ sur \url{aliexpress.com}\autocite{cam:wan5-buy} (frais de livraison inclu), soit 225.- CHF (1.17CHF/€ en date du 13 mars 2018\autocite{util:cours}, arrondi au dizième supérieur, soit 1.20 CHF/€). 
+Les deux versions de la caméra \textit{HW0029} de \textbf{Wanscam} montrent des résultats proches. Elles sont avant tout distinguable par leur qualité d'image, leur vision de nuit, leur durée de fonctionnement sur batterie et leur angle de vue, où toutes ses caractéristiques sont améliorées sur le nouveau modèle (\textit{HW0029-5}). Ainsi, seul le rapport qualité/prix peut faire pencher la balance d'un côté ou d'un autre. Avec un peu de recherche, la version \textit{HW0029-5} a été trouvée à 187.50€ sur \url{aliexpress.com}\autocite{cam:wan5-buy} (frais de livraison inclus), soit 225.- CHF (1.17CHF/€ en date du 13 mars 2018\autocite{util:cours}, arrondi au dixième supérieur, soit 1.20 CHF/€). 
 
 Au prix indiqué plus haut, et vis-à-vis du classement présenté en table \ref{cam:synthese}, la caméra \textbf{Wanscam} \textit{HW0029-5} a été choisie pour la capture d'image que demande ce projet.
 
@@ -413,13 +413,38 @@ De part ce qui a été précisé précédemment, \textit{Python} semble être le
 Une des principales limitations de ce langages et qu'il est interprété. Ainsi, les performances peuvent être plus faible qu'un langage compilé\footnote{ On notera cependant qu'il est possible, si on le souhaite, de compiler du \textit{Python}. Là n'est cependant pas son but premier}. Cependant, et comme on le verra plus tard, les librairies fournies sont souvent des \textit{wrappers} interfaçant du code compilé. Ainsi, les traitements lourds sont souvent efficaces, où \textit{Python} peut ne servir qu'à connecter des composants et définir des configurations. 
 
 \subsection{Traitement d'images}
+Dans ce projet, une des premières étapes consiste à traiter les images provenant de la caméra afin qu'elles puissent être utilisées convenablement dans l'algorithme de \textit{Machine Learning}. On trouvera ci-après les différents traitements qui doivent pouvoir être réalisés:
+\begin{description}
+    \item[\textit{Downsampling}] L'image reçue de la caméra sera sous-échantillonnée.
+    \item[\textit{Edge detection}] Les bords pouvant être détectés dans l'image devront pouvoir être mis en valeur. 
+\end{description}
+
 \subsubsection{Librairies disponibles}
+Plusieurs librairies \textit{Python} sont disponibles. Ici en sont décrites deux.
+
+\paragraph{OpenCV}
+OpenCV\autocite{lib:opencv} (Open Source Computer Vision Library) est une librairie Open Source permettant le traitement d'image. Elle peut être utilisée en C++, Java, et Python. Elle est écrite en C/C++ est et optimisée pour une utilisation sur un CPU multi-core. Elle permet notamment de sous-échantillonner une image et de détecter des bords, mais possède aussi beaucoup de fonctionnalités liées au \textit{Machine Learning}.
+
+\paragraph{Scikit-image}
+Scikit-image\autocite{lib:skimage}, abrégé \textit{skimage}, est une collection gratuite et Open Source d'algorithmes pour le traitement d'images en python. Elle permet aisément de sous-échantillonner des images, ainsi que de détecter des bords à l'aide de filtre prédéfini (convolutions).
+
 \subsubsection{Comparaison}
+Les deux librairies pré-citées sont ressemblantes sur bien des points. Une image, dans les deux cas, est représentée sous la forme d'un tableau \textit{numpy}\footnote{Numpy est une librairie scientifique permettant d'utiliser en \textit{Python} des tableaux multidimensionnels de manière efficaces.\autocite{lib:numpy}} à 3 dimensions. La syntaxe des deux librairies sont aussi extrêmement proches où, parfois même, les noms de méthodes se trouve être strictement les mêmes.
+
+On pourra cependant les différencier par deux points principaux, en relation avec ce projet:
+\begin{itemize}
+    \item La librairie \textit{skimage} est plus facile d'accès. Ces méthodes sont mieux définies et le traitement d'une image est plus aisé qu'avec \textit{OpenCV}. Elle offre, en plus, des fonctionnalités d'aide au développement pour le traitement d'images tri-signaux (valeurs \textit{RGB}) et leurs conversions (par exemple, en valeurs \textit{HSV} telles que décrites en section \ref{techno.traitement.repr} \nameref{techno.traitement.repr})
+    \item La librairie \textit{OpenCV} est plus complète. Elle possède en plus des fonctionnalités liées au \textit{Machine Learning}, comme de la détection d'objet dans une image.
+\end{itemize}
+
 \subsubsection{Choix final}
+Il a donc été choisi d'utiliser au possible la librairie \textit{scikit-image}, qui est plus facile d'accès. 
+
+Néanmoins, il est important de noter que le fait qu'une image soit représentée de la même manière dans les deux librairies permet une certaine interopérabilité entre celles-ci. \textit{Skimage} souffre de certaines limitations lorsqu'on la compare à \textit{OpenCV}, mais il est facile de les contourner: lorsque c'est nécessaire, \textit{OpenCV} pourra être utilisé en parallèle.
 
 \subsection{Réseau de neurones}
 \subsubsection{Librairies disponibles}
 \subsubsection{Comparaison}
 \subsubsection{Choix final}
 
-\section{Conception des modèles}
+\section{Conception du modèle}

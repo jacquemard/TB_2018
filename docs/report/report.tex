@@ -2,7 +2,7 @@
 % --- DOCUMENT ---
 % -----------------------------------------------------------------------
 \documentclass[11pt, a4paper, french, twoside, margin=2cm]{report}
-% Margin
+% Marges
 \usepackage[top=3.5cm,
             bottom=3cm,
             left=2cm,
@@ -18,7 +18,7 @@
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 
-% Font & Encoding
+% Polices et encodages
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern, textcomp}
@@ -83,10 +83,14 @@
   language=Python,
   numbers=left,
   breaklines=true,
+  xleftmargin=1cm,
+  keepspaces=true
+  basicstyle=\footnotesize\ttfamily,
   commentstyle=\color{mygreen},    % comment style
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   keywordstyle=\color{blue},       % keyword style
   stringstyle=\color{mymauve},     % string literal style
+  columns=fixed
 }
 
 %\lstMakeShortInline[columns=fixed]|
@@ -104,12 +108,12 @@
 %\usepackage[toc]{glossaries}
 %\makeglossaries 
 
-% Citation and references
+% Citation and références
 %\usepackage{caption}[format=hang]
 %\usepackage[perpage]{footmisc}
 \usepackage[bottom]{footmisc}
 %\usepackage{ftnxtra}
-% Thanks to Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+% Heiko Oberdiek (https://tex.stackexchange.com/questions/95029/add-source-to-figure-caption?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 \newcommand*{\captionsource}[2]{
   \caption[{#1}]{
     #1
@@ -164,6 +168,8 @@
 \printbibliography
 %\printnomenclature
 %\printglossaries
+
+\include{outils}
 
 \listoffigures
 \listoftables   
