@@ -6,19 +6,19 @@ En date du 29 mai 2018, la caméra a été installée, connectée au réseau et 
 
 \begin{figure}[H]
     \includegraphics[width=14cm]{img/conception/cam_parking_location.png}
-    \label{fig:cam_parking_annotation}
     \centering
     \captionsource{Emplacement de la caméra (en rouge) et du parking filmé (en vert)}{map:heig-vd}
+    \label{fig:cam_parking_annotation}
 \end{figure} 
 
 Y est désigné par un cercle rouge l'emplacement de la caméra. Elle se situe sur la terrasse du bâtiment est, accessible au niveau K. Elle est orientée afin de pouvoir capturer des images du parking désigné en vert. 
 
-Malheureusement, lors des tests effectués après réception de la caméra \textbf{Wanscam} \textit{HW0029-5}, il a été remarqué que le signal Wifi présent sur le toit n'était pas suffisamment fiable afin de connecter la caméra. Afin de palier à ce problème, un câble réseau Ethernet a été tiré de manière temporaire.
+Malheureusement, lors des tests effectués après réception de la caméra \textbf{Wanscam} \textit{HW0029-5}, il a été remarqué que le signal Wifi présent sur le toit n'était pas suffisamment fiable afin de connecter la caméra. Afin de palier à ce problème, un câble réseau Ethernet a tout de même pu être tiré de manière temporaire.
 
 \subsection{Configuration des périphériques}
 Dans cette sous-section, on trouvera des informations utiles concernant la caméra et la machine virtuelle. Ces informations seront utilisées dans la suite de ce rapport. 
 
-Afin de pouvoir accéder à la caméra, un FQDN\footnote{\textit{FQDN}: \textit{Fully qualified domain name}, soit nom de domaine entièrement qualifié. \autocite{wiki:FQDN}} a été configuré. Celui-ci permet d'obtenir l'adresse IP de la caméra à l'aide du DNS local. Ainsi, plutôt que de s'adresser à une adresse IP, il suffit d'utiliser en lieu et place l'adresse suivante:
+Afin de pouvoir accéder à la caméra, un FQDN\footnote{\textit{FQDN}: \textit{Fully qualified domain name}, soit nom de domaine entièrement qualifié. \autocite{wiki:FQDN}} a été configuré. Celui-ci permet d'obtenir l'adresse IP de la caméra à l'aide du DNS local. Ainsi, plutôt que de s'adresser à elle par une adresse IP, il suffit d'utiliser en lieu et place l'adresse suivante:
 \begin{center}
     \textit{ipcam.einet.ad.eivd.ch}
 \end{center}
@@ -28,22 +28,22 @@ Afin de pouvoir accéder à la caméra, un FQDN\footnote{\textit{FQDN}: \textit{
 Comme indiqué en section \ref{conception.architecture.capture.logique}, une VM est mise à disposition de ce projet afin de récupérer des images de la caméra. Son adresse IP, 10.192.75.100, est fixe.
 
 \subsection{Requêtes et protocole}
-La caméra \textbf{Wanscam} \textit{HW0029-5} expose un serveur web permettant sa configuration. Bien entendu, celui-ci permet des connexions authentifiées. Il utilise le protocole \textit{Basic Auth HTTP\footnote{Le protocole Basic Auth consiste à inclure dans les entêtes HTTP un champ \textit{Authorization}. Celui-ci contient le login et le mot de passe de l'utilisateur, sous forme encodée (\textit{Base64})}}\autocite{wiki:basic-auth}. Il est cependant important de remarquer que le serveur ne permet pas l'utilisation d'\textit{HTTPS}: ainsi, la connexion n'est pas chiffrée. Le mot de passe fournit à la caméra, bien qu'encodé, circule donc en clair sur le réseau. Il faut donc noter que dans le cadre d'une application professionnelle, ceci n'est pas envisageable.
+La caméra \textbf{Wanscam} \textit{HW0029-5} expose un serveur web permettant sa configuration. Bien entendu, celui-ci permet des connexions authentifiées. Il utilise le protocole \textit{Basic Auth HTTP\footnote{Le protocole Basic Auth consiste à inclure dans les entêtes HTTP un champ \textit{Authorization}. Celui-ci contient le login et le mot de passe de l'utilisateur, sous forme encodée (\textit{Base64})}}\autocite{wiki:basic-auth}. Il est cependant important de remarquer que le serveur ne permet pas l'utilisation d'\textit{HTTPS}: ainsi, la connexion n'est pas chiffrée. Le mot de passe fournit à la caméra, bien qu'encodé, circule en clair sur le réseau. Il est  donc important de noter que dans le cadre d'une application professionnelle, ceci n'est pas envisageable.
 
 Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image actuelle que film la caméra. Ainsi, dans le cadre de ce projet, l'adresse \textit{http://ipcam.einet.ad.eivd.ch/web/tmpfs/snap.jpg} est utilisée. La figure \ref{fig:image_request} présente donc ce protocole de communication qui est utilisé afin de récupérer des images.
 
 \begin{figure}[H]
     \includegraphics[width=130mm]{img/realisation/cam_request.png}
-    \label{fig:image_request}
     \centering
     \caption{Requête d'une image à la caméra \textbf{Wanscam} \textit{HW0029-5}}
+    \label{fig:image_request}
 \end{figure} 
 
 \subsection{Agent}
-Un agent a été développé, déployé sur la VM. Celui-ci permet de définir un intervalle auquel des images seront demandées à la caméra. Il permet donc de gérer la connexion à la caméra, mais aussi les pertes de connexions. A la réception d'une image, il permet de définir une méthode de traitement (décrite en section \ref{realisation.traitement} \nameref{realisation.traitement}). 
+Un agent a été développé, déployé sur la VM. Celui-ci permet de définir un intervalle auquel des images seront demandées à la caméra. Il permet donc de gérer la connexion à celle-ci, mais aussi les pertes de liaisons. A la réception d'une image, il permet de définir une méthode de traitement (décrite en section \ref{conception.traitement} et \ref{realisation.traitement}). 
 Il permet aussi de définir, si tel est souhaité, une heure de début et une heure de fin durant lequel les requêtes seront effectuées. Lorsqu'on sort de cet intervalle, aucune photo ne sera capturée. Dans notre cas, celui-ci est utilisé afin d'éviter une multitude d'images prises du parking vide aux heures de nuit.
 
-On trouvera au listing \ref{lst:agent} la création en python de celui-ci. Il faut remarquer qu'il n'a pas été souhaité de préciser les constantes \lstinline[columns=fixed]{USERNAME} et \lstinline[columns=fixed]{PASSWORD} pour des raisons de confidentialité. Il faut aussi remarquer que \lstinline[columns=fixed]{handle_image} est la fonction qui décrit le traitement effectué sur chaque image reçue. Celle-ci sera décrite en section \ref{realisation.traitement}
+On trouvera au listing \ref{lst:agent} la création en python de celui-ci. Il faut remarquer qu'il n'a pas été souhaité de préciser les constantes \lstinline[columns=fixed]{USERNAME} et \lstinline[columns=fixed]{PASSWORD} pour des raisons de confidentialité. Il est aussi nécessaire de préciser que \lstinline[columns=fixed]{handle_image} est la fonction qui décrit le traitement effectué sur chaque image reçue. Celle-ci sera décrite en section \ref{realisation.traitement}
 
 % spellcheck-language "en"
 \begin{lstlisting}[caption={Création d'un agent récupérant les images}, label={lst:agent}] 
@@ -85,7 +85,7 @@ Ainsi, le niveau de chacun des logs effectués lors de la capture d'image a ét�
     \item[WARNING] La connexion à la caméra a été rétablie
 \end{description}
 
-\textit{Python} permet d'écouter les logs émit par un module. Il est aussi possible de définir le niveau d'écoute. Par exemple, si celui-ci est défini comme étant \textit{WARNING}, tous les logs de ce type seront capturé, ainsi que tous les logs dont le niveau est supérieur (soit plus important). 
+\textit{Python} permet d'écouter les logs émis par un module. Il est aussi possible de définir le niveau d'écoute. Par exemple, il peut être souhaité de capturer tous les logs de niveau \textit{WARNING}. Dans ce cas, tous les logs de ce type seront capturés, ainsi que tous les logs dont le niveau est supérieur (soit plus important). 
 
 Lors de l'arrivée d'un log, un système de \textit{handler} (proposé par \textit{Python}) a été mis en place. On en distinguera 3:
 \begin{description}
@@ -94,21 +94,20 @@ Lors de l'arrivée d'un log, un système de \textit{handler} (proposé par \text
     \item[SMTPHandler] Ecoute les logs à partir du niveau \textit{WARNING}. Lors d'une erreur ou d'un avertissement, un mail est envoyé automatiquement.
 \end{description}
 
-Ainsi, il est possible d'agir rapidement lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
+Ainsi, il est possible d'agir rapidement lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé à l'aide du \textit{SMTPHandler}. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
 
 
 \section{Traitement des images}\label{realisation.traitement}
-\todo{Anonymisation}
-\subsection{Sous-échantillonnage (\textit{Downsampling})}
-\subsection{Détection de bord}
-\subsection{Evaluation des différentes méthodes et choix}
-\subsection{Implémentation}
+
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/realisation/image_process.png}
     \label{fig:image_process}
     \centering
     \caption{Requêtes d'images et traitement}
 \end{figure} 
+
+\todo{en bmp pour pas compresser}
+\todo{Anonymisation: hash, downsampling, metadonnee, edge}
 
 \section{Annotations des images}
 

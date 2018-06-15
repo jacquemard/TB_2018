@@ -12,7 +12,7 @@
             headsep=0.9cm]{geometry}
 
 % Todos
-\usepackage{todonotes}
+\usepackage[disable]{todonotes}
 
 % Français
 \usepackage[french]{babel}
@@ -35,6 +35,7 @@
 % \usepackage{array}
 \usepackage{booktabs}
 \usepackage{float} 
+\usepackage{subcaption}
 
 
 % Styles de titres
@@ -164,16 +165,17 @@
 
 \include{conclusion}
 
+\include{outils}
+
 \nocite{*}
 \printbibliography
 %\printnomenclature
 %\printglossaries
 
-\include{outils}
 
 \listoffigures
 \listoftables   
-
+ 
 \include{annexes}
 %\include{jdt}
 
