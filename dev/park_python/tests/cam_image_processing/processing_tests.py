@@ -8,7 +8,7 @@ import os
 import datetime
 
 # Loading the image. This is a numpy array with a [x, y, 3] shape
-img = io.imread("park_python/tests/cam_image_processing/heig-park.jpg")
+img = io.imread("park_python/tests/cam_image_processing/park.jpg")
 
 def save_images(images, folder):    
     d = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
@@ -67,49 +67,55 @@ def get_edges_images(image):
             edge_images.append(exposure.rescale_intensity(1 - func(image, fil)))
 
     return edge_images
-
-#imgs = get_edges_images(img)
+"""
+imgs = get_edges_images(img)
+save_images(imgs, "edge_test_output/edges_only")
 #CollectionViewer(imgs).show()
-#imgs = get_downsampled_images(img)
+imgs = get_downsampled_images(img)
+save_images(imgs, "edge_test_output/downsample_only")
 #CollectionViewer(imgs).show()
 
 
 # ---------- 1) edge, 2) downsample
-"""
+
 # The get_edges_images(img)[4] seems better (scharr filter, hsv values)
 edge_image = exposure.rescale_intensity(1 - fil_hsv(img, filters.scharr))
 # Exploring downsampling
 downsampled_images = get_downsampled_images(edge_image)
-CollectionViewer(downsampled_images).show()
+save_images(downsampled_images, "edge_test_output/edge-downsample")
+#CollectionViewer(downsampled_images).show()
 # The downsampled_images[2] seems ok (270x480)
 """
 
 
 # ---------- 1) downsample, 2) edge
-# The get_downsampled_images(img)[1] seems ok (180x320)
-#downsampled_image = transform.resize(img, (180, 320), mode='reflect')
+# The get_downsampled_images(img)[2] seems ok (270x480)
+downsampled_image = transform.resize(img, (270, 480), mode='reflect')
 # Exploring edge detections
-#edge_images = get_edges_images(downsampled_image)
+edge_images = get_edges_images(downsampled_image)
+save_images(edge_images, "edge_test_output/downsample-edge")
+"""
 #CollectionViewer(edge_images).show()
 # Scharr hsv filter seems better
 # Exploring differents downsampling with scharr hsv filter
 images = list(map(lambda i: exposure.rescale_intensity(1 - fil_hsv(i, filters.scharr)), get_downsampled_images(img)))
 # displaying images
-save_images(images, "downs-schar")
-
+save_images(downsampled_images, "edge_test_output/downsample-scharredge")
 
 #CollectionViewer(images).show()
 # images[2] seems better (270x480), with scharr filter
 
 
 # ---------- downsample or edge detection first ?
-"""
+
 edge_first = exposure.rescale_intensity(1 - fil_hsv(img, filters.scharr))
 edge_first = transform.resize(edge_first, (270, 480), mode='reflect')
 
 downsample_first = transform.resize(img, (270, 480), mode='reflect')
 downsample_first = exposure.rescale_intensity(1 - fil_hsv(downsample_first, filters.scharr))
 
-CollectionViewer([edge_first, downsample_first]).show()
+save_images([edge_first, downsample_first], "edge_test_output/results_both")
+
+#CollectionViewer([edge_first, downsample_first]).show()
 # the downsample_first seems better
 """

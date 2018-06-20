@@ -23,15 +23,15 @@ PASSWORD = "Lfg3hgPhLdNYW"
 BASE_FOLDER = "{}/TB/".format(Path.home())
 
 IMAGE_REQUEST_MIN_DELTA = 60
-IMAGE_REQUEST_START_TIME = time(4, 30) # Start time at  3h30 AM
+IMAGE_REQUEST_START_TIME = time(4, 30) # Start time at  4h30 AM
 IMAGE_REQUEST_STOP_TIME = time(23) # Stop time at 11 PM
 
 IMAGE_OUTPUT_SIZE = (270, 480)
 IMAGE_FOLDER = BASE_FOLDER + "output_images/"
 
-MONITORING_MAIL_SUBJECT = "[TB] Monitor - Wanscam Camera Crawler - error or warning occured"
+MONITORING_MAIL_SUBJECT = "[TB] Monitor - Wanscam Camera agent - error or warning occured"
 MONITORING_LOG_FOLDER = BASE_FOLDER + "logs/"
-MONITORING_LOG_FILE = MONITORING_LOG_FOLDER + "/crawler_log"
+MONITORING_LOG_FILE = MONITORING_LOG_FOLDER + "/agent_log"
 
 # Ensuring that folders exist
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
@@ -83,17 +83,17 @@ def handle_image(image_stream):
 
 
 
-# Creating a crawler which request the camera for an image once every 20 minutes
-crawler = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA, running_time=(IMAGE_REQUEST_START_TIME, IMAGE_REQUEST_STOP_TIME))
+# Creating a agent which request the camera for an image once every 20 minutes
+agent = CameraAgent(camera, handle_image, minutes = IMAGE_REQUEST_MIN_DELTA, running_time=(IMAGE_REQUEST_START_TIME, IMAGE_REQUEST_STOP_TIME))
 
 
-# Listening for the crawler logs to send email when an error occures
-logger = CustomLogger(crawler.get_logger())
+# Listening for the agent logs to send email when an error occures
+logger = CustomLogger(agent.get_logger())
 logger.set_terminal_handler()
 logger.set_file_handler(MONITORING_LOG_FILE)
 logger.set_mail_handler(MONITORING_MAIL_SUBJECT)
 
-# Starting the crawler
+# Starting the agent
 # This is a blocking instruction
-crawler.start()
+agent.start()
 
