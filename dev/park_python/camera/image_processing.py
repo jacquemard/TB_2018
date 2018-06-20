@@ -22,7 +22,7 @@ def process_image(image_stream):
     image = io.imread(image_stream)
 
     # Firstly, downsampling the image
-    image = transform.resize(image, IMAGE_OUTPUT_SIZE, mode='reflect')
+    image = transform.resize(image, IMAGE_OUTPUT_SIZE, mode='reflect', anti_aliasing=True)
 
     # Secondly, detecting the edges
     image = _scharr_hsv(image)
