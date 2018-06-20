@@ -13,6 +13,8 @@
 *.run.xml
 *.lof
 *.lot
+*.nlo
+*.out
 
 # VSCode
 *.vscode
