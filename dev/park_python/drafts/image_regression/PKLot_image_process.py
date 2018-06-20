@@ -41,7 +41,7 @@ def processing(root, f):
     # the label is set as a folder name
     output_folder = "{}/{}".format(OUTPUT_PATH, nb_cars)
     os.makedirs(output_folder, exist_ok=True)
-    output_file = "{}{}".format(f[:-len(IMAGE_EXT)], OUTPUT_EXT)
+    output_file = "{}/{}{}".format(output_folder, f[:-len(IMAGE_EXT)], OUTPUT_EXT)
 
     # saving the image
     with warnings.catch_warnings(): # used to ignore loss of precision warning
