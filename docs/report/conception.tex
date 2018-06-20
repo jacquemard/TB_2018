@@ -9,7 +9,7 @@
 \subsection{Capture des images}
 Cette section présente l'architecture du système de capture d'image du parking, nécessaire à ce projet. Une caméra IP sera choisie, qui sera connectée au réseau de la HEIG-VD de la manière décrite ici. La capture d'image a été pensée afin de permettre la connexion de multiples caméras.
 
-Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \nameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
+Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \itnameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
 
 \subsubsection{Architecture logique}\label{conception.architecture.capture.logique}
 %\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
@@ -33,14 +33,14 @@ La figure \ref{fig:capture_cameras} présente un protocole de demande-réponse s
     \item La caméra répond à la \textit{VM} avec ladite image.
 \end{enumerate}
 
-Les requêtes et réponses précitées sont fortement dépendantes de la caméra choisie. Ainsi, les détails d'implémentation pourront être trouvés en section \ref{realisation.capture} \nameref{realisation.capture}.
+Les requêtes et réponses précitées sont fortement dépendantes de la caméra choisie. Ainsi, les détails d'implémentation pourront être trouvés en section \ref{realisation.capture} \itnameref{realisation.capture}.
 
 
 \subsubsection{Architecture physique}\label{conception.architecture.camera.physique}
 \paragraph{Positionnement de la caméra}\label{conception.architecture.camera.physique.position}
 La caméra doit pouvoir être capable de capturer des images de parking. Pour ce faire, une caméra sera installée sur le toit de la HEIG-VD. 
 
-Il faut remarquer que l'installation de périphériques sur la terrasse n'y ai pas des plus aisés. De plus, l'édification d'une salle de conférence y a débuté en date du 26 février 2018\footnote{informations tirées d'un mail envoyé aux collaborateurs et étudiant de la HEIG-VD}, ne facilitant pas l'installation. Il en sera tenu compte lors du choix de la caméra. Plus d'informations concernant l'installation de celle-ci sont disponibles en section \ref{realisation.capture} \nameref{realisation.capture}.
+Il faut remarquer que l'installation de périphériques sur la terrasse n'y ai pas des plus aisés. De plus, l'édification d'une salle de conférence y a débuté en date du 26 février 2018\footnote{Informations tirées d'un mail envoyé aux collaborateurs et étudiant de la HEIG-VD en date du 22 février 2018}, ne facilitant pas l'installation. Il en sera tenu compte lors du choix de la caméra. Plus d'informations concernant l'installation de celle-ci sont disponibles en section \ref{realisation.capture} \itnameref{realisation.capture}.
 
 \paragraph{Connexion de la caméra}
 
@@ -84,7 +84,7 @@ Une batterie, ou un panneau solaire, pourrait l'alimenter. Munie du Wifi, cette 
 
 \subparagraph{Solution choisie}
 
-Comme indiqué au paragraphe \nameref{conception.architecture.camera.physique.position}, la construction d'une salle pourrait compromettre l'installation de câble. C'est pourquoi une caméra auto-suffisante sera préférée. Ainsi:
+Comme indiqué au paragraphe \itnameref{conception.architecture.camera.physique.position}, la construction d'une salle pourrait compromettre l'installation de câble. C'est pourquoi une caméra auto-suffisante sera préférée. Ainsi:
 \begin{itemize}
     \item La caméra devra pouvoir fournir une connexion à un signal Wifi puissante et fiable.
     \item Elle sera auto-alimentée. De préférence, un panneau solaire sera utilisé afin que des changements de batteries ne soient pas nécessaires.
@@ -112,7 +112,7 @@ Il convient donc d'effectuer l'achat d'une caméra permettant le bon déroulemen
 Il est important de noter qu'idéalement, des tests en condition réelles des différentes caméras auraient dû être effectués. Cependant, dans le cadre de ce travail de Bachelor, le budget mis à disposition ne peut le permettre. C'est pourquoi une seule caméra sera choisie sur la base des critères définis.
 
 \subsubsection{Contraintes}\label{conception.techno.camera.contraintes}
-Comme vu en section \ref{conception.architecture.camera.physique} \nameref{conception.architecture.camera.physique}, installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont explicitées dans cette section.
+Comme vu en section \ref{conception.architecture.camera.physique} \itnameref{conception.architecture.camera.physique}, installer une caméra sur le toit de la HEIG-VD a pour conséquence que certaines contraintes, tant d'ordre techniques qu'organisationnelles, doivent être respectées. Celles-ci sont explicitées dans cette section.
 
 \paragraph{Capture d'images}
 La caméra devra au minimum permettre la capture d'images à intervalles réguliers d'une façon ou d'une autre. L'intervalle minimum de capture est de l'ordre de la minute, afin de pouvoir obtenir l'état courant du parking filmé. La capture de vidéos n'est pas nécessaire. On notera que si celle-ci ne fournit malheureusement que la fonctionnalité de capture vidéo, il serait tout de même possible d'en extraire des images utilisables. 
@@ -247,7 +247,7 @@ La grille d'évaluation \ref{cam:wan3_eval} a pu être remplie à l'aide de ces 
     \label{cam:wan3_eval}
     \begin{tabular}{@{}llp{8cm}@{}}
         \toprule
-        Critère                              & Note (de 1 à 5) & Remarque                                                                                                                                                                   \\ \midrule
+        Critère                              & Note (de 1 à 5) & Remarques                                                                                                                                                                   \\ \midrule
         Qualité d'image              & 3 [1]               & La qualité d'image semble suffisante selon les tests effectué par \url{lesbonstuyauxgeeks.fr}\autocite{cam:wan3-test}. La résolution est de 1280x720 pixels, ce qui est suffisant. \\ [0.8ex]
         Fonctionnalités réseaux      & 5 [2]              & La caméra offre notamment un endpoint HTTP sur lequel récupérer les images.                                                                                                \\ [0.8ex]
         Fonctionnement auto-alimenté & 4 [4]              & La caméra est totalement auto-suffisante s'il y a assez de soleil. On notera cependant le panneau solaire fixe qui peut nuire à l'exposition du soleil. Elle supporte le Wifi 802.11n: à première vue, le signal semble suffisant.                   \\ [0.8ex]
@@ -298,7 +298,7 @@ De ces caractéristiques, il a été possible d'évaluer cette caméra dans la g
     \label{cam:wan5_eval}
     \begin{tabular}{@{}llp{8cm}@{}}
         \toprule
-        Critère                      & Note (de 1 à 5) & Remarque                                           \\ \midrule
+        Critère                      & Note (de 1 à 5) & Remarques                                           \\ \midrule
         Qualité d'image              & 4 {[}1{]}       & La qualité de l'image est meilleure que le modèle précédent, avec une résolution de 1920x1080 pixel.                                                              \\ [0.8ex]
         Fonctionnalités réseaux      & 5 {[}2{]}       & La caméra offre notamment un endpoint HTTP sur lequel récupérer les images.                                                                                       \\ [0.8ex]
         Fonctionnement auto-alimenté & 4 {[}4{]}       & De la même manière que le modèle précédent, la caméra est totalement auto-suffisante s'il y a assez de soleil. Sans soleil, elle est auto-suffisante jusqu'à 54h. Elle support la norme Wifi 802.11n \\ [0.8ex]
@@ -314,7 +314,7 @@ De ces caractéristiques, il a été possible d'évaluer cette caméra dans la g
 \subparagraph{Remarque} Le modèle \textbf{Wanscam} \textit{HW0029-4} (ainsi que sa version améliorée \textit{HW0029-6}) n'a pas été pris en compte. En effet, il fourni en plus un système de puce 4G afin de pouvoir connecter la caméra à un réseau mobile. En conséquence, le prix est trop élevé, dépassant les 400.- CHF.
 
 \paragraph{\textbf{Visortech} -- Caméra Solaire IP}
-Cette caméra satisfait toutes les contraintes définies dans la section \ref{conception.techno.camera.contraintes} \nameref{conception.techno.camera.contraintes}. Ses caractéristiques principales sont décrites à la table \ref{tab:visortech_spec}. Il a été possible de remarquer que la caméra décrite ici est disponible sous différents noms, comme \textit{IdealSmartCam}.
+Cette caméra satisfait toutes les contraintes définies dans la section \ref{conception.techno.camera.contraintes} \itnameref{conception.techno.camera.contraintes}. Ses caractéristiques principales sont décrites à la table \ref{tab:visortech_spec}. Il a été possible de remarquer que la caméra décrite ici est disponible sous différents noms, comme \textit{IdealSmartCam}.
 
 \begin{figure}[ht]
     \includegraphics[width=50mm]{img/conception/visortech_cam.jpg}
@@ -349,7 +349,7 @@ Malgré le manque d'information, cette caméra a tout de même été évaluée. 
     \label{tab:visortech_eval}
     \begin{tabular}{@{}llp{8cm}@{}}
         \toprule
-        Critère                      & Note (de 1 à 5) & Remarque                          \\ \midrule
+        Critère                      & Note (de 1 à 5) & Remarques                          \\ \midrule
         Qualité d'image              & 3 {[}1{]}       & Sa résolution est de 1280x720 pixel.                                                                                                  \\ [0.8ex]
         Fonctionnalités réseaux      & 2 {[}2{]}       & Accès via smartphone possible, peu d'informations concernant les protocoles réseaux disponibles.                                      \\ [0.8ex]
         Fonctionnement auto-alimenté & 3 {[}4{]}       & Devrait être auto-suffisante. Cependant, informations peu claires si prises d'images en continu. Accepte la norme Wifi 802.11n. \\ [0.8ex]
@@ -434,7 +434,7 @@ Les deux librairies pré-citées sont ressemblantes sur bien des points. Une ima
 
 On pourra cependant les différencier par deux points principaux, en relation avec ce projet:
 \begin{itemize}
-    \item La librairie \textit{skimage} est plus facile d'accès. Ces méthodes sont mieux définies et le traitement d'une image est plus aisé qu'avec \textit{OpenCV}. Elle offre, en plus, des fonctionnalités d'aide au développement pour le traitement d'images tri-signaux (valeurs \textit{RGB}) et leurs conversions (par exemple, en valeurs \textit{HSV} telles que décrites en section \ref{techno.traitement.repr} \nameref{techno.traitement.repr})
+    \item La librairie \textit{skimage} est plus facile d'accès. Ces méthodes sont mieux définies et le traitement d'une image est plus aisé qu'avec \textit{OpenCV}. Elle offre, en plus, des fonctionnalités d'aide au développement pour le traitement d'images tri-signaux (valeurs \textit{RGB}) et leurs conversions (par exemple, en valeurs \textit{HSV} telles que décrites en section \ref{techno.traitement.repr} \itnameref{techno.traitement.repr})
     \item La librairie \textit{OpenCV} est plus complète. Elle possède en plus des fonctionnalités liées au \textit{Machine Learning}, comme de la détection d'objet dans une image.
 \end{itemize}
 
@@ -474,7 +474,7 @@ Il est possible de traiter les images en les filtrant à l'aide d'un filtre. Dan
     \item Scharr filter
 \end{itemize} 
 
-Il est important de noter que ces filtres ne peuvent être appliqué qu'à une image en valeurs de gris. Cependant, comme il a été défini en section \ref{techno.traitement.convolution} \nameref{techno.traitement.convolution}, il est possible de séparer une image à 3 canaux en 3 images distinctes, d'effectuer le filtre sur chacun de ceux-ci, et de les recombiner en une image 3 canaux par la suite. 
+Il est important de noter que ces filtres ne peuvent être appliqué qu'à une image en valeurs de gris. Cependant, comme il a été défini en section \ref{techno.traitement.convolution} \itnameref{techno.traitement.convolution}, il est possible de séparer une image à 3 canaux en 3 images distinctes, d'effectuer le filtre sur chacun de ceux-ci, et de les recombiner en une image 3 canaux par la suite. 
 
 Aussi, l'image a été convertie dans plusieurs représentations différentes. En effet, les résultats obtenus peuvent en être modifiés. Les suivantes ont été testés:
 \begin{description}
@@ -682,7 +682,7 @@ La figure \ref{fig:image_process_edge_down} applique plusieurs sous-échantillon
 Il semble que l'image la plus légère et suffisamment précise afin de pouvoir détecter sans encombre des voitures est celle dont la résolution est de 480 x 270 pixels. Les images dont la taille est inférieure sont trop floues, où certaines voitures semblent parfois même disparaitre.
 
 \paragraph{Sous-échantillonnage, détection de bords}\label{conception.traitement.eval.down-edge}
-Ce paragraphe présente les résultats d'un traitement qui consiste en sous-échantillonner l'image dans un premier temps, puis d'en détecter les bords. Lors des différents tests effectués, il a été remarqué qu'une résolution de 320x180 pixels, tel qu'indiqué dans le paragraphe \nameref{conception.traitement.eval.downsample}, ne produisait pas des résultats concluant. C'est pourquoi la résolution de 480 x 270 pixels a été préférée. L'image utilisée est présentée en figure \ref{fig:image_process_down_edge_orig}.
+Ce paragraphe présente les résultats d'un traitement qui consiste en sous-échantillonner l'image dans un premier temps, puis d'en détecter les bords. Lors des différents tests effectués, il a été remarqué qu'une résolution de 320x180 pixels, tel qu'indiqué dans le paragraphe \itnameref{conception.traitement.eval.downsample}, ne produisait pas des résultats concluant. C'est pourquoi la résolution de 480 x 270 pixels a été préférée. L'image utilisée est présentée en figure \ref{fig:image_process_down_edge_orig}.
 
 \begin{figure}[H]
     \includegraphics[width=110mm]{img/conception/image_process/downsample_only/2.png}
@@ -733,7 +733,7 @@ Ce paragraphe présente les résultats d'un traitement qui consiste en sous-éch
 
 La figure \ref{fig:image_process_down_edge} présente l'application des différents filtres sur l'image sous-échantillonnées
 
-Ici, de la même manière que décrit au paragraphe \nameref{conception.traitement.eval.down-edge}, le filtre semblant le mieux convenir est la matrice de convolution définie par \textit{Scharr} sur l'espace HSV. Les voitures y sont plus distinguables, notamment grâce à leurs couleurs.
+Ici, de la même manière que décrit au paragraphe \itnameref{conception.traitement.eval.down-edge}, le filtre semblant le mieux convenir est la matrice de convolution définie par \textit{Scharr} sur l'espace HSV. Les voitures y sont plus distinguables, notamment grâce à leurs couleurs.
 
 \paragraph{Comparaison des deux méthodes de traitement}
 
