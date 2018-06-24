@@ -8,7 +8,7 @@ from pathlib import Path
 
 HOME_PATH = str(Path.home())
 
-TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/train"
+TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/dev"
 TEST_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test"
 BASE_IMAGE = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test/2/2013-02-22_06_05_00.bmp"
 
@@ -34,10 +34,10 @@ model = Sequential()
 model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), activation="relu", input_shape=image_template.shape, data_format="channels_last"))
 model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-model.add(Conv2D(64, (5, 5), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
+#model.add(Conv2D(64, (5, 5), activation='relu'))
+#model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-model.add(Dense(1000, activation='relu'))
+model.add(Dense(200, activation='relu'))
 model.add(Dense(41, activation='softmax'))
 model.summary()
 model.compile(loss='mean_squared_error', optimizer='adam')
