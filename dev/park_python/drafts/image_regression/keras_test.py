@@ -4,10 +4,13 @@ from keras.preprocessing.image import ImageDataGenerator
 from skimage import io
 import os
 import numpy as np
+from pathlib import Path
 
-TRAIN_DATASET = "C:/DS/PKLot/PKLot/PKLot/UFPR05_processed_splitted/train"
-TEST_DATASET = "C:/DS/PKLot/PKLot/PKLot/UFPR05_processed_splitted/test"
-BASE_IMAGE = "C:/DS/PKLot/PKLot/PKLot/UFPR05_processed_splitted/test/2/2013-02-22_06_05_00.bmp"
+HOME_PATH = str(Path.home())
+
+TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/train"
+TEST_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test"
+BASE_IMAGE = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test/2/2013-02-22_06_05_00.bmp"
 
 # Used to transform each of the input images. Doing so, every images will be a bit different
 """
@@ -57,3 +60,5 @@ model.fit_generator(train_generator,
 
 # Saving the model
 model.save_weights('pklot_1.h5')
+
+model.evaluate_generator(test_generator)
