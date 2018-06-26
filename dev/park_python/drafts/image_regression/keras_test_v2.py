@@ -5,8 +5,8 @@ import numpy as np
 from pathlib import Path
 import glob
 import random
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
+#from sklearn.model_selection import cross_val_score
+#from sklearn.model_selection import KFold
 
 HOME_PATH = str(Path.home())
 
