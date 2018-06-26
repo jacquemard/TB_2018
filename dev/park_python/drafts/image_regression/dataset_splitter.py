@@ -3,21 +3,27 @@ import os
 import re
 import random
 from shutil import copyfile
+from pathlib import Path
 
-DATASET_PATH = "C:/DS/PKLot/PKLot/PKLot/UFPR05_processed"
-OUTPUT_PATH = "C:/DS/PKLot/PKLot/PKLot/UFPR05_processed_splitted"
+HOME_PATH = str(Path.home())
+
+DATASET_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed"
+OUTPUT_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted"
 
 TRAIN_PATH = OUTPUT_PATH + "/train"
 TEST_PATH = OUTPUT_PATH + "/test"
+DEV_PATH = OUTPUT_PATH + "/dev"
 
-TRAIN_RATE = 0.8
+TEST_RATE = 0.1
+DEV_RATE = 0.1
 
 
 #shuffling files
 files = glob.glob(DATASET_PATH + "/*/*.bmp")
 random.shuffle(files)
 
-nb_train = TRAIN_RATE * len(files)
+nb_test = TEST_RATE * len(files)
+nb_dev = DEV_RATE * len(files)
 
 m = re.compile(r'\\([0-9]*)\\')
 
@@ -25,14 +31,20 @@ for f in files:
     # finding the label
     label = m.search(f).group(0)
 
-    if nb_train >= 0: # train dataset
-        path = TRAIN_PATH + "/" + label
-        os.makedirs(path, exist_ok=True)
-        copyfile(f, path + "/" + os.path.basename(f))
-    else: #test dataset
+    if nb_test >= 0: # test dataset
         path = TEST_PATH + "/" + label
         os.makedirs(path, exist_ok=True)
         copyfile(f, path + "/" + os.path.basename(f))
+        nb_test -= 1
+    elif nb_dev >= 0: # dev dataset
+        path = DEV_PATH + "/" + label
+        os.makedirs(path, exist_ok=True)
+        copyfile(f, path + "/" + os.path.basename(f))
+        nb_dev -= 1
+    else: # train dataset
+        path = TRAIN_PATH + "/" + label
+        os.makedirs(path, exist_ok=True)
+        copyfile(f, path + "/" + os.path.basename(f))
 
-    nb_train -= 1
+    
 
