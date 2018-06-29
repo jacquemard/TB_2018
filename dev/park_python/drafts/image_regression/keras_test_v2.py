@@ -61,7 +61,7 @@ print(x_train.shape)
 
 # Defining model
 from keras import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization, Activation
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.wrappers.scikit_learn import KerasRegressor
@@ -73,16 +73,21 @@ print(image_template.shape[0:2])
 
 def model_func():
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), activation="relu", input_shape=image_template.shape, data_format="channels_last"))
+    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), input_shape=image_template.shape, data_format="channels_last", use_bias=False))
     model.add(BatchNormalization())
+    model.add(Activation("relu"))
     model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
-    model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
+    model.add(Conv2D(64, (3, 3), strides=(1, 1), use_bias=False))  
+    model.add(BatchNormalization())
+    model.add(Activation("relu"))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
     model.add(Dropout(0.2))
     model.add(Flatten())
-    model.add(Dense(200, activation='relu'))
+    model.add(Dense(200))
+    model.add(Activation("relu"))
     model.add(Dropout(0.2))
-    model.add(Dense(1, activation='linear'))
+    model.add(Dense(1))
+    model.add(Activation("linear"))
     model.compile(loss='mean_squared_error', optimizer='rmsprop')
     model.summary()
 
