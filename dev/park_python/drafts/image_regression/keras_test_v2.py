@@ -78,7 +78,7 @@ def model_func():
     #model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
     model.add(Dropout(0.2))
     model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
+    model.add(Dense(200, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(1, activation='linear'))
     model.compile(loss='mean_squared_error', optimizer='rmsprop', metrics=['accuracy'])
