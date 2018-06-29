@@ -10,11 +10,12 @@ import random
 
 HOME_PATH = str(Path.home())
 
-TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/train"
+TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test"
 TEST_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test"
 BASE_IMAGE = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted/test/2/2013-02-22_06_05_00.bmp"
 
 LOG_PATH = "./keras_log"
+CHECKPOINT_PATH = "./keras_checkpoints"
 
 # Used to transform each of the input images. Doing so, every images will be a bit different
 """
@@ -60,9 +61,9 @@ print(x_train.shape)
 
 # Defining model
 from keras import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.wrappers.scikit_learn import KerasRegressor
 
 image_template = io.imread(BASE_IMAGE)
@@ -73,26 +74,47 @@ print(image_template.shape[0:2])
 def model_func():
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), activation="relu", input_shape=image_template.shape, data_format="channels_last"))
+    model.add(BatchNormalization())
     model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
-    #model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
     model.add(Dropout(0.2))
     model.add(Flatten())
     model.add(Dense(200, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(1, activation='linear'))
-    model.compile(loss='mean_squared_error', optimizer='rmsprop', metrics=['accuracy'])
+    model.compile(loss='mean_squared_error', optimizer='rmsprop')
     model.summary()
 
     print("model compiled")
     return model
 
-# fitting
-tb_call_back = TensorBoard(log_dir=LOG_PATH, histogram_freq=0, write_graph=True, write_images=True)
+# making different images
+# just moving slightly within the image
+data_generator = ImageDataGenerator(
+    featurewise_center=True,
+    featurewise_std_normalization=True,
+    rotation_range=0,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=False,
+    validation_split=0.2)
 
+data_generator.fit(x_train)
+train_generator = data_generator.flow(x_train, y_train, batch_size=4, subset='training')
+test_generator = data_generator.flow(x_train, y_train, batch_size=4, subset='validation')
+
+# callbacks
+tb_call_back = TensorBoard(log_dir=LOG_PATH, histogram_freq=0, write_graph=True, write_images=True)
+checkpoint = ModelCheckpoint(CHECKPOINT_PATH + "/{epoch:02d}-{val_acc:.2f}.hdf5" , save_best_only=True)
+
+# fitting
 m = model_func()
-m.fit(x_train, y_train, epochs=50, callbacks=[tb_call_back], validation_split=0.2)
-m.predict(x_train)
+m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
+#m.fit(x_train, y_train, epochs=50, callbacks=[tb_call_back, checkpoint], validation_split=0.2)
+#m.predict(x_train)
+
+#m.save_weights('pklot_reg_1.h5')
 
 '''
 data_generator = ImageDataGenerator()
