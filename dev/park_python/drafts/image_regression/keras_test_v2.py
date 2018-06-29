@@ -54,12 +54,12 @@ def load_data(path):
     #i = np.array(images)
 
     # normalizing labels
-    labels = np.array(y) 
-    labels /= np.max(labels)
+    y = y / np.max(y) 
     
     return (np.array(x), y)  #.reshape((len(y), 1))
     
 x_train, y_train = load_data(TRAIN_DATASET)
+print("labels:")
 print(y_train)
 print(x_train.shape)
 
