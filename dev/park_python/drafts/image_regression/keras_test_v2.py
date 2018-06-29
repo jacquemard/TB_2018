@@ -52,8 +52,12 @@ def load_data(path):
     
     #random.shuffle(images)
     #i = np.array(images)
+
+    # normalizing labels
+    labels = np.array(y) 
+    labels /= np.max(labels)
     
-    return (np.array(x), np.array(y))  #.reshape((len(y), 1))
+    return (np.array(x), y)  #.reshape((len(y), 1))
     
 x_train, y_train = load_data(TRAIN_DATASET)
 print(y_train)
@@ -87,7 +91,7 @@ def model_func():
     model.add(Activation("relu"))
     model.add(Dropout(0.2))
     model.add(Dense(1))
-    model.add(Activation("linear"))
+    model.add(Activation("sigmoid"))
     model.compile(loss='mean_squared_error', optimizer='rmsprop')
     model.summary()
 
@@ -111,7 +115,7 @@ test_generator = data_generator.flow(x_train, y_train, batch_size=4, subset='val
 
 # callbacks
 tb_call_back = TensorBoard(log_dir=LOG_PATH, histogram_freq=0, write_graph=True, write_images=True)
-checkpoint = ModelCheckpoint(CHECKPOINT_PATH + "/{epoch:02d}-{val_acc:.2f}.hdf5" , save_best_only=True)
+checkpoint = ModelCheckpoint(CHECKPOINT_PATH + "/{epoch:02d}-{val_loss:.2f}.hdf5", save_best_only=True)
 
 # fitting
 m = model_func()
