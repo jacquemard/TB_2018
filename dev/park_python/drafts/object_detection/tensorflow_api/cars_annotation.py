@@ -30,6 +30,11 @@ for annotation in content['annotations'][0]:
     ymax = str(annotation[4][0][0])
 
     image = io.imread(CARS_PATH + "/" + filename)
+
+    # taking only colored image
+    if len(image.shape) < 3:
+        print(filename + " is not a tri-channel image")
+        continue
     
     print("{}:{},{},{},{}".format(filename, xmin, ymin, xmax, ymax))
 
