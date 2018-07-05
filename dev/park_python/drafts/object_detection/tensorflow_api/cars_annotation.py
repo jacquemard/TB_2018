@@ -36,7 +36,7 @@ for annotation in content['annotations'][0]:
         print(filename + " is not a tri-channel image")
         continue
     
-    print("{}:{},{},{},{}".format(filename, xmin, ymin, xmax, ymax))
+    #print("{}:{},{},{},{}".format(filename, xmin, ymin, xmax, ymax))
 
     # creating xml VOC file
     root = ElementTree.Element("annotation")
@@ -48,10 +48,10 @@ for annotation in content['annotations'][0]:
     size_elem = ElementTree.Element("size")
     root.append(size_elem)
     width_elem = ElementTree.Element("width")
-    width_elem.text = str(image.shape[0])
+    width_elem.text = str(image.shape[1])
     size_elem.append(width_elem)
     height_elem = ElementTree.Element("height")
-    height_elem.text = str(image.shape[1])
+    height_elem.text = str(image.shape[0])
     size_elem.append(height_elem)
     depth_elem = ElementTree.Element("depth")
     depth_elem.text = str(image.shape[2])
