@@ -43,13 +43,13 @@ for annotation in content['annotations'][0]:
     size_elem = ElementTree.Element("size")
     root.append(size_elem)
     width_elem = ElementTree.Element("width")
-    width_elem.text = image.shape[0]
+    width_elem.text = str(image.shape[0])
     size_elem.append(width_elem)
     height_elem = ElementTree.Element("height")
-    height_elem.text = image.shape[1]
+    height_elem.text = str(image.shape[1])
     size_elem.append(height_elem)
     depth_elem = ElementTree.Element("depth")
-    depth_elem.text = image.shape[2]
+    depth_elem.text = str(image.shape[2])
     size_elem.append(depth_elem)
     # -- segmented
     segmented_elem = ElementTree.Element("segmented")
