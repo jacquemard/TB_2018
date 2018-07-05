@@ -29,7 +29,7 @@ for annotation in content['annotations'][0]:
     xmax = str(annotation[3][0][0])
     ymax = str(annotation[4][0][0])
 
-    #image = io.imread(CARS_PATH + "/" + filename)
+    image = io.imread(CARS_PATH + "/" + filename)
     
     print("{}:{},{},{},{}".format(filename, xmin, ymin, xmax, ymax))
 
