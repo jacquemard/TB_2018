@@ -7,7 +7,7 @@ import sys, os
 HOME_PATH = str(Path.home())
 
 MAT_FILE = HOME_PATH + "/DS/cars/cars_annos.mat"
-CARS_PATH = HOME_PATH + "/DS/cars/imgs"
+CARS_PATH = HOME_PATH + "/DS/cars/images"
 ANNOTATION_PATH = HOME_PATH + "/DS/cars/annotations"
 os.makedirs(ANNOTATION_PATH, exist_ok=True)
 XML_PATH = HOME_PATH + "/DS/cars/annotations/xmls"
