@@ -84,6 +84,5 @@ for annotation in content['annotations'][0]:
 
     # Adding the image to trainvals
     trainval_file.write(filename.split('.')[0] + "\n")
-    break
 
 trainval_file.close()
