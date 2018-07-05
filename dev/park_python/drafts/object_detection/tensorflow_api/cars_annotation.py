@@ -8,11 +8,17 @@ HOME_PATH = str(Path.home())
 
 MAT_FILE = HOME_PATH + "/DS/cars/cars_annos.mat"
 CARS_PATH = HOME_PATH + "/DS/cars/imgs"
-XML_PATH = HOME_PATH + "/DS/cars/annotations"
+ANNOTATION_PATH = HOME_PATH + "/DS/cars/annotations"
+os.makedirs(ANNOTATION_PATH, exist_ok=True)
+XML_PATH = HOME_PATH + "/DS/cars/annotations/xmls"
 os.makedirs(XML_PATH, exist_ok=True)
+
 
 # loading the mat (MATLAB) file
 content = sio.loadmat(MAT_FILE)
+
+# creating the trainval text file
+trainval_file = open(ANNOTATION_PATH + "/trainval.txt", "w")
 
 for annotation in content['annotations'][0]:
     # getting info
@@ -23,7 +29,7 @@ for annotation in content['annotations'][0]:
     xmax = str(annotation[3][0][0])
     ymax = str(annotation[4][0][0])
 
-    image = io.imread(CARS_PATH + "/" + filename)
+    #image = io.imread(CARS_PATH + "/" + filename)
     
     print("{}:{},{},{},{}".format(filename, xmin, ymin, xmax, ymax))
 
@@ -34,7 +40,6 @@ for annotation in content['annotations'][0]:
     filename_elem.text = filename
     root.append(filename_elem)
     # -- size
-    
     size_elem = ElementTree.Element("size")
     root.append(size_elem)
     width_elem = ElementTree.Element("width")
@@ -46,7 +51,6 @@ for annotation in content['annotations'][0]:
     depth_elem = ElementTree.Element("depth")
     depth_elem.text = image.shape[2]
     size_elem.append(depth_elem)
-    
     # -- segmented
     segmented_elem = ElementTree.Element("segmented")
     segmented_elem.text = str(0)
@@ -75,7 +79,11 @@ for annotation in content['annotations'][0]:
     ymax_elem.text = ymax
     bounds_elem.append(ymax_elem)
 
-    #ElementTree.dump(root)
     tree = ElementTree.ElementTree(root)
     tree.write(XML_PATH + "/" + filename.split('.')[0] + ".xml")
+
+    # Adding the image to trainvals
+    trainval_file.write(filename.split('.')[0] + "\n")
     break
+
+trainval_file.close()
