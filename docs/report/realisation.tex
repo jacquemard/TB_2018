@@ -30,7 +30,7 @@ Comme indiqué en section \ref{conception.architecture.capture.logique}, une VM 
 \subsection{Requêtes et protocole}
 La caméra \textbf{Wanscam} \textit{HW0029-5} expose un serveur web permettant sa configuration. Bien entendu, celui-ci permet des connexions authentifiées. Il utilise le protocole \textit{Basic Auth HTTP\footnote{Le protocole Basic Auth consiste à inclure dans les entêtes HTTP un champ \textit{Authorization}. Celui-ci contient le login et le mot de passe de l'utilisateur, sous forme encodée (\textit{Base64})}}\autocite{wiki:basic-auth}. Il est cependant important de remarquer que le serveur ne permet pas l'utilisation d'\textit{HTTPS}: ainsi, la connexion n'est pas chiffrée. Le mot de passe fournit à la caméra, bien qu'encodé, circule en clair sur le réseau. Il est  donc important de noter que dans le cadre d'une application professionnelle, ceci n'est pas envisageable.
 
-Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image actuelle que film la caméra. Ainsi, dans le cadre de ce projet, l'adresse \textit{http://ipcam.einet.ad.eivd.ch/web/tmpfs/snap.jpg} est utilisée. La figure \ref{fig:image_request} présente donc ce protocole de communication qui est utilisé afin de récupérer des images.
+Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image actuelle que filme la caméra. Ainsi, dans le cadre de ce projet, l'adresse \textit{http://ipcam.einet.ad.eivd.ch/web/tmpfs/snap.jpg} est utilisée. La figure \ref{fig:image_request} présente donc ce protocole de communication qui est utilisé afin de récupérer des images.
 
 \begin{figure}[H]
     \includegraphics[width=130mm]{img/realisation/cam_request.png}
@@ -41,7 +41,7 @@ Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image
 
 \subsection{Agent}
 Un agent a été développé, déployé sur la VM. Celui-ci permet de définir un intervalle auquel des images seront demandées à la caméra. Il permet donc de gérer la connexion à celle-ci, mais aussi les pertes de liaisons. A la réception d'une image, il permet de définir une méthode de traitement (décrite en section \ref{conception.traitement} et \ref{realisation.traitement}). 
-Il permet aussi de définir, si tel est souhaité, une heure de début et une heure de fin durant lequel les requêtes seront effectuées. Lorsqu'on sort de cet intervalle, aucune photo ne sera capturée. Dans notre cas, celui-ci est utilisé afin d'éviter une multitude d'images prises du parking vide aux heures de nuit.
+Il permet aussi de définir, si tel est souhaité, une heure de début et une heure de fin durant lesquelles les requêtes seront effectuées. Lorsqu'on sort de cet intervalle, aucune photo ne sera capturée. Dans notre cas, celui-ci est utilisé afin d'éviter une multitude d'images prises du parking vide aux heures de nuit.
 
 On trouvera au listing \ref{lst:agent} la création en python de celui-ci. Il faut remarquer qu'il n'a pas été souhaité de préciser les constantes \lstinline[columns=fixed]{USERNAME} et \lstinline[columns=fixed]{PASSWORD} pour des raisons de confidentialité. Il est aussi nécessaire de préciser que \lstinline[columns=fixed]{handle_image} est la fonction qui décrit le traitement effectué sur chaque image reçue. Celle-ci sera décrite en section \ref{realisation.traitement}
 
