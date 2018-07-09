@@ -7,8 +7,8 @@ from pathlib import Path
 
 HOME_PATH = str(Path.home())
 
-DATASET_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed"
-OUTPUT_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_processed_splitted"
+DATASET_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05"
+OUTPUT_PATH = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_splitted"
 
 TRAIN_PATH = OUTPUT_PATH + "/train"
 TEST_PATH = OUTPUT_PATH + "/test"
