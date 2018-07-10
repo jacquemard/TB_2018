@@ -1,6 +1,11 @@
 import skimage
 from skimage import io, transform, exposure, filters
 from skimage.color.adapt_rgb import adapt_rgb, hsv_value
+import warnings
+from skimage import io
+import argparse
+from joblib import Parallel, delayed # parallelizing
+import os
 
 IMAGE_OUTPUT_SIZE = (270, 480)
 
@@ -29,3 +34,37 @@ def process_image(image_stream):
 
     # return the processed image
     return image
+
+
+IMAGE_EXT = ".jpg"
+OUTPUT_IMAGE_EXT = ".bmp"
+OUTPUT_IMAGE_SUFFIX = "processed"
+def process_save_image(image_file):
+
+    # Processing the image
+    image = process_image(image_file)
+
+    output_file = "{}_{}{}".format(image_file[:-len(IMAGE_EXT)], OUTPUT_IMAGE_SUFFIX, OUTPUT_IMAGE_EXT)
+
+    # saving the image
+    with warnings.catch_warnings(): # used to ignore loss of precision warning
+        warnings.simplefilter("ignore")
+        io.imsave(output_file, image)
+        print(output_file)
+
+def process_images(dataset_path):
+    Parallel(n_jobs=4)(delayed(process_save_image)(os.path.join(root, f)) for root, _, files in os.walk(dataset_path) for f in files if f.endswith(IMAGE_EXT))
+
+
+def get_processed_image_names(dataset_path):
+    return [f[:-len(OUTPUT_IMAGE_SUFFIX) - len(OUTPUT_IMAGE_EXT)] for root, _, files in os.walk(dataset_path) for f in files if f.endswith("_{}{}".format(OUTPUT_IMAGE_SUFFIX, OUTPUT_IMAGE_EXT))]
+
+parser = argparse.ArgumentParser("pklot")
+parser.add_argument("-p", "--process_path", nargs=1, help="process all of the image of a folder", type=str)
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    path = args.process_path[0]
+
+    process_images(path)
+    
