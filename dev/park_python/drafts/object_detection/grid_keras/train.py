@@ -137,7 +137,7 @@ def model_func():
 
     model.add(ZeroPadding2D(padding=((top_pad, bottom_pad), (left_pad, right_pad))))
     model.add(Conv2D(1, kernel_size=(height, width), strides=(height, width), padding='valid'))
-    model.add(Activation("softmax"))
+    model.add(Activation("sigmoid"))
 
     """
     height = math.floor(model.output_shape[1]/GRID_SIZE)
