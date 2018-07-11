@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from lxml import etree
+from xml.etree import ElementTree
 import os
 
 from pathlib import Path
@@ -87,3 +88,102 @@ def processed_images_with_xml(dataset_path):
         if f.endswith(IMAGE_EXT)]
 
     return images
+
+def xml_to_voc(xml_file, xml_output_file):
+    IMAGE_SHAPE = (720, 1280, 3)
+    # parsing the xml
+    tree_in = etree.parse(xml_file)
+
+    # creating xml VOC file
+    root = ElementTree.Element("annotation")
+    # -- filename
+    filename_elem = ElementTree.Element("filename")
+    filename_elem.text = xml_file[:-len(".xml")] + ".jpg"
+    root.append(filename_elem)
+
+    # -- size
+    height = IMAGE_SHAPE[0]
+    width = IMAGE_SHAPE[1]
+    depth = IMAGE_SHAPE[2]
+
+    size_elem = ElementTree.Element("size")
+    root.append(size_elem)
+    width_elem = ElementTree.Element("width")
+    width_elem.text = str(width)
+    size_elem.append(width_elem)
+    height_elem = ElementTree.Element("height")
+    height_elem.text = str(height)
+    size_elem.append(height_elem)
+    depth_elem = ElementTree.Element("depth")
+    depth_elem.text = str(depth)
+    size_elem.append(depth_elem)
+
+    # -- segmented
+    segmented_elem = ElementTree.Element("segmented")
+    segmented_elem.text = str(0)
+    root.append(segmented_elem)
+
+    # -- cars
+    contours = tree_in.xpath("/parking/space[@occupied='1']/contour")  
+    for contour in contours:
+        # finding points
+        xmin = width
+        ymin = height
+        xmax = ymax = 0
+        for point in contour:
+            # updating bounding box
+            x = int(point.get("x"))
+            y = int(point.get("y"))
+
+            if x < xmin:
+                xmin = x
+            if y < ymin:
+                ymin = y
+            if x > xmax:
+                xmax = x
+            if y > ymax:
+                ymax = y
+        
+        # adding element
+        object_element = ElementTree.Element("object")
+        root.append(object_element)
+
+        name_elem = ElementTree.Element("name")
+        name_elem.text = "car"
+        object_element.append(name_elem)
+
+        bounds_elem = ElementTree.Element("bndbox")
+        object_element.append(bounds_elem)
+
+        xmin_elem = ElementTree.Element("xmin")
+        xmin_elem.text = str(xmin)
+        bounds_elem.append(xmin_elem)
+        ymin_elem = ElementTree.Element("ymin")
+        ymin_elem.text = str(ymin)
+        bounds_elem.append(ymin_elem)
+        xmax_elem = ElementTree.Element("xmax")
+        xmax_elem.text = str(xmax)
+        bounds_elem.append(xmax_elem)
+        ymax_elem = ElementTree.Element("ymax")
+        ymax_elem.text = str(ymax)
+        bounds_elem.append(ymax_elem)
+
+    tree_out = ElementTree.ElementTree(root)
+    tree_out.write(xml_output_file)
+
+def xmls_to_tensorflow_api(xml_path, tensorflow_ds_path):
+    annotation_path = tensorflow_ds_path + "/annotations"
+    xml_output_path = annotation_path + "/xmls"
+    # creating the trainval text file
+    trainval_file = open(annotation_path + "/trainval.txt", "w")
+
+    # finding xmls
+    for file in Path(xml_path).glob("*.xml"):
+        # creating voc files
+        xml_to_voc(file, xml_output_path + "/" + file)
+        # Adding the image to trainvals
+        trainval_file.write(file.split('.')[-1] + "\n")
+
+
+    trainval_file.close()
+
