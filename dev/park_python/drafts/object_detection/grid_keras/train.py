@@ -6,12 +6,12 @@ from pathlib import Path
 import glob
 import random
 import math
+import model
 
 import sys
 cur_path = Path(__file__)
 lib_path = str(cur_path.parent.parent.parent.parent.resolve())
 sys.path.insert(0, lib_path)
-#print(sys.path)
 from dataset_helper import pklot
 
 
@@ -137,7 +137,8 @@ def model_func():
 
     model.add(ZeroPadding2D(padding=((top_pad, bottom_pad), (left_pad, right_pad))))
     model.add(Conv2D(1, kernel_size=(height, width), strides=(height, width), padding='valid'))
-    
+    model.add(Activation("softmax"))
+
     """
     height = math.floor(model.output_shape[1]/GRID_SIZE)
     width = math.floor(model.output_shape[2]/GRID_SIZE)
