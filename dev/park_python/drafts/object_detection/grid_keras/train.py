@@ -101,14 +101,14 @@ from keras.wrappers.scikit_learn import KerasRegressor
 
 def model_func():
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), input_shape=image_template.shape, data_format="channels_last", use_bias=False, padding='same'))
+    model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), input_shape=image_template.shape, data_format="channels_last", use_bias=False))
     model.add(BatchNormalization())
     model.add(Activation("relu"))
-    model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'))
-    model.add(Conv2D(64, (3, 3), strides=(1, 1), use_bias=False, padding='same'))  
+    model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+    model.add(Conv2D(64, (3, 3), strides=(1, 1), use_bias=False))  
     model.add(BatchNormalization())
     model.add(Activation("relu"))
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1), padding='same'))
+    model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
     print(model.output_shape)
     #model.add(Dropout(0.2))
     #model.add(Flatten())
@@ -172,7 +172,9 @@ checkpoint = ModelCheckpoint(CHECKPOINT_PATH + "/{epoch:02d}-{val_loss:.2f}.hdf5
 # fitting
 m = model_func()
 #m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
-m.fit(x_train, y_train, epochs=50, callbacks=[tb_call_back, checkpoint], validation_split=0.2)
+m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
+
+#m.fit(x_train, y_train, epochs=50, callbacks=[tb_call_back, checkpoint], validation_split=0.2)
 #m.predict(x_train)
 
 #m.save_weights('pklot_reg_1.h5')
