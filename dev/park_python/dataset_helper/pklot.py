@@ -10,7 +10,7 @@ lib_path = str(cur_path.parent.parent.resolve())
 sys.path.insert(0, lib_path)
 import camera.image_processing as process
 
-from path import Path
+
 
 
 def get_cars_grid(image_size, grid_size, xml_file):
