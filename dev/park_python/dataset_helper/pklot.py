@@ -97,8 +97,9 @@ def xml_to_voc(xml_file, xml_output_file):
     # creating xml VOC file
     root = ElementTree.Element("annotation")
     # -- filename
+    filename = Path(xml_file).name
     filename_elem = ElementTree.Element("filename")
-    filename_elem.text = xml_file[:-len(".xml")] + ".jpg"
+    filename_elem.text = filename[:-len(".xml")] + ".jpg"
     root.append(filename_elem)
 
     # -- size
@@ -174,7 +175,7 @@ def xml_to_voc(xml_file, xml_output_file):
 def xmls_to_tensorflow_api(xml_path, annotations_path):
     xml_output_path = annotations_path + "/xmls"
     # creating the trainval text file
-    trainval_file = open(annotations_path + "/trainval.txt", "w")
+    #trainval_file = open(annotations_path + "/trainval.txt", "w")
 
     # finding xmls 
     for root, _, files in os.walk(xml_path):
@@ -184,10 +185,10 @@ def xmls_to_tensorflow_api(xml_path, annotations_path):
                 # creating voc files
                 xml_to_voc(file, xml_output_path + "/" + filename)
                 # Adding the image to trainvals
-                trainval_file.write(file.split('.')[-1] + "\n")
+                #trainval_file.write(file.split('.')[-1] + "\n")
 
 
-    trainval_file.close()
+    #trainval_file.close()
 
 
 
