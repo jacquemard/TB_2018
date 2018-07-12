@@ -1,16 +1,16 @@
+from pathlib import Path
+import os
+import sys
+cur_path = Path(os.path.abspath(__file__) )
+lib_path = str(cur_path.parent.parent.resolve())
+sys.path.insert(0, lib_path)
+
 import numpy as np
 import math
 from lxml import etree
 from xml.etree import ElementTree
-import os
-
-from pathlib import Path
-import sys
-cur_path = Path(__file__)
-lib_path = str(cur_path.parent.parent.resolve())
-sys.path.insert(0, lib_path)
+import argparse
 import camera.image_processing as process
-
 
 
 
@@ -171,13 +171,12 @@ def xml_to_voc(xml_file, xml_output_file):
     tree_out = ElementTree.ElementTree(root)
     tree_out.write(xml_output_file)
 
-def xmls_to_tensorflow_api(xml_path, tensorflow_ds_path):
-    annotation_path = tensorflow_ds_path + "/annotations"
-    xml_output_path = annotation_path + "/xmls"
+def xmls_to_tensorflow_api(xml_path, annotations_path):
+    xml_output_path = annotations_path + "/xmls"
     # creating the trainval text file
-    trainval_file = open(annotation_path + "/trainval.txt", "w")
+    trainval_file = open(annotations_path + "/trainval.txt", "w")
 
-    # finding xmls
+    # finding xmls 
     for file in Path(xml_path).glob("*.xml"):
         # creating voc files
         xml_to_voc(file, xml_output_path + "/" + file)
@@ -187,3 +186,16 @@ def xmls_to_tensorflow_api(xml_path, tensorflow_ds_path):
 
     trainval_file.close()
 
+
+
+parser = argparse.ArgumentParser("pklot dataset helper")
+parser.add_argument("-i", "--input", nargs=1, help="the path to the xmls to parse", type=str, required=True)
+parser.add_argument("-o", "--output", nargs=1, help="the path to the annotation foler", type=str, required=True)
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+
+    xml_path = args.input[0]
+    annotations_path = args.output[0]
+
+    xmls_to_tensorflow_api(xml_path, annotations_path)
