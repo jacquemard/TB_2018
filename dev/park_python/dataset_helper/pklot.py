@@ -177,11 +177,14 @@ def xmls_to_tensorflow_api(xml_path, annotations_path):
     trainval_file = open(annotations_path + "/trainval.txt", "w")
 
     # finding xmls 
-    for file in Path(xml_path).glob("*.xml"):
-        # creating voc files
-        xml_to_voc(file, xml_output_path + "/" + file)
-        # Adding the image to trainvals
-        trainval_file.write(file.split('.')[-1] + "\n")
+    for root, _, files in os.walk(xml_path):
+        for filename in files:
+            if filename.endswith(".xml"):
+                file = os.path.join(root, filename)
+                # creating voc files
+                xml_to_voc(file, xml_output_path + "/" + filename)
+                # Adding the image to trainvals
+                trainval_file.write(file.split('.')[-1] + "\n")
 
 
     trainval_file.close()
