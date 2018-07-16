@@ -172,8 +172,8 @@ def xml_to_voc(xml_file, xml_output_file):
     tree_out = ElementTree.ElementTree(root)
     tree_out.write(xml_output_file)
 
-def xmls_to_tensorflow_api(xml_path, annotations_path):
-    xml_output_path = annotations_path + "/xmls"
+def xmls_to_tensorflow_api(xml_path, xml_output_path):
+    #xml_output_path = annotations_path + "/xmls"
     # creating the trainval text file
     #trainval_file = open(annotations_path + "/trainval.txt", "w")
 
@@ -194,12 +194,12 @@ def xmls_to_tensorflow_api(xml_path, annotations_path):
 
 parser = argparse.ArgumentParser("pklot dataset helper")
 parser.add_argument("-i", "--input", nargs=1, help="the path to the xmls to parse", type=str, required=True)
-parser.add_argument("-o", "--output", nargs=1, help="the path to the annotation foler", type=str, required=True)
+parser.add_argument("-o", "--output", nargs=1, help="the path to the xmls output foler", type=str, required=True)
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
     xml_path = args.input[0]
-    annotations_path = args.output[0]
+    xml_output_path = args.output[0]
 
-    xmls_to_tensorflow_api(xml_path, annotations_path)
+    xmls_to_tensorflow_api(xml_path, xml_output_path)
