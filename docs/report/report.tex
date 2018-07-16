@@ -1,7 +1,7 @@
 % -----------------------------------------------------------------------
 % --- DOCUMENT ---
 % -----------------------------------------------------------------------
-\documentclass[11pt, a4paper, french, twoside, margin=2cm]{report}
+\documentclass[11pt, a4paper, french, twoside, openleft, margin=2cm]{report}
 % Marges
 \usepackage[top=3.5cm,
             bottom=3cm,
@@ -128,6 +128,15 @@
 % Annexes
 \usepackage{appendix}
 
+% Pages blanches
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
 \raggedbottom
 
 % -----------------------------------------------------------------------
@@ -138,13 +147,16 @@
 \selectlanguage{french}
 
 \include{title}
+\afterpage{\blankpage}
 
-\newpage
-\thispagestyle{empty}
-\newpage
 
 \include{remerciements}
+\afterpage{\blankpage}
+
 \include{cdc}
+\afterpage{\blankpage}
+\afterpage{\blankpage}
+\afterpage{\blankpage}
 
 
 % Table des matières
