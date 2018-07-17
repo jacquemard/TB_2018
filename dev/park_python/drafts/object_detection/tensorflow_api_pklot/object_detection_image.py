@@ -39,10 +39,10 @@ from utils import visualization_utils as vis_util
 
 # Path to frozen detection graph .pb file, which contains the model that is used
 # for object detection.
-PATH_TO_CKPT = '/home/ubuntu/DS/PKLot/tensorflow_ds/inference/frozen_inference_graph.pb'
+PATH_TO_CKPT = 'frozen_inference_graph_pklotfull_16000.pb'
 
 # Path to label map file
-PATH_TO_LABELS = '/home/ubuntu/DS/PKLot/tensorflow_ds/annotations/label_map.pbtxt'
+PATH_TO_LABELS = 'label_map.pbtxt'
 
 # Path to image
 PATH_TO_IMAGE = '/home/ubuntu/DS/PKLot/tensorflow_ds/images/2013-02-22_06_05_00.jpg'
