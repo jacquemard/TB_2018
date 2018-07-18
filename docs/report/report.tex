@@ -11,6 +11,14 @@
             headheight=1.5cm,
             headsep=0.9cm]{geometry}
 
+% Bibliographie
+\usepackage{hyperref}
+\usepackage{csquotes}
+\usepackage[backend=biber, autocite=footnote, style=verbose-note, sorting=nty]{biblatex}
+\addbibresource{report.bib}
+\setlength\bibnamesep{0.5\baselineskip}
+\usepackage[nottoc,numbib]{tocbibind}
+
 % Todos
 \usepackage[disable]{todonotes}
 
@@ -96,13 +104,7 @@
 
 %\lstMakeShortInline[columns=fixed]|
 
-% Bibliographie
-\usepackage{hyperref}
-\usepackage{csquotes}
-\usepackage[backend=biber, autocite=footnote, style=verbose-note, sorting=nty]{biblatex}
-\addbibresource{report.bib}
-\setlength\bibnamesep{0.5\baselineskip}
-\usepackage[nottoc,numbib]{tocbibind}
+
 % Nomenclature
 %\usepackage[french]{nomencl}
 %\makenomenclature
