@@ -8,11 +8,12 @@ Une image est formée de pixel. La figure \ref{fig:pixels} présente une image d
 \begin{figure}[ht]
     \includegraphics[width=50mm]{img/bases_technologiques/pixels.png}
     \centering
-    \caption{Image de faible définition dont les pixels sont apparents}
+    \captionsource{Image de faible définition dont les pixels sont apparents}{img:parking}
     \label{fig:pixels} 
 \end{figure}
 
 Chaque pixel d'une image couleur est généralement constitué de 3 valeurs\footnote{Parfois, une composante de transparence peut aussi être présente. Dans certains cas bien spécifiques, il peut même être possible d'y inclure des composantes telles que la profondeur (la distance entre la caméra et l'objet désigné par le pixel), ou encore la température (caméra thermique).}: une composante rouge, une verte et une bleue, qui permet de décrire la couleur associé à ce pixel. En traitement d'image, ces composantes RGB\footnote{\textit{RGB}: \textit{Red Green Blue} pour \textit{rouge vert bleu}} sont souvent décrites comme des canaux\footnote{\textit{channel}, mot anglais, est aussi utilisé.} différents.
+
 
 \begin{figure}[ht]
     \includegraphics[width=50mm]{img/bases_technologiques/images_pixels.png}
@@ -133,7 +134,7 @@ L'architecture \textit{Faster R-CNN}\autocite{faster-rcnn} présentée en figure
 
 \paragraph{\textit{Yolo}}
 
-L'architecture présentée par \textit{Yolo}\footnote{Yolo (You Only Look Once). \autocite{yolov3}} consiste en un unique réseau de neurones à convolutions. Conceptuellement, par couche de convolutions successive, l'image est finalement réduite à une grille la subdivisant. Chaque cellule de cette grille indique s'il y a un objet détecté dans l'image original à la position correspondante. 
+L'architecture présentée par \textit{Yolo}\footnote{Yolo (You Only Look Once). \autocite{yolov3}} consiste en un unique réseau de neurones à convolutions. Conceptuellement, par couche de convolutions successive, l'image est finalement réduite à une grille la subdivisant. Chaque cellule de cette grille indique s'il y a un objet détecté dans l'image original à la position correspondante. \autocite{coursera:object}
 
 \begin{figure}[ht]
     \includegraphics[width=120mm]{img/bases_technologiques/yolo.png}

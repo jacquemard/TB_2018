@@ -92,6 +92,8 @@ Comme indiqué au paragraphe \itnameref{conception.architecture.camera.physique.
 
 \subsection{Distribution des informations à l'utilisateur}
 
+\todo{Info à l'utilisateurs}
+
 %% ------------------------------------------ %%
 %%           CHOIX TECHNOLOGIQUES             %%
 %% ------------------------------------------ %%
@@ -444,6 +446,7 @@ Il a donc été choisi d'utiliser au possible la librairie \textit{scikit-image}
 Néanmoins, il est important de noter que le fait qu'une image soit représentée de la même manière dans les deux librairies permet une certaine interopérabilité entre celles-ci. \textit{Skimage} souffre de certaines limitations lorsqu'on la compare à \textit{OpenCV}, mais il est facile de les contourner: lorsque c'est nécessaire, \textit{OpenCV} pourra être utilisé en parallèle.
 
 \subsection{Réseau de neurones}
+\todo{Keras, etc.}
 \subsubsection{Librairies disponibles}
 \subsubsection{Comparaison}
 \subsubsection{Choix final}
@@ -765,7 +768,115 @@ Il sera donc possible de résumer le traitement qui sera effectué sur l'image d
     \item Un filtre \textit{Scharr} sera appliqué sur chacun des canaux de l'espace HSV de cette image.
 \end{enumerate}
 
-\section{Conception du modèle}
+\todo{Réduire détection de bord, en annexe ?}
+
+\section{Conception des modèles}
+
+Cette section permet les solutions qui ont été pensées pour résoudre le problème de détection du taux d'utilisation du parking. Le modèle final choisi et aussi présenté. 
+
+\subsection{Suppression d'arrière-plan}
+
+\todo{AOSäDHJ OPIAHJDPüASD }
+
+\subsection{Regression}\label{conception.model.regression}
+La première approche qui a été pensée est d'aborder le problème comme une simple regression.
+
+Un tel problème consiste en une fonction dont la sortie est quantitative, et non qualitative\autocite{wiki:regression}. Dans notre cas, cela signifie qu'en sortie de l'algorithme, on cherche le nombre de voitures présentes sur l'image présentée en entrée. 
+
+Pour ce faire, un réseau de neurones à convolutions, comme décrit en section \ref{techno.nn.convolution} \itnameref{techno.nn.convolution} peut être utilisé. 
+
+On trouvera en figure \ref{fig:regression_keras} un modèle qui peut être utilisé, et qui a été testée. Le schéma se lit de haut en bas, de la couche d'entrée à la couche de sortie. Ce modèle a été défini à l'aide de la librairie \textit{Keras}
+
+\begin{figure}[H]
+    \includegraphics[width=12cm]{img/conception/nn/regression_keras.png}
+    \centering
+    \caption{Proposition de modèle de réseau de neurones à convolutions pour résoudre le problème de regression}
+    \label{fig:regression_keras}
+\end{figure} 
+
+En entrée, une image de parking est passée, qui sont traitée par une première couche de convolutions. En sortie, un simple neurone permet d'indiquer le nombre total de voiture présentes sur l'image. 
+
+
+Il est aussi possible d'y remarquer une succession de couches telles que les suivantes:
+
+\begin{description}
+    \item[\textit{Batch normalization}] permet de normaliser les données, dans le but d'accélérer l'apprentissage.
+    \item[\textit{Max pooling}] permet de réduire la taille des images en entrée.\footnote{C'est une méthode classique utilisées dans les réseaux de neurones convolutifs. En effet, une telle couche de \textit{max pooling} est généralement présente après une couche de convolutions. \autocite{wiki:CNN}} 
+    \item[\textit{Activation}] la couche des fonctions d'activations \footnote{Une fonction d'activation est généralement associée à chaque neurones dans les réseaux neuronaux \autocite{wiki:NN}}. 
+    \item[\textit{Flatten}] d'images en entrée (tenseur\footnote{Un tenseur peut être comparé à un tableau à n dimension. Un tenseur à 2 dimension est tous simplement une matrice. } à 2 dimensions), cette couche permet de les aplatir en un tenseur à 1 dimension, nécessaire en entrée d'un réseau de neurones classique.
+    \item[\textit{Dropout}] permet de mieux généraliser. Certaines relations entre les neurones de deux couches sont simplement supprimées.
+    \item[\textit{Dense}] ajoute une couche de neurones classiques. 
+\end{description}
+
+Il faut noter que les données de sortie a été normalisée dans le but d'accélérer l'entrainement. Ainsi, la sortie, plutôt que d'indiquer le nombre de véhicule, indique le taux d'utilisation du parking, entre $0$ et $1$. Cette valeur peut être facilement calculée lorsqu'on connait le nombre maximal de voitures qui peuvent y être présentes. La fonction suivante permet de le calculer, où $v$ est le nombre de voitures présentes, et $c$ la capacité du parking:
+\[
+    f(v) = \frac{vente}{c}
+\]
+
+Les diverses fonctions d'activations ne sont pas présentées sur la figure \ref{fig:regression_keras}. Deux différentes ont été utilisées:
+
+\begin{description}
+    \item[\textit{Relu} (\textit{Rectified Linear Unit})] Simple fonction linéaire qui transforme les valeurs négatives en entrée en $0$ en sortie. Très souvent utilisée dans les réseaux de neurones à convolutions. Toutes les fonctions d'activations présentes, mis à part celle de sortie, sont une \textit{Relu}.
+    \item[\textit{Sigmoïde}] Fonction d'activation qui transforme les valeurs d'entrée en une valeur de sortie entre 0 et 1. Elle est utilisée en sortie, ce qui permet d'obtenir le taux d'occupation du parking aisément.
+\end{description}
+
+Il faut noter que le modèle présenté n'en est qu'un parmi plusieurs autres qui ont été testés. Cependant, les résultats finaux n'ont pas été concluants, et il ne sera pas plus amplement exploré dans ce rapport. Il est cependant possible d'émettre quelques hypothèses pouvant expliquer ces disfonctionnements:
+
+\begin{itemize}
+    \item Le problème à résoudre peut ne pas être si simple. Un réseau de neurones plus complexe, en multipliant le nombre de couches, doit sans doute être nécessaires. 
+    \item Le label \textit{taux d'utilisation du parking} ne donne au réseau de neurones aucune indication sur ce qu'il doit prendre en compte et distinguer dans les images. Indiquer où sont les voitures peut sembler plus efficaces.
+    \item Le nombre d'itérations effectuées lors des tests peut être trop faible. En effet, lorsqu'on observe ce qui est fait dans le domaine de la détection d'objet, plusieurs dizaines d'itérations sont en générales effectuées. 
+\end{itemize}
+
+\subsection{Grille de détection} 
+Le modèle précédent décrit en section \ref{conception.model.regression} n'a pas permis d'obtenir de résultats concluant. Il a notamment été précisé qu'une indication concernant la position des voitures semblait pouvoir permettre d'améliorer les résultats. De part cette hypothèse, il a été pensé qu'il est sans doute possible de chercher à obtenir en sortie de l'algorithme la position des voitures plutôt que leur nombre.
+
+Pour ce faire, il a été pensé de subdiviser l'image d'entrée en une grille. Cette idée est inspirée par ce qui est fait dans l'algorithme \textit{Yolo}, décrit en section \ref{techno.nn.object}. La figure \ref{fig:parking_grid} présente une subdivision de \textit{5x4} sur une image de parking. En chaque cellule de la grille, on cherchera à savoir si une voiture y est présente. 
+
+\begin{figure}[ht]
+    \includegraphics[width=120mm]{img/conception/parking_grid.jpg}
+    \centering
+    \captionsource{Image de parking subdivisée selon une grille}{img:parking}
+    \label{fig:parking_grid} 
+\end{figure}
+
+Il faut noter qu'une cellule contient une voiture seulement si le centre de l'objet y est présent. Ainsi, chaque voiture est détectée une seule fois. Aussi, la grille présentée en figure \ref{fig:parking_grid} a une faible dimension, où il est possible qu'une cellule contienne deux voitures. En réalité, la grille doit avoir des dimensions supérieures à \textit{5x4}.
+
+\begin{figure}[H]
+    \includegraphics[width=12cm]{img/conception/nn/keras_grid.png}
+    \centering
+    \caption{Proposition de modèle de réseau de neurones à convolutions, avec une grille en sortie}
+    \label{fig:keras_grid}
+\end{figure} 
+
+La figure \ref{fig:keras_grid} présente un modèle de réseau de neurones. Celui-ci reprends principalement le modèle développé précédemment en section \ref{conception.model.regression} \itnameref{conception.model.regression}. On remarque cependant que la sortie diffère: en lieu et place d'un unique neurone de sortie, un tensor 2D y est présent. Chaque cellule de ce tableau peut prendre des valeurs entre $0$ et $1$ (fonction d'activation \textit{sigmoïde}), où $1$ indique la présence d'une voiture, et $0$ son absence. 
+
+Les labels en sortie n'indique donc plus le nombre de véhicules présents, mais s'il y a un en chaque cellule de l'image. C'est donc un tableau à deux dimensions. 
+
+Lors des quelques tests effectués avec des modèles de tailles diverses, il semble que le principe décrit peut être fonctionnel. Cependant, il n'a pas été largement exploré et a été mis de côté, de part les grandes complexités nécessaires et les temps d'entrainements longs, tels que décrits en section suivante.
+
+\subsection{Limitations d'un développement complet de réseau de neurones}
+Les deux modèles précités consistent en un développement d'un réseau de neurones à l'aide de la librairie \textit{Keras}. Cependant, plusieurs limitations de cette façon d'approcher le problème ont été remarquées, ce qui a eu pour conséquence la mise en pause de leur développement et de l'explorations des différents modèles et paramètres. Elles sont décrites ici.
+
+Dans un premier temps, il faut noter que le développement de réseau de neurones adéquat pour la recherche d'objet dans une image prend un certain temps. En effet, il a été remarqué lors de la découverte des \textit{API} de détection d'objets que les réseaux neuronaux sont d'une grande complexité, où le nombre de couche dépasse souvent la quinzaine. Afin de définir un modèle soit même, il est nécessaire de décrire ce grand nombre de couche, où chaque paramètre doit être ajusté et testé. Dans le temps imparti pour ce travail de Bachelor, il est difficilement envisageable d'explorer tous ces paramètres et ces complexités. Aussi, des modèles développé de complexités moindre ont été testés, cependant, il a été remarqué que les résultats n'étaient pas concluants.
+
+Il est aussi possible de remarquer qu'aux vues des complexités nécessaires au bon fonctionnement de tels algorithmes, le temps d'entrainement en est de très longue durée. Ainsi, à titre d'exemple, on parle de plus de 3 jours d'entrainements du modèle \textit{RCNN} sur le dataset \textit{Pascal VOC 2007}\autocite{info:training} (probablement effectué sur GPU puissant). Un tel entrainement semble difficilement réalisable dans le cadre de ce travail.
+
+C'est pourquoi l'utilisation d'API de détection d'objet a été préférée. En général, des modèles dont les architectures correspondent à \textit{Faster-RCNN} ou \textit{Yolo} et qui ont été pré-entrainés sur des \textit{dataset} sont disponibles. Ceux-ci ont déjà la capacité de détecter des objets. Il est ensuite possible de les utiliser et de les spécialiser afin de détecter n'importe quel objet de notre choix. Procéder ainsi permet de réduire largement le temps d'entrainement nécessaire. Il faut cependant aussi remarquer qu'en conséquence, le principal défaut de cette approche est que l'architecture du modèle ne peut pas être choisie.
+
+\subsection{API de détection d'objets}
+
+
+\subsubsection{Tensorflow}
+\subsubsection{Yolo}
+
+
+
+
+
+
+
+
 
 \todo{Parler de tous ce qui a été fait: regression, etc. On a pas eu le temps de tout faire que les résultats soient concluant, donc juste décrire les idées pour ce qui a été pas concluant}
 \todo{Détection d'objet: pourquoi yolo et rcnn }
