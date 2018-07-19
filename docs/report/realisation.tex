@@ -96,18 +96,69 @@ Lors de l'arrivée d'un log, un système de \textit{handler} (proposé par \text
 
 Ainsi, il est possible d'agir rapidement lors d'une perte de connexion à la caméra. Le log associé étant de type (\textit{ERROR}), un mail est envoyé à l'aide du \textit{SMTPHandler}. Si la caméra est reconnectée (\textit{WARNING}), un mail est aussi reçu.
 
-
 \section{Traitement des images}\label{realisation.traitement}
 
-\begin{figure}[H]
+La figure \ref{fig:image_process} présente la récupération et le traitement des images qui est effectué.
+
+\begin{figure}[ht]
     \includegraphics[width=110mm]{img/realisation/image_process.png}
-    \label{fig:image_process}
     \centering
     \caption{Requêtes d'images et traitement}
+    \label{fig:image_process}
 \end{figure} 
 
-\todo{en bmp pour pas compresser}
-\todo{Anonymisation: hash, downsampling, metadonnee, edge}
+Dans un premier temps, un script Python interroge la caméra et récupère une image tel qu'il a été décrit en section \ref{realisation.capture} précédente. Ensuite, l'image est sous-échantillonnée, et les bords détectés. Pour ce faire, \textit{Scikit-image} a été utilisé.
+
+Le code \ref{lst:handling_image} présenté montre la méthode traitant les images entrantes. Celles-ci sont passées en argument de la méthode (\lstinline[columns=fixed]{image_stream}).
+
+
+% spellcheck-language "en"
+\begin{lstlisting}[caption={Traitement des images reçues}, label={lst:handling_image}] 
+# Defining what to do when an image is received
+def handle_image(image_stream):
+    # Converting to a skimage/opencv image (simply a [x, y, 3] numpy array)
+    image = io.imread(image_stream)
+
+    # Firstly, downsampling the image
+    image = transform.resize(image, IMAGE_OUTPUT_SIZE, mode='reflect', anti_aliasing=True)
+
+    # Secondly, detecting the edges
+    image = scharr_hsv(image)
+
+    # Then, we output the image to the folder
+    # We use a hash as an ID
+    # We could have used a datetime format as a unique filename, but this could results to a lack of privacy
+    # Saving it as a bitmap: no decompression to do when loading a lot of file
+    # Note: hashing time is negligible
+    h = hash(image.data.tobytes())
+    filename = IMAGE_FOLDER + hex(h)[-15:] + ".bmp"
+
+    with warnings.catch_warnings(): # used to ignore loss of precision warning
+        warnings.simplefilter("ignore")
+        io.imsave(filename, image)
+
+    # We then have to reset metadata access and edit time because of privacy issues
+    os.utime(filename, (946684800, 946684800))
+\end{lstlisting}
+% spellcheck-language
+
+La méthode \lstinline[columns=fixed]{_scharr_hsv} utilisée est décrite au listing de code \ref{lst:scharr_filter}. 
+
+Il est possible d'y distinguer la ligne \lstinline[columns=fixed]{@adapt_rgb(hsv_value)}, 
+
+provenant de la librairie \textit{scikit-image}. Elle permet d'adapter le filtre \textit{scharr} présent dans la méthode sur chacun des canaux de l'image.
+
+% spellcheck-language en
+\begin{lstlisting}[caption={Détection de bord à l'aide de \textit{scikit-image}}, label={lst:scharr_filter}] 
+@adapt_rgb(hsv_value)
+def _scharr_hsv(image):
+    return filters.scharr(image)
+\end{lstlisting}
+% spellcheck-language
+
+Dans le cadre de l'anonymisation des données, il a semblé important qu'aucune information concernant les utilisateurs de puisse apparaître. C'est pourquoi le nom de l'image est basée sur son hash (fonction de hash fournie par Python. Un hash complexe n'est pas nécessaire). 
+
+L'image est ensuite sauvegardée à un format \textit{bitmap} (\textit{.bmp}), sans pertes de compression. La date et heure de création et de modification du fichier est aussi modifiée pour que les données soient au plus anonymisées.
 
 \section{Annotations des images}
 

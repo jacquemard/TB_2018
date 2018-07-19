@@ -477,9 +477,9 @@ Il est possible de traiter les images en les filtrant à l'aide d'un filtre. Dan
     \item Scharr filter
 \end{itemize} 
 
-Il est important de noter que ces filtres ne peuvent être appliqué qu'à une image en valeurs de gris. Cependant, comme il a été défini en section \ref{techno.traitement.convolution} \itnameref{techno.traitement.convolution}, il est possible de séparer une image à 3 canaux en 3 images distinctes, d'effectuer le filtre sur chacun de ceux-ci, et de les recombiner en une image 3 canaux par la suite. 
+Il est important de noter que ces filtres ne peuvent être appliqué qu'à une image en valeurs de gris. Cependant, comme il a été défini en section \ref{techno.nn.convolution} \itnameref{techno.nn.convolution}, il est possible de séparer une image à 3 canaux en 3 images distinctes, d'effectuer le filtre sur chacun de ceux-ci, et de les recombiner en une image 3 canaux par la suite. 
 
-Aussi, l'image a été convertie dans plusieurs représentations différentes, car en effet, les résultats obtenus peuvent en être modifiés. Les suivantes ont été testés:
+Aussi, l'image a été convertie dans plusieurs représentations différentes, car en effet, les résultats obtenus peuvent en être modifiés. Les suivantes ont été testées:
 \begin{description}
     \item[Valeur de gris] L'image peut être convertie en valeur de gris. En sortie, une image à un seul canal est produite.
     \item[RGB] L'image est représentée sous la forme de valeurs RGB de chacun des pixels. Elle est donc à 3 canaux, et les filtres seront appliqués sur chacun de ceux-ci.
