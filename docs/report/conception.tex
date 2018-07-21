@@ -808,7 +808,7 @@ Il est aussi possible d'y remarquer une succession de couches telles que les sui
     \item[\textit{Dense}] ajoute une couche de neurones classiques. 
 \end{description}
 
-Il faut noter que les données de sortie a été normalisée dans le but d'accélérer l'entrainement. Ainsi, la sortie, plutôt que d'indiquer le nombre de véhicule, indique le taux d'utilisation du parking, entre $0$ et $1$. Cette valeur peut être facilement calculée lorsqu'on connait le nombre maximal de voitures qui peuvent y être présentes. La fonction suivante permet de le calculer, où $v$ est le nombre de voitures présentes, et $c$ la capacité du parking:
+Il faut noter que les données de sortie ont été normalisées dans le but d'accélérer l'entrainement. Ainsi, la sortie, plutôt que d'indiquer le nombre de véhicule, indique le taux d'utilisation du parking, entre $0$ et $1$. Cette valeur peut être facilement calculée lorsqu'on connait le nombre maximal de voitures qui peuvent y être présentes. La fonction suivante permet de le calculer, où $v$ est le nombre de voitures présentes, et $c$ la capacité du parking:
 \[
     f(v) = \frac{vente}{c}
 \]
@@ -823,7 +823,7 @@ Les diverses fonctions d'activations ne sont pas présentées sur la figure \ref
 Il faut noter que le modèle présenté n'en est qu'un parmi plusieurs autres qui ont été testés. Cependant, les résultats finaux n'ont pas été concluants, et il ne sera pas plus amplement exploré dans ce rapport. Il est cependant possible d'émettre quelques hypothèses pouvant expliquer ces disfonctionnements:
 
 \begin{itemize}
-    \item Le problème à résoudre peut ne pas être si simple. Un réseau de neurones plus complexe, en multipliant le nombre de couches, doit sans doute être nécessaires. 
+    \item Le problème à résoudre peut ne pas être si simple. Un réseau de neurones plus complexe et plus profond, en multipliant le nombre de couches, doit sans doute être nécessaires. 
     \item Le label \textit{taux d'utilisation du parking} ne donne au réseau de neurones aucune indication sur ce qu'il doit prendre en compte et distinguer dans les images. Indiquer où sont les voitures peut sembler plus efficaces.
     \item Le nombre d'itérations effectuées lors des tests peut être trop faible. En effet, lorsqu'on observe ce qui est fait dans le domaine de la détection d'objet, plusieurs dizaines d'itérations sont en générales effectuées. 
 \end{itemize}
