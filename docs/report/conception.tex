@@ -445,7 +445,7 @@ Il a donc été choisi d'utiliser au possible la librairie \textit{scikit-image}
 
 Néanmoins, il est important de noter que le fait qu'une image soit représentée de la même manière dans les deux librairies permet une certaine interopérabilité entre celles-ci. \textit{Skimage} souffre de certaines limitations lorsqu'on la compare à \textit{OpenCV}, mais il est facile de les contourner: lorsque c'est nécessaire, \textit{OpenCV} pourra être utilisé en parallèle.
 
-\subsection{Réseau de neurones}
+\subsection{Réseau de neurones à convolutions}
 \todo{Keras, etc.}
 \subsubsection{Librairies disponibles}
 \subsubsection{Comparaison}
@@ -512,61 +512,16 @@ Dans un premier temps, on comparera différentes résolutions d'images. Celles-c
     \item 160 x 90 pixels
 \end{itemize}
 
-\begin{figure}[H]
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/7.png}
-        \caption{1280 x 720}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/6.png}
-        \caption{1120 x 630}
-    \end{subfigure}%   
+Il est possible de trouver en annexe \ref{annexe.traitement.downsampling} les résultats complets du rééchantillonnage en fonction des diverses résolutions.
 
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/5.png}
-        \caption{960 x 540}   
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/4.png}
-        \caption{800 x 450}
-    \end{subfigure}% 
-
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/3.png}
-        \caption{640 x 360}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/2.png}
-        \caption{480 x 270}
-    \end{subfigure}%  
-    
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/1.png}
-        \caption{320 x 180}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample_only/0.png}
-        \caption{160 x 90}
-    \end{subfigure}%   
+\begin{figure}[ht]
     \centering
-    \caption{L'image originale redimensionnée à différentes résolutions}
-    \label{fig:image_process_downsampling}
+    \includegraphics[width=.5\linewidth]{img/conception/image_process/downsample_only/1.png}
+    \caption{Image originale rééchantillonnée à 320 x 180}
+    \label{fig:downsample_choice}
 \end{figure}
 
-On trouvera en figure \ref{fig:image_process_downsampling} les résultats du rééchantillonnage en fonction des diverses résolutions.
-
-Il semble que la résolution de 320x180 pixel soit suffisante à bien distinguer les voitures. Cependant, on notera que celle-ci pourrait ne pas l'être après application du filtre de détection de contours.
+Il semble que la résolution de 320x180 pixel, présentée en figure \ref{fig:downsample_choice} soit suffisante à bien distinguer les voitures. Cependant, on notera que celle-ci pourrait ne pas l'être après application du filtre de détection de contours.
 
 \paragraph{Détection de bords}
 
@@ -618,145 +573,33 @@ Concernant les deux filtres \textit{Sobel} et \textit{Scharr}, il n'y a que trè
 
 Ainsi, un filtre \textit{Scharr} appliqué sur l'espace de couleur \textit{HSV} semble le plus indiqué. Il faut noter que ceci peut dépendre du sous-échantillonnage. Concernant l'espace de couleur HSV, si celui-ci ne convient pas pour le \textit{Machine Learning}, il sera toujours possible de convertir les images en valeurs de gris.
 
-\paragraph{Détection de bords, sous-échantillonnage}
-Ici, il est considéré que la détection de bord a été effectuée en premier. Celle-ci correspond au paragraphe précédent: un filtre \textit{Scharr} est appliqué sur l'espace HSV de l'image.
+\paragraph{Ordre de traitements}
 
-\begin{figure}[H]
-    \includegraphics[width=110mm]{img/conception/image_process/edges_only/5.png}
-    \centering
-    \caption{\textit{Scharr} HSV: image utilisée afin d'explorer les différents sous-échantillonnages}
-    \label{fig:image_process_edge_down_orig}
-\end{figure}
+Il a ensuite été décidé de l'ordre d'application des deux traitements. Les résultats suivants sont disponibles en annexe:
 
-\begin{figure}[H]
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/7.png}
-        \caption{1280 x 720}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/6.png}
-        \caption{1120 x 630}
-    \end{subfigure}%   
-
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/5.png}
-        \caption{960 x 540}   
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/4.png}
-        \caption{800 x 450}
-    \end{subfigure}% 
-
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/3.png}
-        \caption{640 x 360}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/2.png}
-        \caption{480 x 270}
-    \end{subfigure}%  
-    
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/1.png}
-        \caption{320 x 180}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/edge-downsample/0.png}
-        \caption{160 x 90}
-    \end{subfigure}%   
-    \centering
-    \caption{L'image dont les bords ont été détectés, redimensionnée à différentes résolutions}
-    \label{fig:image_process_edge_down}
-\end{figure}
-
-La figure \ref{fig:image_process_edge_down} applique plusieurs sous-échantillonnages de l'image \ref{fig:image_process_edge_down_orig}.
-
-Il semble que l'image la plus légère et suffisamment précise afin de pouvoir détecter sans encombre des voitures est celle dont la résolution est de 480 x 270 pixels. Les images dont la taille est inférieure sont trop floues, où certaines voitures semblent parfois même disparaitre.
-
-\paragraph{Sous-échantillonnage, détection de bords}\label{conception.traitement.eval.down-edge}
-Ce paragraphe présente les résultats d'un traitement qui consiste en sous-échantillonner l'image dans un premier temps, puis d'en détecter les bords. Lors des différents tests effectués, il a été remarqué qu'une résolution de 320x180 pixels, tel qu'indiqué dans le paragraphe \itnameref{conception.traitement.eval.downsample}, ne produisait pas des résultats concluants. C'est pourquoi la résolution de 480 x 270 pixels a été préférée. L'image utilisée est présentée en figure \ref{fig:image_process_down_edge_orig}.
-
-\begin{figure}[H]
-    \includegraphics[width=110mm]{img/conception/image_process/downsample_only/2.png}
-    \centering
-    \caption{480 x 270: image utilisée afin d'explorer les différentes méthodes de détection de bords}
-    \label{fig:image_process_down_edge_orig}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/0.png}
-        \caption{Filtre \textit{Sobel} - RGB}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/3.png}
-        \caption{Filtre \textit{Scharr} - RGB}
-    \end{subfigure}%  
-
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/1.png}
-        \caption{Filtre \textit{Sobel} - HSV}   
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/4.png}
-        \caption{Filtre \textit{Scharr} - HSV}
-    \end{subfigure}% 
-    
-    \bigskip
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/2.png}
-        \caption{Filtre \textit{Sobel} - Valeurs de gris}
-    \end{subfigure}%   
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includegraphics[width=.85\linewidth]{img/conception/image_process/downsample-edge/5.png}
-        \caption{Filtre \textit{Scharr} - Valeurs de gris}
-    \end{subfigure}%   
-    \centering
-    \caption{L'image sous-échantillonnée avec différentes détections de bords}
-    \label{fig:image_process_down_edge}
-\end{figure}
-
-La figure \ref{fig:image_process_down_edge} présente l'application des différents filtres sur l'image sous-échantillonnées
-
-Ici, de la même manière que décrit au paragraphe \itnameref{conception.traitement.eval.down-edge}, le filtre semblant le mieux convenir est la matrice de convolution définie par \textit{Scharr} sur l'espace HSV. Les voitures y sont mieux distinguables, notamment grâce à leurs couleurs.
+\begin{description}
+    \item[\ref{annexe.traitement.edge_down}] Une détection de bords est effectuée en premier, suivi d'un sous-échantillonnage.
+    \item[\ref{annexe.traitement.down_edge}] Un sous-échantillonnage est effectué en premier, suivi d'une détection de bords.
+\end{description}
 
 \paragraph{Comparaison des deux méthodes de traitement}
-
-Il est maintenant possible de comparer les deux méthodes de traitement définies aux deux derniers paragraphes. La figure \ref{fig:image_process_compare} présente leur résultat côte-à-côte.
+Il est possible de comparer les deux méthodes de traitement définies précédemment. La figure \ref{fig:image_process_compare} présente leur résultat côte-à-côte.
 
 \begin{figure}[H]
     \begin{subfigure}{\textwidth}
         \centering
-        \includegraphics[width=.8\linewidth]{img/conception/image_process/edge-downsample/2.png}
+        \includegraphics[width=.6\linewidth]{img/conception/image_process/edge-downsample/2.png}
         \caption{Ici, les bords de l'images ont été détectés, puis celle-ci a été réduite à une taille de 480 x 270 pixels}
     \end{subfigure}%   
 
     \bigskip
     \begin{subfigure}{\textwidth}
         \centering
-        \includegraphics[width=.8\linewidth]{img/conception/image_process/downsample-edge/4.png}
-        \caption{Filtre \textit{Scharr} - RGB}
+        \includegraphics[width=.6\linewidth]{img/conception/image_process/downsample-edge/4.png}
+        \caption{Ici, l'image a premièrement été réduite à une taille de 480 x 270 pixels, puis les bords ont été détectés}
     \end{subfigure}%    
     \centering
-    \caption{Ici, l'image a premièrement été réduite à une taille de 480 x 270 pixels, puis les bords ont été détectés}
+    \caption{Comparaison des deux méthodes de traitements}
     \label{fig:image_process_compare}
 \end{figure}
 
@@ -768,15 +611,84 @@ Il sera donc possible de résumer le traitement qui sera effectué sur l'image d
     \item Un filtre \textit{Scharr} sera appliqué sur chacun des canaux de l'espace HSV de cette image.
 \end{enumerate}
 
-\todo{Réduire détection de bord, en annexe ?}
 
-\section{Conception des modèles}
+Ce traitement a été appliqué à une image provenant de la caméra placée sur le toit du bâtiment du site de Cheseaux de la HEIG-VD. La figure \ref{fig:process_heig_example} en présente les résultats.
 
-Cette section permet les solutions qui ont été pensées pour résoudre le problème de détection du taux d'utilisation du parking. Le modèle final choisi et aussi présenté. 
+\begin{figure}[H]
+    \includegraphics[width=110mm]{img/conception/image_process/heig_example.png}
+    \centering
+    \caption{Image traitée, capturée depuis la caméra placée sur le toit de la HEIG-VD}
+    \label{fig:process_heig_example}
+\end{figure}
+
+Comme on le voit, les voitures présentes restent distinguables, sans pour autant nuire à la sphère privée des utilisateurs. Les modèles de voiture ne sont par exemple pas distinguable.
+
+Il convient cependant de préciser qu'un tel pré-traitement induit une certaine perte d'information et pourrait ne pas convenir à l'entrainement d'un algorithme d'apprentissage automatique, où certaines voitures pourraient n'être pas assez visibles. Aussi, il est possible que la mise en valeurs des bords ne soit pas adaptée à la détection des voitures. Cependant, il n'était pas envisageable d'enregistrer des images non ou peu traitées du parking de la HEIG-VD afin de protéger la vie privée des utilisateurs.
+
+\section{Conception des solutions}
+
+Cette section permet de présenter les solutions qui ont été pensées pour résoudre le problème de détection du taux d'utilisation du parking. 
+
+% Le modèle final choisi et aussi présenté. 
 
 \subsection{Suppression d'arrière-plan}
 
-\todo{AOSäDHJ OPIAHJDPüASD }
+Ici est présenté une solution de traitement d'images qui peut permettre de résoudre la problématique. 
+
+Celle-ci se base sur un système de suppression d'arrière-plan. Ici, une méthode simple est présentée, où une image est soustraite à l'autre. La figure \ref{fig:background_suppression} présente les entrées et sorties de l'algorithme.
+
+Dans un premier temps, le choix d'une image d'arrière-plan est nécessaire. Celle-ci ne doit contenir aucun véhicule (Image \ref{fig:back_a}). 
+
+\begin{figure}[H]
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.5\linewidth]{img/conception/park_empty.jpg}
+        \caption{Arrière plan - Image de parking vide}
+        \label{fig:back_a}
+    \end{subfigure}%   
+
+    \bigskip
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.5\linewidth]{img/conception/park_cars.jpg}
+        \caption{Image de parking avec voitures}
+        \label{fig:back_b}
+    \end{subfigure}%   
+    
+    \bigskip
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.5\linewidth]{img/conception/park_sub.jpg}
+        \caption{Différence entre l'image avec voitures et l'arrière plan}
+        \label{fig:back_c}
+    \end{subfigure}%   
+
+    \centering
+    \captionsource{Suppression d'arrière plan}{data:pklot}
+    \label{fig:background_suppression}
+\end{figure}
+
+De l'image dont on souhaite connaître le nombre de véhicules présents (\ref{fig:back_b}), on soustrait l'arrière-plan, pixel par pixel. Lorsque les pixels en résultant sont en-dessous d'un certain seuil défini, ils sont considérés arrière-plan. Sinon, il s'agit de l'avant-plan. L'image \ref{fig:back_c} en présente un résultat. Il est possible de remarquer qu'elle est bruitée, notamment où vers les arbres en bas de la photo. Il parait cependant aisé de la débruiter en supprimant les petits groupes de pixels formant l'avant-plan qui sont isolés, par exemple avec une matrice de convolution.
+
+Afin d'obtenir une bonne approximation du taux d'occupation, il est possible, à l'aide d'un certain nombre d'images annotées, de  statistiquement définir une fonction $f(x)$, prenant en entrée le nombre de pixel de l'avant-plan, et en sortie le taux d'utilisation. 
+
+Une approche plus simple, mais moins fiable, consiste aussi à simplement traiter une image du parking plein, de compter le nombre de pixels $m$ faisant partie de l'avant-plan, et de considérer cette valeur $m$ comme étant le maximum de pixel possible désignant des voitures. La fonction linéaire $t(x)$ présentée ci-dessous permet de calculer le taux d'utilisation du parking en fonction du nombre de pixel formant l'avant-plan.
+
+\begin{align}
+    t(x) &= cx \\
+    t(m) &= 1 = cm \Longrightarrow c = \frac{1}{m} \\
+    t(x) &= \frac{1}{m} x
+\end{align}
+
+L'utilisation d'une telle méthode de traitement d'image pourrait être utilisée. Cependant, il semble que cette approche peut poser quelques problèmes. Parmi ceux-ci, on peut citer:
+
+\begin{itemize}
+    \item La luminosité, les couleurs et les ombres changent au fil d'une journée et des saisons. Pour utiliser cette approche, il semble nécessaire d'acquérir un grand nombre d'images du même parking vide, sous différentes luminosités. Cela peut paraitre parfois difficile: en effet, un parking n'est que rarement vide en pleine journée.
+    \item L'angle de la caméra doit être fixe et ne doit pas être modifié au fil des captures d'images. Il semble cependant que les mouvements de la caméra doivent pouvoir être compensés à l'aide de points de repères identifiables algorithmiquement placé sur certains objets de l'image. 
+\end{itemize}
+
+La méthode décrite ici parait viable. Cependant, la réalisation de celle-ci semble devoir prendre beaucoup de temps, de part la résolution des problèmes précédemment cités. Aussi, un algorithme plus généralisé, permettant d'être porté sur d'autres parkings aisément, aurait été souhaité. Ici, la capture d'images d'arrière-plan avec différentes luminosités doit être réitérée avec chaque parking.
+
 
 \subsection{Regression}\label{conception.model.regression}
 La première approche qui a été pensée est d'aborder le problème comme une simple regression.
