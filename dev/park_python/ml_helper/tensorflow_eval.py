@@ -9,11 +9,11 @@ from tensorflow_api_predictor import TensorflowPredictor
 from skimage import io
 from dataset_helper import pklot
 
-IMAGES_PATH = r"C:\Users\Remi\DS\PKLot\PKLot\UFPR05_splitted\test"
+IMAGES_PATH = "/home/ubuntu/DS/PKLot/tensorflow_ds/images_splitted/test"
 IMAGE_EXT = ".jpg"
 MODEL_PATH = "../final_models/tensorflow/pklotfull_16000_frozen_graph.pb"
 RESULT_PATH = "pklotfull_16000_eval.csv"
-XMLS_PATH = r"C:\Users\Remi\DS\PKLot\PKLot\UFPR05_splitted\test"
+XMLS_PATH = "/home/ubuntu/DS/PKLot/tensorflow_ds/annotations/xmls"
 
 predictor = TensorflowPredictor(MODEL_PATH)
 result = open(RESULT_PATH, "w")
@@ -25,7 +25,7 @@ for root, _, files in os.walk(IMAGES_PATH):
             image = io.imread(path)
 
             xml_filename = f[:-len(IMAGE_EXT)] + ".xml"
-            xml = os.path.join(root, xml_filename)
+            xml = os.path.join(XMLS_PATH, xml_filename)
 
             n_cars = predictor.predict_num_cars(image)
             real_n_cars = pklot.count_cars(xml)
