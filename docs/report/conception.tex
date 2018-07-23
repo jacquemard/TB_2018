@@ -446,10 +446,20 @@ Il a donc été choisi d'utiliser au possible la librairie \textit{scikit-image}
 Néanmoins, il est important de noter que le fait qu'une image soit représentée de la même manière dans les deux librairies permet une certaine interopérabilité entre celles-ci. \textit{Skimage} souffre de certaines limitations lorsqu'on la compare à \textit{OpenCV}, mais il est facile de les contourner: lorsque c'est nécessaire, \textit{OpenCV} pourra être utilisé en parallèle.
 
 \subsection{Réseau de neurones à convolutions}
-\todo{Keras, etc.}
-\subsubsection{Librairies disponibles}
-\subsubsection{Comparaison}
-\subsubsection{Choix final}
+Cette sous-section présente les diverses librairies et API d'apprentissage automatique utilisées dans ce projet. Plusieurs modèles ont été testés, et il a été nécessaire d'utiliser plusieurs librairies différentes. 
+
+\subsubsection{Tensorflow}
+\textit{TensorFlow}\autocite{lib:tensorflow} est une librairie open-source de \textit{machine learning} développée par \textit{Google}. Elle permet de définir, entrainer, tester et utiliser des réseaux de neurones, notamment à convolutions. Elle peut être utilisée à en \textit{Python}.\autocite{wiki:tensorflow}
+
+\subsubsection{Keras}
+\textit{Keras} est une API de réseau de neurones haut niveau écrite en \textit{Python}, permettant d'en simplifier grandement le développement. Elle permet le choix entre plusieurs \textit{backend}, dont \textit{Tensorflow}. \autocite{lib:keras}
+
+\subsubsection{Tensorflow Object Detection API}
+Cette API open-source a été développée par \textit{Google} et des collaborateurs. Elle permet de construire, entrainer et déployer des système de détections d'objets sur \textit{TensorFlow}\autocite{lib:tensorflow_object}. Des modèles pré-entrainés basés sur des architectures reconnues sont notamment disponibles\footnote{Les modèles pré-entrainés sont disponibles à l'adresse \url{https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+}.}.
+
+\subsubsection{Darknet -- Yolo}
+Il existe une implémentation de l'architecture \textit{Yolo} (qui a été décrite en section \ref{techno.nn.object} \itnameref{techno.nn.object}). Elle utilise \textit{Darknet} comme \textit{framework} open-source de réseau de neurones. \autocite{lib:yolo}
 
 \section{Traitement des images}\label{conception.traitement}
 Cette section présente le traitement des images qui est effectué avant qu'elles soient utilisées dans le réseau de neurones. 
@@ -767,7 +777,7 @@ Les labels en sortie n'indique donc plus le nombre de véhicules présents, mais
 
 Lors des quelques tests effectués avec des modèles de tailles diverses, il semble que le principe décrit peut être fonctionnel. Cependant, il n'a pas été largement exploré et a été mis de côté, de part les grandes complexités nécessaires et les temps d'entrainements longs, tels que décrits en section suivante.
 
-\subsection{Limitations d'un développement complet de réseau de neurones}
+\subsection{Limitations d'un développement complet de réseau de neurones} \label{conception.model.limitations}
 Les deux modèles précités consistent en un développement d'un réseau de neurones à l'aide de la librairie \textit{Keras}. Cependant, plusieurs limitations de cette façon d'approcher le problème ont été remarquées, ce qui a eu pour conséquence la mise en pause de leur développement et de l'explorations des différents modèles et paramètres. Elles sont décrites ici.
 
 Dans un premier temps, il faut noter que le développement de réseau de neurones adéquat pour la recherche d'objet dans une image prend un certain temps. En effet, il a été remarqué lors de la découverte des \textit{API} de détection d'objets que les réseaux neuronaux sont d'une grande complexité, où le nombre de couche dépasse souvent la quinzaine. Afin de définir un modèle soit même, il est nécessaire de décrire ce grand nombre de couche, où chaque paramètre doit être ajusté et testé. Dans le temps imparti pour ce travail de Bachelor, il est difficilement envisageable d'explorer tous ces paramètres et ces complexités. Aussi, des modèles développé de complexités moindre ont été testés, cependant, il a été remarqué que les résultats n'étaient pas concluants.
@@ -776,22 +786,48 @@ Il est aussi possible de remarquer qu'aux vues des complexités nécessaires au 
 
 C'est pourquoi l'utilisation d'API de détection d'objet a été préférée. En général, des modèles dont les architectures correspondent à \textit{Faster-RCNN} ou \textit{Yolo} et qui ont été pré-entrainés sur des \textit{dataset} sont disponibles. Ceux-ci ont déjà la capacité de détecter des objets. Il est ensuite possible de les utiliser et de les spécialiser afin de détecter n'importe quel objet de notre choix. Procéder ainsi permet de réduire largement le temps d'entrainement nécessaire. Il faut cependant aussi remarquer qu'en conséquence, le principal défaut de cette approche est que l'architecture du modèle ne peut pas être choisie.
 
-\subsection{API de détection d'objets}
+\subsection{API de détection d'objets}\label{conception.model.object}
 
+L'utilisation d'une API de détection d'objets présentent de meilleurs résultats. Ici sont décrit leurs conceptions.
 
 \subsubsection{Tensorflow}
+L'API de détection d'objets de \textit{TensorFlow} a été utilisée.
+
+Concernant la conception d'un modèle, deux choix étaient possibles:
+\begin{itemize}
+    \item L'API permet de définir un modèle à partir de 0. Cette méthode peut être utilisée.
+    \item Il est aussi possible d'utiliser des modèles préconçus. 
+\end{itemize}
+
+Comme vu précédemment en section \ref{conception.model.limitations} \itnameref{conception.model.limitations}, l'utilisation d'un modèle prédéfinis et pré-entrainé est préférable. La figure \ref{fig:tensorflow_models} en présente quelques uns disponibles. Ceux-ci ont été entrainé sur le \textit{dataset} \textit{Coco}\footnote{\textit{Coco} est un grand corpus d'images annotées de divers objets (animaux, véhicules, objets du quotidiens, etc.) \autocite{data:coco}}. Le temps de traitement d'une image est indiquée dans la colonne \textit{speed}, quant à \textit{COCO mAP}, il s'agit d'une mesure prenant en compte plusieurs sous-métriques telle que la précision moyenne des \textit{bounding box} des objets \footnote{Plus d'informations concernant la métrique \textit{COCO mAP} sont disponibles sur \url{http://cocodataset.org/\#detection-eval}}. Plus la valeur \textit{mAP} est grande, meilleure est la détection.
+
+\begin{figure}[!ht]
+    \includegraphics[width=130mm]{img/conception/nn/tensorflow_models.png}
+    \centering
+    \caption{Capture d'images de plusieurs caméras}
+    \label{fig:tensorflow_models}
+\end{figure}
+
+
+Deux principales architectures peuvent être distinguées:
+\begin{description}
+    \item[SSD] les temps d'exécutions sont relativement rapides, mais les résultats assez faibles
+    \item[RCNN] les temps d'exécutions sont plus long, mais les résultats meilleures.
+\end{description}
+
+Dans notre cas, il n'est pas nécessaire de pouvoir analyser une image rapidement, mais la qualité de la détection doit être bonne. 
+
+C'est pourquoi le modèle \textit{faster\_rcnn\_inception\_v2\_coco} a été choisi, afin d'obtenir un temps de traitement raisonnable \footnote{Il faut noter que les temps de traitement indiqués sont sans doute effectués sur GPU. Sur processeur, les temps peuvent être largement multipliés.} et une précision assez bonne. Après quelques recherches, il semble aussi que ce modèle soit assez léger à entrainer, notamment relativement à des modèles \textit{RCNN} "simple" (non désigné par \textit{faster}).
+
+Il aurait été idéal d'évaluer ces différents modèles de manière plus approfondie. Cependant, la mise en oeuvre d'un protocole d'évaluation peut paraitre compliqué: en effet, certains paramètres qu'il faudrait prendre en compte ne sont pas précisés dans ce tableau, tel que le temps d'entrainement nécessaire avec chacune des architectures. Aussi, pour une évaluation efficace, il serait aussi souhaité d'entrainer ces différentes architectures sur un corpus d'images de parking. A la vue des temps d'entrainements long, cette approche est difficilement réalisable. 
+
 \subsubsection{Yolo}
 
+Parler du modèle pré-entrainé choisi
 
-
-
-
-
-
-
-
-\todo{Parler de tous ce qui a été fait: regression, etc. On a pas eu le temps de tout faire que les résultats soient concluant, donc juste décrire les idées pour ce qui a été pas concluant}
-\todo{Détection d'objet: pourquoi yolo et rcnn }
+\section{Evaluation des modèles} \label{conception.eval}
+Evalué sous forme de regression
+Les méthodes normales classiques matrice de confusion peut pas être utilisé pour un problème de regression
 
 
 \subsection{Fenêtre glissante}

@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-\section{Contexte}
+\section{Contexte} \label{intro.contexte}
 Depuis des années, il est possible pour un utilisateur de connaître le nombre de places disponibles dans un parking. Celles-ci sont en effet souvent indiquées à leur entrée. Les différentes approches pour résoudre ce problème se reposent généralement sur une utilisation de capteurs de proximités qu'il est nécessaire de poser près de chacune des places de parc, ou encore à un comptage des voitures en entrée du parking à l'aide de barrières, notamment si un péage est présent.
 
 Ce travail de Bachelor permet de proposer des solutions à la problématique de la détection du taux d'occupation d'un parking selon une approche qui diffère des usages originaux. En effet, l'installation de capteurs ou d'un système de ticket à l'entrée d'un parking semble souvent coûteux à mettre en place. Si le parking dont on souhaite installer un système de comptage de place libre est gratuit, les approches classiques ne semble pas appropriées.
@@ -28,3 +28,30 @@ Un \textit{dataset} d'images annotées devra être mis en place pour l'entrainem
 La majeure partie de ce travail réside dans la recherche des meilleures méthodes disponibles pour répondre à la problématique de la détection du nombre de places disponibles d'un parking, en retirer le meilleur choix, le concevoir et le mettre en place. Bien évidemment, les modèles seront testés et validés.
 
 \section{Etat de l'art}
+
+La mesure du taux d'occupation d'un parking à l'aide de caméra vidéo est un sujet qui a déjà été abordé dans le domaine du \textit{Machine Learning}. Ici est présenté quelques papiers traitant cette problématique. 
+
+\subsection{PKLot - A Robust Dataset for Parking Lot Classification}
+
+PKLot est premièrement un large corpus d'images de parkings prises de 3 caméras différentes. Il a été créé dans le but de former un \textit{dataset} robuste spécialisé pour la recherche dans le domaine des parkings. Les images ont été capturées sous diverses conditions météorologiques, et chaque place de parc a été annotée, les classifiant de libre ou occupée.\autocite{paper:pklot}
+
+Il a été souhaité de le préciser ici, car il sera utilisé comme \textit{dataset} pour ce projet. Aussi, quelques pistes de recherches sont proposées, reposant avant tout sur la segmentation des images par place de parc. Il faut aussi noter que les voitures présentent sur des places non marquées n'ont pas été annotées.
+
+\subsection{Segmentations de l'image}
+Le papier \textit{Deep Learning for Decentralized Parking Lot Occupancy Detection} présente un système de détection de places libres de parking, basé sur un réseau de neurones convolutif. Utilisant notamment le corpus \textit{PKLot}, la détection se repose sur la segmentation de l'image par place de parc. Le réseau de neurones est entrainé sur chacune de ces parties, les classifiant en tant que place libre ou occupée. Cette approche apporte de bons résultats, où les taux de réussites peuvent dépasser les 99\%. \autocite{paper:dlp}
+
+\begin{figure}[ht]
+    \includegraphics[width=110mm]{img/introduction/dlp_example.png}
+    \centering
+    \caption{Exemple d'images du corpus utilisé}
+    \label{fig:dlp_example}
+\end{figure} 
+
+De la même manière, le papier \textit{Parking Stall Vacancy Indicator System Based on Deep Convolutional Neural Networks} permet d'obtenir des résultats similaires. \autocite{paper:psv}
+
+\subsection{Détection des voitures}
+Bo Li, Tianfu Wu et Song-Chun présente dans leur papier une méthode de détection de voitures à partir d'image. Ceux-ci utilisent une méthode complexe basées sur des convolutions pour détecter certaines parties des voitures (phares, portes, etc.). Sur le corpus d'images \textit{PKLot}, les résultats atteignent un taux de 55.2\% de réussite. \autocite{paper:car_detect}
+
+\subsection{Conclusions}
+
+En général, le problème de mesure du taux d'occupation d'un parking à l'aide de caméras vidéos est approchée à l'aide d'une segmentation des différentes places de parcs, ce qui est pertinent si les places disponibles sont toutes marquées au sol. Néanmoins, l'approche abordée dans ce travail diffère dans le but de répondre aux problèmes présentés en section \itnameref{intro.contexte} tel que les parkings sauvages. Dans cette optique, on cherchera à détecter les voitures présentes, et non pas à classifier chaque place de parc comme étant libre ou non.
