@@ -461,8 +461,40 @@ Cette API open-source a été développée par \textit{Google} et des collaborat
 \subsubsection{Darknet -- Yolo}
 Il existe une implémentation de l'architecture \textit{Yolo} (qui a été décrite en section \ref{techno.nn.object} \itnameref{techno.nn.object}). Elle utilise \textit{Darknet} comme \textit{framework} open-source de réseau de neurones. \autocite{lib:yolo}
 
+Afin de pouvoir entrainer un \textit{réseau de neurones}, un \textit{dataset} d'images annotées est nécessaire.
+
+Deux approches sont possibles:
+\begin{itemize}
+    \item Annotation manuelle d'images de parking. Pour ce faire, les images capturées par la caméra de la HEIG-VD peuvent être annotées. 
+    \item Utilisation de corpus d'images de parking disponible en ligne.
+\end{itemize}
+
+La deuxième approche a été préférée, car cela permet une plus grande liberté. En effet, les images provenant du parking de la HEIG-VD sont pré-traitées pour des raisons d'anonymisations des données. L'utilisation d'un corpus d'images disponibles permet de pouvoir traiter les images après-coup, et ce seulement si c'est ce qui est souhaité. Aussi, l'utilisation d'un \textit{dataset} déjà annoté permet d'obtenir un grand nombre de photos qui ont été capturées sur plusieurs mois, où la variance des luminosités et couleurs est grande. De plus, le fait qu'un corpus soit déjà annoté permet un gain de temps certain. Il faudra cependant noter qu'en conséquence, toute l'étude effectuée dans ce rapport n'est pas spécialisée pour le parking de la HEIG-VD. Dans tous les cas, un modèle viable sur des images d'autres parkings peut être considéré comme \textit{proof-of-concept}.
+
+\section{corpus d'images}\label{conception.dataset}
+Deux \textit{datasets} ont avant tout été utilisés. Ceux-ci sont décrits ci-après.
+
+\paragraph{Cars}
+Il a été souhaité de tester un entrainement à l'aide du corpus d'images \textit{Cars}\autocite{data:cars}, de l'université de Stanford. Celui-ci contient plus de 16'000 images de 196 modèles de voitures différents, sous différents angles. Il est annoté à l'aide de \textit{bounding box}, ainsi que le modèle de voiture associés. 
+
+\begin{figure}[ht]
+    \includegraphics[width=110mm]{img/conception/cars_example.png}
+    \centering
+    \caption{Images d'exemple provenant du dataset \textit{Cars}}
+\end{figure}
+
+\paragraph{PKLot}
+\textit{PKLot} est un \textit{dataset} de plus de 12'000 images provenant de 3 caméras différentes. Les photos ont été capturées sous plusieurs conditions météorologiques (beau temps, nuageux, pluie). Il est annoté à l'aide de \textit{bounding box} précisant les places de parc. Pour chacune d'entre elle, il est indiqué si la place est libre ou non. 
+
+\begin{figure}[ht]
+    \includegraphics[width=110mm]{img/conception/pklot_park.jpg}
+    \centering
+    \caption{Image d'exemple provenant du dataset \textit{PKLot}}
+\end{figure}
+
 \section{Traitement des images}\label{conception.traitement}
-Cette section présente le traitement des images qui est effectué avant qu'elles soient utilisées dans le réseau de neurones. 
+\todo{Modif car pas utilisé}
+Cette section présente le traitement des images qui est effectué sur les captures prises par la caméra de la HEIG-VD dans le but de pouvoir créer un \textit{dataset} qui pourrait être utilisé dans un réseau de neurones. Il faut noter que celui-ci ne sera pas obligatoirement utilisé pour l'entrainement du modèle final.
 
 \paragraph{Anonymisation}
 Dans le cadre de ce TB, un point essentiel est l'anonymisation des données. En effet, la sphère privée des utilisateurs du parking du site de Cheseaux se doit d'être respectée. Un effort tout particulier sera donc pris afin d'anonymiser au mieux ces images. Notamment, les images capturées de la caméra sont traitées dès leurs arrivées, et ce même avant leurs enregistrement sur disque persistant. 
@@ -750,6 +782,8 @@ Il faut noter que le modèle présenté n'en est qu'un parmi plusieurs autres qu
     \item Le nombre d'itérations effectuées lors des tests peut être trop faible. En effet, lorsqu'on observe ce qui est fait dans le domaine de la détection d'objet, plusieurs dizaines d'itérations sont en générales effectuées. 
 \end{itemize}
 
+L'utilisation d'une fenêtre glissante a aussi été pensée. Cette méthode consiste en le découpage d'une image en de multiples sous-images, en utilisant différentes tailles de fenêtres. Ensuite, on cherche à classifier chacune de ces sous-régions en fonction de si une voiture y est présente ou non. Cependant, cette manière de faire n'est que peu indiquée, car trop couteuse en calculs et en ressources.
+
 \subsection{Grille de détection} 
 Le modèle précédent décrit en section \ref{conception.model.regression} n'a pas permis d'obtenir de résultats concluant. Il a notamment été précisé qu'une indication concernant la position des voitures semblait pouvoir permettre d'améliorer les résultats. De part cette hypothèse, il a été pensé qu'il est sans doute possible de chercher à obtenir en sortie de l'algorithme la position des voitures plutôt que leur nombre.
 
@@ -819,18 +853,22 @@ Dans notre cas, il n'est pas nécessaire de pouvoir analyser une image rapidemen
 
 C'est pourquoi le modèle \textit{faster\_rcnn\_inception\_v2\_coco} a été choisi, afin d'obtenir un temps de traitement raisonnable \footnote{Il faut noter que les temps de traitement indiqués sont sans doute effectués sur GPU. Sur processeur, les temps peuvent être largement multipliés.} et une précision assez bonne. Après quelques recherches, il semble aussi que ce modèle soit assez léger à entrainer, notamment relativement à des modèles \textit{RCNN} "simple" (non désigné par \textit{faster}).
 
-Il aurait été idéal d'évaluer ces différents modèles de manière plus approfondie. Cependant, la mise en oeuvre d'un protocole d'évaluation peut paraitre compliqué: en effet, certains paramètres qu'il faudrait prendre en compte ne sont pas précisés dans ce tableau, tel que le temps d'entrainement nécessaire avec chacune des architectures. Aussi, pour une évaluation efficace, il serait aussi souhaité d'entrainer ces différentes architectures sur un corpus d'images de parking. A la vue des temps d'entrainements long, cette approche est difficilement réalisable. 
+Il aurait été idéal d'évaluer ces différents modèles de manière plus approfondie. Cependant, la mise en œuvre d'un protocole d'évaluation peut paraitre compliqué: en effet, certains paramètres qu'il faudrait prendre en compte ne sont pas précisés dans ce tableau, tel que le temps d'entrainement nécessaire avec chacune des architectures. Aussi, pour une évaluation efficace, il serait aussi souhaité d'entrainer ces différentes architectures sur un corpus d'images de parking. A la vue des temps d'entrainements long, cette approche est difficilement réalisable. 
 
 \subsubsection{Yolo}
 
-Parler du modèle pré-entrainé choisi
+L'architecture \textit{Yolo} a aussi été testée. Il en existe plusieurs versions. La dernière en Juillet 2018, \textit{Yolo v3}, a été préférée. Elle apporte des meilleures performances par rapport aux versions antérieurs, tant au niveau des résultats qu'en puissance de calculs nécessaires\autocite{yolov3}.
+
+Comme vu précédemment, il est préférable d'utiliser un modèle pré-entrainé. L'implémentation de \textit{Yolo} utilisée en fournis un, entrainé sur le corpus d'image \textit{Coco}\autocite{lib:yolo}. C'est celui qui a été utilisé. 
 
 \section{Evaluation des modèles} \label{conception.eval}
-Evalué sous forme de regression
-Les méthodes normales classiques matrice de confusion peut pas être utilisé pour un problème de regression
+Il a été choisi d'évaluer les modèles par rapport aux résultats qui sont finalement attendus, soit le nombre de voitures présentes sur le parking.
 
+En \textit{machine learning}, les méthodes classiques d'évaluations consistent souvent aux calculs des précisions et rappels reposant sur une matrice de confusion. Cependant, c'est ici un problème de regression, où on cherche à approcher au mieux le nombre de véhicules présent sur le parking. Une métrique souvent utilisée est la \textit{RMSE}, pour \textit{Root Mean Squared Error}. \autocite{wiki:rmse}
 
-\subsection{Fenêtre glissante}
-L'utilisation de 
+Pour chaque image du corpus d'évaluation, le nombre de voitures présentes est prédit par l'algorithme ($\hat{n}$), qui est comparé au nombre de voitures réelles ($n$), tiré de l'annotation. La formule décrite ci-après présente le calcul effectué:
+\[
+    \sqrt{\sum (n - \hat{n})^2 }    
+\]
 
-\todo{Mais ca a pas été utilisé car trop lent et trop de ressources utilisées}
+\todo{parler de la détection sur open-cv ?}

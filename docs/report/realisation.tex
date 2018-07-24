@@ -160,26 +160,54 @@ Dans le cadre de l'anonymisation des données, il a semblé important qu'aucune 
 
 L'image est ensuite sauvegardée à un format \textit{bitmap} (\textit{.bmp}), sans pertes de compression. La date et heure de création et de modification du fichier est aussi modifiée pour que les données soient au plus anonymisées.
 
-\section{Création d'un corpus d'images annoté}
+\section{Traitement du corpus \textit{PKLot}} \label{realisation.dataset}
 
-Pas d'annotations faites à la main sur le parking
+Les images fournies par \textit{PKLot} sont annotées par place de parc marquée au sol. Cependant, il est possible que certaines voitures ne soient pas garée sur l'une de celle-ci. 
 
-On fait tout sur pklot, plus de liberté de tests puisque pas d'image pré-annotée.
-Aussi sur le corpus \textit{cars}
+Si lors de l'entrainement, l'image segmentée par place de parc est utilisée, cela ne poserait aucun problème. Cependant, dans le cadre de ce projet, les modèles sont entrainés sur l'ensemble de l'image. Ainsi, certaines voitures présentes n'ont pas été annotées comme telles. Si ce \textit{dataset} n'était pas traité, certaines voitures seraient considérés comme étant de l'arrière-plan, et ne seraient pas détectée. 
 
-Dataset sur toutes les caméras pour généralisation meilleure, traitées en enlevant les voitures non annotées.
+Le corpus \textit{PKLot} est séparé en 3 dossiers différents pour chacune des caméras disponibles. Chaque image a été traitée à l'aide d'une méthode de remplissage, permettant d'effacer certaines régions d'une image\autocite{wiki:inpainting}. Pour ce faire, \textit{OpenCV} a été utilisé. La figure \ref{fig:image_fill_compare} en présente un résultat.
 
-\todo{Traitement dataset, aussi effacer les voitures non détectée par pklot}
+\begin{figure}[ht]
+    
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.6\linewidth]{img/realisation/fill_before.jpg}
+        \caption{Avant remplissage}
+    \end{subfigure}%   
+
+    \bigskip
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.6\linewidth]{img/realisation/fill_mask.png}
+        \caption{Masque utilisé}
+    \end{subfigure}
+
+    \bigskip
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=.6\linewidth]{img/realisation/fill_after.jpg}
+        \caption{Après remplissage}
+    \end{subfigure}
+
+    \caption{Avant-après traitements d'une image du corpus \textit{PKLot}}
+    \centering
+    \label{fig:image_fill_compare}
+\end{figure}
+
+Il faut noter qu'un remplissage de qualité n'est pas nécessaire. En effet, il est avant tout nécessaire d'effacer les voitures présentes qui n'ont pas été annotée comme telles. 
+
+Par la suite, les entrainements qui ont été effectués utilisent l'ensemble de ces images traitées, sans distinction entre les caméras. Cela permet d'augmenter la généralisation des modèles générés.
+
 
 \section{Création du modèle}
 
 \section{Entrainement du modèle}
 
 
+\todo{Marche que sur linux pour yolo}
 
 \todo{Compléter}
-
-Création d'un tests perso
 
 
 \todo{Moyenne sur plusieurs images à la suite du parking: utilisation du modèle}

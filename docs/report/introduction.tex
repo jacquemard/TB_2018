@@ -35,7 +35,7 @@ La mesure du taux d'occupation d'un parking à l'aide de caméra vidéo est un s
 
 PKLot est premièrement un large corpus d'images de parkings prises de 3 caméras différentes. Il a été créé dans le but de former un \textit{dataset} robuste spécialisé pour la recherche dans le domaine des parkings. Les images ont été capturées sous diverses conditions météorologiques, et chaque place de parc a été annotée, les classifiant de libre ou occupée.\autocite{paper:pklot}
 
-Il a été souhaité de le préciser ici, car il sera utilisé comme \textit{dataset} pour ce projet. Aussi, quelques pistes de recherches sont proposées, reposant avant tout sur la segmentation des images par place de parc. Il faut aussi noter que les voitures présentent sur des places non marquées n'ont pas été annotées.
+Il a été souhaité de le préciser ici, car il sera utilisé comme \textit{dataset} pour ce projet (voir section \ref{conception.dataset} \itnameref{conception.dataset}). Aussi, quelques pistes de recherches sont proposées, reposant avant tout sur la segmentation des images par place de parc. Il faut aussi noter que les voitures présentent sur des places non marquées n'ont pas été annotées.
 
 \subsection{Segmentations de l'image}
 Le papier \textit{Deep Learning for Decentralized Parking Lot Occupancy Detection} présente un système de détection de places libres de parking, basé sur un réseau de neurones convolutif. Utilisant notamment le corpus \textit{PKLot}, la détection se repose sur la segmentation de l'image par place de parc. Le réseau de neurones est entrainé sur chacune de ces parties, les classifiant en tant que place libre ou occupée. Cette approche apporte de bons résultats, où les taux de réussites peuvent dépasser les 99\%. \autocite{paper:dlp}
