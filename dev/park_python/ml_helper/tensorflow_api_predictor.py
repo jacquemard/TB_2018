@@ -1,13 +1,7 @@
-######## Image Object Detection Using Tensorflow-trained Classifier #########
-#
 # Author: Rémi Jacquemard
-# Based on Author: Evan Juras
-# 
-
-## Some of the code is copied from Google's example at
+#
+# Based on:
 ## https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
-
-## and some is copied from Dat Tran's example at
 ## https://github.com/datitran/object_detector_app/blob/master/object_detection_app.py
 
 from pathlib import Path
@@ -34,7 +28,7 @@ from utils import visualization_utils as vis_util
 
 class TensorflowPredictor:
     # Path to label map file
-    PATH_TO_LABELS = 'tensorflow_label_map.pbtxt'
+    PATH_TO_LABELS = str(cur_path.parent.resolve()) + '/tensorflow_label_map.pbtxt'
     
     # Number of classes the object detector can identify
     NUM_CLASSES = 1
@@ -126,49 +120,3 @@ if __name__ == '__main__':
     predictor = TensorflowPredictor(args.model[0])
 
     predictor.predict_image_file(args.input[0], args.output[0])
-
-
-# Name of the directory containing the object detection module we're using
-#MODEL_NAME = '/home/ubuntu/DS/cars/training'
-#IMAGE_NAME = '/home/ubuntu/DS/cars/images/000001.jpg'
-
-# Grab path to current working directory
-#CWD_PATH = os.getcwd()
-
-# Path to frozen detection graph .pb file, which contains the model that is used
-# for object detection.
-#PATH_TO_CKPT = '/home/ubuntu/TB/GIT/dev/park_python/drafts/object_detection/tensorflow_api/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb'
-
-
-
-# Path to image
-#PATH_TO_IMAGE = '/home/ubuntu/DS/PKLot/PKLot/UFPR05_annot/24/2013-02-22_17_30_12.bmp'
-
-# Output file
-#PATH_TO_OUTPUT = '/home/ubuntu/DS/PKLot/PKLot/UFPR05_annot/24/2013-02-22_17_30_12_output.bmp'
-
-
-
-# Load the label map.
-# Label maps map indices to category names, so that when our convolution
-# network predicts `5`, we know that this corresponds to `king`.
-# Here we use internal utility functions, but anything that returns a
-# dictionary mapping integers to appropriate string labels would be fine
-
-
-
-
-# Load image using OpenCV and
-# expand image dimensions to have shape: [1, None, None, 3]
-# i.e. a single-column array, where each item in the column has the pixel RGB value
-#image = cv2.imread(PATH_TO_IMAGE)
-
-# All the results have been drawn on image. Now display the image.
-#cv2.imshow('Object detector', image)
-#cv2.imwrite(PATH_TO_OUTPUT, image)
-
-# Press any key to close the image
-#cv2.waitKey(0)
-
-# Clean up
-#cv2.destroyAllWindows()

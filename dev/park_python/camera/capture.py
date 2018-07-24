@@ -1,7 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO
-from apscheduler.schedulers.background import BlockingScheduler
+from apscheduler.schedulers.background import BlockingScheduler, BackgroundScheduler
 import logging
 from datetime import datetime, time
 
@@ -80,10 +80,10 @@ class CameraClient:
 
 class CameraAgent:
     """
-    Used to request the camera for a snap periodically. It handles connection loss.
+    Used to request the camera for a shot periodically. It handles connection loss.
     """
 
-    def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0, running_time=None):
+    def __init__(self, camera_client, handle_image_callback, hours = 0, minutes = 0, seconds = 0, running_time=None, blocking=True):
         """
         Creates an image agent. It request for an image to the camera_client provided as an argument once every
         timelaps, which is defined by the hours, minutes and seconds parameters. For the agent to start, use camera_agent.start().
@@ -110,7 +110,10 @@ class CameraAgent:
         self.running_time = running_time
 
         # Creating a scheduler. It will ask for an image to the camera every timelaps provided as arguments
-        self.scheduler = BlockingScheduler()
+        if blocking:
+            self.scheduler = BlockingScheduler()
+        else:
+            self.scheduler = BackgroundScheduler()
         self.job = self.scheduler.add_job(self._request_image, 'interval', hours = hours, minutes = minutes, seconds = seconds, id="cam_capture")
 
         # This is set to True when a connection error occured. 
