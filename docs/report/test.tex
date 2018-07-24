@@ -1,4 +1,4 @@
-\chapter{Tests et validation}
+\chapter{Tests et validation}\label{tests}
 Ce chapitre permet d'évaluer et comparer les modèles de détections d'objets \textit{faster RCNN} et \textit{Yolo v3}, tels que décrits en section \ref{conception.model.object} \itnameref{conception.model.object}. Il est important de noter qu'il a été remarqué qu'en général, la détection d'objets repose sur un entrainement à l'aide des images où la détection de bord n'a pas été effectuée. Aussi, quelques entrainements ont été effectués sur les images traitées, qui n'ont apportés aucun résultat concluant. C'est pourquoi seul le corpus \textit{PKLot} (pré-traité à l'aide d'un remplissage de région tel qu'indiqué en section \ref{realisation.dataset}) est utilisé.
 
 Ont été évalués:
@@ -91,7 +91,7 @@ Yolo v3 entrainé sur \textit{Coco}  & $34.75053725$ \\ \bottomrule
 \label{tab:yolo_results}
 \end{table}
 
-\section{Choix final}
+\section{Choix final} \label{tests.final}
 
 A la vues des résultats précédent, il semble que le meilleur algorithme soit le modèle \textit{Faster RCNN} ré-entrainé sur \textit{PKLot} avec 4000 itérations supplémentaires. Il faut noter que ces résultats ont été obtenus à l'aide du corpus d'images \textit{PKLot}: ainsi, certains paramètres, comme le seuil de détection, doit peut-être être modifié. 
 

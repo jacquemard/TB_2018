@@ -166,8 +166,6 @@ Les images fournies par \textit{PKLot} sont annotées par place de parc marquée
 
 Si lors de l'entrainement, l'image segmentée par place de parc est utilisée, cela ne poserait aucun problème. Cependant, dans le cadre de ce projet, les modèles sont entrainés sur l'ensemble de l'image. Ainsi, certaines voitures présentes n'ont pas été annotées comme telles. Si ce \textit{dataset} n'était pas traité, certaines voitures seraient considérés comme étant de l'arrière-plan, et ne seraient pas détectée. 
 
-Le corpus \textit{PKLot} est séparé en 3 dossiers différents pour chacune des caméras disponibles. Chaque image a été traitée à l'aide d'une méthode de remplissage, permettant d'effacer certaines régions d'une image\autocite{wiki:inpainting}. Pour ce faire, \textit{OpenCV} a été utilisé. La figure \ref{fig:image_fill_compare} en présente un résultat.
-
 \begin{figure}[ht]
     
     \begin{subfigure}{\textwidth}
@@ -195,23 +193,84 @@ Le corpus \textit{PKLot} est séparé en 3 dossiers différents pour chacune des
     \label{fig:image_fill_compare}
 \end{figure}
 
+Le corpus \textit{PKLot} est séparé en 3 dossiers différents pour chacune des caméras disponibles. Chaque image a été traitée à l'aide d'une méthode de remplissage, permettant d'effacer certaines régions d'une image\autocite{wiki:inpainting}. Pour ce faire, \textit{OpenCV} a été utilisé. La figure \ref{fig:image_fill_compare} en présente un résultat.
+
 Il faut noter qu'un remplissage de qualité n'est pas nécessaire. En effet, il est avant tout nécessaire d'effacer les voitures présentes qui n'ont pas été annotée comme telles. 
 
 Par la suite, les entrainements qui ont été effectués utilisent l'ensemble de ces images traitées, sans distinction entre les caméras. Cela permet d'augmenter la généralisation des modèles générés.
 
+\section{Mise en place et entrainements des modèles}
 
-\section{Création du modèle}
+\subsection{Machine virtuelle}
+Afin d'obtenir de meilleures performances pour l'entrainement des modèles, une machine virtuelle a été créée sur \textit{AWS} \footnote{\textit{AWS}, pour \textit{Amazon Web Service}, fourni un système de IaaS (\textit{Infrastructure as a Service} où il est possible, entre autres, d'instancier des machines virtuelles puissantes). \url{https://aws.amazon.com/}}. Elle fournit aussi des images d'instances spécialisées dans le \textit{Machine learning}, où par exemple \textit{TensorFlow} et \textit{Keras} sont préinstallés\footnote{Les images sont disponibles à l'adresse \url{https://aws.amazon.com/fr/machine-learning/amis/}.}. C'est celle-ci qui a été utilisée. Les corpus d'images nécessaires à l'entrainement y ont été téléchargés et pré-traités à l'aide de scripts \textit{Python} qui ont été développé dans le cadre de ce projet.
 
-\section{Entrainement du modèle}
+\subsection{Format \textit{VOC} \textit{XML}}
+Un format courant d'annotations d'images est le format \textit{VOC}, qui permet une certaine interopérabilité. Un exemple en est donnée au code \ref{lst:voc}. Le nom de l'image ainsi que sa taille y est indiqué, Aussi, chaque objet présent dans l'image y est indiqué, ainsi que sa classe et sa \textit{bounding box} associée. Il y a un fichier \textit{VOC} par images.
+
+% spellcheck-language "en"
+\begin{lstlisting}[caption={Exemple de fichier \textit{VOC}}, label={lst:voc}, language=XML] 
+<annotation>
+<filename>2012-11-10_07_12_40.jpg</filename>
+<size>
+    <width>1280</width>   
+    <height>720</height>
+    <depth>3</depth>
+</size>
+<segmented>0</segmented>
+<object>
+    <name>car</name>
+    <bndbox>
+        <xmin>669</xmin>
+        <ymin>419</ymin>
+        <xmax>717</xmax>
+        <ymax>475</ymax>
+    </bndbox>
+</object>
+</annotation>
+\end{lstlisting}
+% spellcheck-language
+
+Les annotations fournies par \textit{PKLot} sont dans un format \textit{XML} qui leurs sont propres. Il a été nécessaire de transcrire ces \textit{XML} au format \textit{VOC}. Pour ce faire, un script \textit{Python} a été utilisé. Celui-ci utilise la librairie \textit{etree} pour \textit{parser} le fichier original, et en créer un nouveau correspondant au format \textit{VOC} voulu. 
+
+\subsection{\textit{Tensorflow Object Detection API}}
+Comme précédemment indiqué dans ce rapport, l'API de détection d'objets fournie par \textit{Tensorflow} a été utilisée. Celui-ci n'étant pas inclus dans \textit{TensorFlow}, le \textit{repo}\footnote{On trouvera le repo sur \url{https://github.com/tensorflow/models/tree/master/research/object_detection}} de l'API a été cloné et utilisé. Il a été nécessaire de l'ajouter aux variables d'environnements \textit{Python} afin qu'il soit possible d'importer directement les librairies nécessaires depuis un script \textit{Python}.
+
+Afin d'utiliser un corpus d'entrainement à l'aide de \textit{Tensorflow}, des fichier \textit{.record} doivent être généré. Ceux-ci contiennent les images et leurs annotations. Ils peuvent être aisément créés à partir de fichiers \textit{VOC} à l'aide de la librairie \textit{TensorFlow} et d'un script \textit{Python}. 
+
+Un fichier de configuration (\textit{.config}) est aussi nécessaire. Celui-ci indique où se situe les fichiers \textit{.record}, le modèle pré-entrainé, etc. Par la suite, l'entrainement est exécuté en ligne de commande.
+
+% spellcheck-language "en"
+\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Tensorflow Object Detection API}}, label={lst:voc}, numbers=none] 
+python /home/ubuntu/tensorflow_models/research/object_detection/train.py \
+--logtostderr \
+--train_dir=/home/ubuntu/DS/PKLot/tensorflow_ds/training/ \
+--pipeline_config_path=/home/ubuntu/TB/GIT/dev/park_python/drafts/object_detection/tensorflow_api_pklot/training.config
+\end{lstlisting}
+% spellcheck-language
+
+\subsection{\textit{Yolo}}
+Une implémentation de \textit{Yolo} a aussi été utilisée. Pour ce faire, il a été nécessaire de télécharger le code source du réseau de neurones open-source \textit{Darknet}\autocite{lib:yolo}, en clonant le \textit{repo} associé.
+
+Une fois celui-ci téléchargé, l'attribut \textit{OPENMP} du fichier \textit{Makefile} a été défini à 1 afin que les entrainements puissent être effectués sur tous les cœurs de la machine disponible. Puis, le code a été compilé à l'aide de la commande \textit{make} linux. Il faut noter que cette commande n'est pas nativement disponible sous Windows.
+
+Dans un second temps, il est nécessaire de préparer les labels pour l'entrainement. Puisque les formats \textit{VOC} ont été créé pour le corpus \textit{PKLot}, un script \textit{Python} fourni par \textit{Darknet} a été utilisé. Les fichiers de configurations nécessaires à l'entrainement sur le \textit{dataset} ont aussi été modifiés. 
+
+\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Yolo}}, label={lst:voc}, numbers=none] 
+./darknet detector train cfg/coco.data cfg/yolov3.cfg darknet53.conv.74
+\end{lstlisting}
+% spellcheck-language
 
 
-\todo{Marche que sur linux pour yolo}
+\section{Utilisation du modèle final \textit{Tensorflow}} 
+Comme l'indique les tests en section \ref{tests.final} \itnameref{tests.final}, un modèle utilisant l'API de \textit{Tensorflow} a été choisi. 
 
-\todo{Compléter}
+Une classe, \textit{TensorflowPredictor}, a été créée, basée sur des codes d'exemples disponibles (dont les sources sont précisiées dans le code source). Lors de son instanciation, le chemin vers le modèle qu'on souhaite utiliser est passé en paramètre, ce qui a pour effet de le charger en mémoire. Ensuite, il est possible d'utiliser cet objet afin de prédire le nombre de voitures présentes sur une image. Le script permet aussi une exécution en ligne de commande afin de pouvoir générer les \textit{bounding box} d'une image.
 
+\section{REST API}
 
 \todo{Moyenne sur plusieurs images à la suite du parking: utilisation du modèle}
 
+\todo{Préciser la structure du projet}
 
 
 

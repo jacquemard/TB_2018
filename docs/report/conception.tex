@@ -461,6 +461,9 @@ Cette API open-source a été développée par \textit{Google} et des collaborat
 \subsubsection{Darknet -- Yolo}
 Il existe une implémentation de l'architecture \textit{Yolo} (qui a été décrite en section \ref{techno.nn.object} \itnameref{techno.nn.object}). Elle utilise \textit{Darknet} comme \textit{framework} open-source de réseau de neurones. \autocite{lib:yolo}
 
+
+\section{Corpus d'images}\label{conception.dataset}
+
 Afin de pouvoir entrainer un \textit{réseau de neurones}, un \textit{dataset} d'images annotées est nécessaire.
 
 Deux approches sont possibles:
@@ -471,7 +474,6 @@ Deux approches sont possibles:
 
 La deuxième approche a été préférée, car cela permet une plus grande liberté. En effet, les images provenant du parking de la HEIG-VD sont pré-traitées pour des raisons d'anonymisations des données. L'utilisation d'un corpus d'images disponibles permet de pouvoir traiter les images après-coup, et ce seulement si c'est ce qui est souhaité. Aussi, l'utilisation d'un \textit{dataset} déjà annoté permet d'obtenir un grand nombre de photos qui ont été capturées sur plusieurs mois, où la variance des luminosités et couleurs est grande. De plus, le fait qu'un corpus soit déjà annoté permet un gain de temps certain. Il faudra cependant noter qu'en conséquence, toute l'étude effectuée dans ce rapport n'est pas spécialisée pour le parking de la HEIG-VD. Dans tous les cas, un modèle viable sur des images d'autres parkings peut être considéré comme \textit{proof-of-concept}.
 
-\section{corpus d'images}\label{conception.dataset}
 Deux \textit{datasets} ont avant tout été utilisés. Ceux-ci sont décrits ci-après.
 
 \paragraph{Cars}
@@ -493,7 +495,6 @@ Il a été souhaité de tester un entrainement à l'aide du corpus d'images \tex
 \end{figure}
 
 \section{Traitement des images}\label{conception.traitement}
-\todo{Modif car pas utilisé}
 Cette section présente le traitement des images qui est effectué sur les captures prises par la caméra de la HEIG-VD dans le but de pouvoir créer un \textit{dataset} qui pourrait être utilisé dans un réseau de neurones. Il faut noter que celui-ci ne sera pas obligatoirement utilisé pour l'entrainement du modèle final.
 
 \paragraph{Anonymisation}
