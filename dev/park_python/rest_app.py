@@ -58,7 +58,7 @@ def root():
     if free_place < 0:
         free_place = 0
     
-    occupied_rate = free_place / MAX_NUM_CARS
+    occupied_rate = (MAX_NUM_CARS - free_place) / MAX_NUM_CARS
 
     obj = {
         'date':strftime("%Y-%m-%d %H:%M:%S", gmtime()),
