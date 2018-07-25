@@ -88,11 +88,12 @@ Comme indiqué au paragraphe \itnameref{conception.architecture.camera.physique.
 
 \subsection{Distribution des informations à l'utilisateur}
 Dans le but de pouvoir fournir le nombre de place libre à l'utilisateur, un simple \textit{endpoint} a été développé à l'aide de \textit{Flask}\footnote{\textit{Flask} est une librairie \textit{Python} permettant de rapidement exposer une API \textit{REST}.\autocite{lib:flask}}. Il faut noter que la distribution de ces informations n'est pas le point principal de ce projet, c'est pourquoi il est assez succinct.
-D'autres systèmes auraient pu être mis en place, cependant, une telle API semblait être l'idéal. En effet, pour une application si simple, elle est rapidement développée. Aussi, une \textit{REST API} est une technologie couramment utilisée et permet une certaine interopérabilité. Ainsi, une fois l'API exposée, d'autres applications peuvent être écrites l'utilisant, comme une interface web.  
 
-La détection des voitures à partir d'une image prend un certain temps, de l'ordre de la dizaine de seconde. Ainsi, plutôt que la prédiction soit effectuée à chaque requête sur l'\textit{endpoint} exposé, ce qui bloque la réponse, il a été préféré que cette détection soit effectuée en arrière-plan. Pour ce faire, le script interroge la caméra à intervalle régulier à l'aide d'un agent (décrit en section \ref{realisation.capture.agent} \itnameref{realisation.capture.agent}). La prédiction du nombre de voitures présentes est effectuées à l'arrivée d'une image, et est sauvegardée en mémoire.
+D'autres systèmes auraient pu être mis en place, cependant, une telle API semblait être l'idéal. En effet, pour une application si simple, elle est rapidement développée. Aussi, une \textit{REST API} est une technologie couramment utilisée et permet une certaine interopérabilité. Ainsi, une fois l'API exposée, d'autres applications l'utilisant peuvent être écrites, comme une interface web.  
 
-Lorsqu'un utilisateur souhaite obtenir l'état actuel du parking, il interroge l'API \textit{REST}. A la réception de la requête, le nombre de voitures présentes est lu en mémoire, et une réponse sous la forme d'un objet \textit{JSON} contenant le nombre places libres ainsi que d'autres informations est renvoyé à l'utilisateur. Le code \textit{JSON} correspondant est présenté au listing \ref{lst:detect_json}.
+La détection des voitures à partir d'une image prend un certain temps, de l'ordre de la dizaine de secondes. Ainsi, plutôt que la prédiction soit effectuée à chaque requête sur l'\textit{endpoint} exposé, ce qui bloque la réponse, il a été préféré que cette détection soit effectuée en arrière-plan. Pour ce faire, le script interroge la caméra à intervalle régulier à l'aide d'un agent (décrit en section \ref{realisation.capture.agent} \itnameref{realisation.capture.agent}). La prédiction du nombre de voitures présentes est effectuées à l'arrivée d'une image, et est sauvegardée en mémoire.
+
+Lorsqu'un utilisateur souhaite obtenir l'état actuel du parking, il interroge l'API \textit{REST}. A la réception de la requête, le nombre de voitures présentes est lu en mémoire, et une réponse sous la forme d'un objet \textit{JSON} contenant le nombre de places libres ainsi que d'autres informations est renvoyé à l'utilisateur. Le code \textit{JSON} correspondant est présenté au listing \ref{lst:detect_json}.
 
 % spellcheck-language en
 \begin{lstlisting}[caption={\textit{JSON} reçu par l'utilisateur}, label={lst:detect_json}] 
@@ -105,7 +106,7 @@ Lorsqu'un utilisateur souhaite obtenir l'état actuel du parking, il interroge l
 \end{lstlisting}
 % spellcheck-language
 
-Afin de réduire les erreurs de prédiction, le nombre de voitures présentes sur le parking renvoyé à l'utilisateur est calculé à partir d'une moyenne des 4 dernières images prises pas la caméra.
+Afin de réduire les erreurs de prédiction, le nombre de voitures présentes sur le parking renvoyé à l'utilisateur est calculé à partir d'une moyenne des 4 dernières images prises par la caméra.
 
 %% ------------------------------------------ %%
 %%           CHOIX TECHNOLOGIQUES             %%
@@ -462,13 +463,13 @@ Néanmoins, il est important de noter que le fait qu'une image soit représenté
 Cette sous-section présente les diverses librairies et API d'apprentissage automatique utilisées dans ce projet. Plusieurs modèles ont été testés, et il a été nécessaire d'utiliser plusieurs librairies différentes. 
 
 \subsubsection{Tensorflow}
-\textit{TensorFlow}\autocite{lib:tensorflow} est une librairie open-source de \textit{machine learning} développée par \textit{Google}. Elle permet de définir, entrainer, tester et utiliser des réseaux de neurones, notamment à convolutions. Elle peut être utilisée à en \textit{Python}.\autocite{wiki:tensorflow}
+\textit{TensorFlow}\autocite{lib:tensorflow} est une librairie open-source de \textit{machine learning} développée par \textit{Google}. Elle permet de définir, entrainer, tester et utiliser des réseaux de neurones, notamment à convolutions. Elle peut être utilisée en \textit{Python}.\autocite{wiki:tensorflow}
 
 \subsubsection{Keras}
 \textit{Keras} est une API de réseau de neurones haut niveau écrite en \textit{Python}, permettant d'en simplifier grandement le développement. Elle permet le choix entre plusieurs \textit{backend}, dont \textit{Tensorflow}. \autocite{lib:keras}
 
 \subsubsection{Tensorflow Object Detection API}
-Cette API open-source a été développée par \textit{Google} et des collaborateurs. Elle permet de construire, entrainer et déployer des système de détections d'objets sur \textit{TensorFlow}\autocite{lib:tensorflow_object}. Des modèles pré-entrainés basés sur des architectures reconnues sont notamment disponibles\footnote{Les modèles pré-entrainés sont disponibles à l'adresse \url{https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+Cette API open-source a été développée par \textit{Google} et des collaborateurs. Elle permet de construire, entrainer et déployer des systèmes de détection d'objets sur \textit{TensorFlow}\autocite{lib:tensorflow_object}. Des modèles pré-entrainés basés sur des architectures reconnues sont notamment disponibles\footnote{Les modèles pré-entrainés sont disponibles à l'adresse \url{https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 }.}.
 
 \subsubsection{Darknet -- Yolo}
@@ -724,7 +725,7 @@ Dans un premier temps, le choix d'une image d'arrière-plan est nécessaire. Cel
     \label{fig:background_suppression}
 \end{figure}
 
-De l'image dont on souhaite connaître le nombre de véhicules présents (\ref{fig:back_b}), on soustrait l'arrière-plan, pixel par pixel. Lorsque les pixels en résultant sont en-dessous d'un certain seuil défini, ils sont considérés arrière-plan. Sinon, il s'agit de l'avant-plan. L'image \ref{fig:back_c} en présente un résultat. Il est possible de remarquer qu'elle est bruitée, notamment où vers les arbres en bas de la photo. Il parait cependant aisé de la débruiter en supprimant les petits groupes de pixels formant l'avant-plan qui sont isolés, par exemple avec une matrice de convolution.
+De l'image dont on souhaite connaître le nombre de véhicules présents (\ref{fig:back_b}), on soustrait l'arrière-plan, pixel par pixel. Lorsque les pixels en résultant sont en-dessous d'un certain seuil défini, ils sont considérés arrière-plan. Sinon, il s'agit de l'avant-plan. L'image \ref{fig:back_c} en présente un résultat. Il est possible de remarquer qu'elle est bruitée, notamment vers les arbres en bas de la photo. Il parait cependant aisé de la débruiter en supprimant les petits groupes de pixels formant l'avant-plan qui sont isolés, par exemple avec une matrice de convolution.
 
 Afin d'obtenir une bonne approximation du taux d'occupation, il est possible, à l'aide d'un certain nombre d'images annotées, de  statistiquement définir une fonction $f(x)$, prenant en entrée le nombre de pixel de l'avant-plan, et en sortie le taux d'utilisation. 
 
@@ -736,7 +737,7 @@ Une approche plus simple, mais moins fiable, consiste aussi à simplement traite
     t(x) &= \frac{1}{m} x
 \end{align}
 
-L'utilisation d'une telle méthode de traitement d'image pourrait être utilisée. Cependant, il semble que cette approche peut poser quelques problèmes. Parmi ceux-ci, on peut citer:
+L'utilisation d'une telle méthode de traitement d'image pourrait être appliquée. Cependant, il semble que cette approche peut poser quelques problèmes. Parmi ceux-ci, on peut citer:
 
 \begin{itemize}
     \item La luminosité, les couleurs et les ombres changent au fil d'une journée et des saisons. Pour utiliser cette approche, il semble nécessaire d'acquérir un grand nombre d'images du même parking vide, sous différentes luminosités. Cela peut paraitre parfois difficile: en effet, un parking n'est que rarement vide en pleine journée.
@@ -746,8 +747,8 @@ L'utilisation d'une telle méthode de traitement d'image pourrait être utilisé
 La méthode décrite ici parait viable. Cependant, la réalisation de celle-ci semble devoir prendre beaucoup de temps, de part la résolution des problèmes précédemment cités. Aussi, un algorithme plus généralisé, permettant d'être porté sur d'autres parkings aisément, aurait été souhaité. Ici, la capture d'images d'arrière-plan avec différentes luminosités doit être réitérée avec chaque parking.
 
 
-\subsection{Regression}\label{conception.model.regression}
-La première approche qui a été pensée est d'aborder le problème comme une simple regression.
+\subsection{Régression}\label{conception.model.regression}
+La première approche qui a été pensée est d'aborder le problème comme une simple régression.
 
 Un tel problème consiste en une fonction dont la sortie est quantitative, et non qualitative\autocite{wiki:regression}. Dans notre cas, cela signifie qu'en sortie de l'algorithme, on cherche le nombre de voitures présentes sur l'image présentée en entrée. 
 
@@ -758,7 +759,7 @@ On trouvera en figure \ref{fig:regression_keras} un modèle qui peut être utili
 \begin{figure}[H]
     \includegraphics[width=12cm]{img/conception/nn/regression_keras.png}
     \centering
-    \caption{Proposition de modèle de réseau de neurones à convolutions pour résoudre le problème de regression}
+    \caption{Proposition de modèle de réseau de neurones à convolutions pour résoudre le problème de régression}
     \label{fig:regression_keras}
 \end{figure} 
 
@@ -768,12 +769,12 @@ En entrée, une image de parking est passée, qui sont traitée par une premièr
 Il est aussi possible d'y remarquer une succession de couches telles que les suivantes:
 
 \begin{description}
-    \item[\textit{Batch normalization}] permet de normaliser les données, dans le but d'accélérer l'apprentissage.
-    \item[\textit{Max pooling}] permet de réduire la taille des images en entrée.\footnote{C'est une méthode classique utilisées dans les réseaux de neurones convolutifs. En effet, une telle couche de \textit{max pooling} est généralement présente après une couche de convolutions. \autocite{wiki:CNN}} 
-    \item[\textit{Activation}] la couche des fonctions d'activations \footnote{Une fonction d'activation est généralement associée à chaque neurones dans les réseaux neuronaux \autocite{wiki:NN}}. 
-    \item[\textit{Flatten}] d'images en entrée (tenseur\footnote{Un tenseur peut être comparé à un tableau à n dimension. Un tenseur à 2 dimension est tous simplement une matrice. } à 2 dimensions), cette couche permet de les aplatir en un tenseur à 1 dimension, nécessaire en entrée d'un réseau de neurones classique.
-    \item[\textit{Dropout}] permet de mieux généraliser. Certaines relations entre les neurones de deux couches sont simplement supprimées.
-    \item[\textit{Dense}] ajoute une couche de neurones classiques. 
+    \item[\textit{Batch normalization}] Permet de normaliser les données, dans le but d'accélérer l'apprentissage.
+    \item[\textit{Max pooling}] Permet de réduire la taille des images en entrée.\footnote{C'est une méthode classique utilisées dans les réseaux de neurones convolutifs. En effet, une telle couche de \textit{max pooling} est généralement présente après une couche de convolutions. \autocite{wiki:CNN}} 
+    \item[\textit{Activation}] La couche des fonctions d'activations \footnote{Une fonction d'activation est généralement associée à chaque neurones dans les réseaux neuronaux \autocite{wiki:NN}}. 
+    \item[\textit{Flatten}] D'images en entrée (tenseur\footnote{Un tenseur peut être comparé à un tableau à n dimension. Un tenseur à 2 dimension est tous simplement une matrice. } à 2 dimensions), cette couche permet de les aplatir en un tenseur à 1 dimension, nécessaire en entrée d'un réseau de neurones classique.
+    \item[\textit{Dropout}] Permet de mieux généraliser. Certaines relations entre les neurones de deux couches sont simplement supprimées.
+    \item[\textit{Dense}] Ajoute une couche de neurones classiques. 
 \end{description}
 
 Il faut noter que les données de sortie ont été normalisées dans le but d'accélérer l'entrainement. Ainsi, la sortie, plutôt que d'indiquer le nombre de véhicule, indique le taux d'utilisation du parking, entre $0$ et $1$. Cette valeur peut être facilement calculée lorsqu'on connait le nombre maximal de voitures qui peuvent y être présentes. La fonction suivante permet de le calculer, où $v$ est le nombre de voitures présentes, et $c$ la capacité du parking:
@@ -799,7 +800,7 @@ Il faut noter que le modèle présenté n'en est qu'un parmi plusieurs autres qu
 L'utilisation d'une fenêtre glissante a aussi été pensée. Cette méthode consiste en le découpage d'une image en de multiples sous-images, en utilisant différentes tailles de fenêtres. Ensuite, on cherche à classifier chacune de ces sous-régions en fonction de si une voiture y est présente ou non. Cependant, cette manière de faire n'est que peu indiquée, car trop couteuse en calculs et en ressources.
 
 \subsection{Grille de détection} 
-Le modèle précédent décrit en section \ref{conception.model.regression} n'a pas permis d'obtenir de résultats concluant. Il a notamment été précisé qu'une indication concernant la position des voitures semblait pouvoir permettre d'améliorer les résultats. De part cette hypothèse, il a été pensé qu'il est sans doute possible de chercher à obtenir en sortie de l'algorithme la position des voitures plutôt que leur nombre.
+Le modèle précédent décrit en section \ref{conception.model.regression} n'a pas permis d'obtenir de résultats concluants. Il a notamment été précisé qu'une indication concernant la position des voitures semblait pouvoir permettre d'améliorer les résultats. De part cette hypothèse, il a été pensé qu'il est sans doute possible de chercher à obtenir en sortie de l'algorithme la position des voitures plutôt que leur nombre.
 
 Pour ce faire, il a été pensé de subdiviser l'image d'entrée en une grille. Cette idée est inspirée par ce qui est fait dans l'algorithme \textit{Yolo}, décrit en section \ref{techno.nn.object}. La figure \ref{fig:parking_grid} présente une subdivision de \textit{5x4} sur une image de parking. En chaque cellule de la grille, on cherchera à savoir si une voiture y est présente. 
 
@@ -821,7 +822,7 @@ Il faut noter qu'une cellule contient une voiture seulement si le centre de l'ob
 
 La figure \ref{fig:keras_grid} présente un modèle de réseau de neurones. Celui-ci reprends principalement le modèle développé précédemment en section \ref{conception.model.regression} \itnameref{conception.model.regression}. On remarque cependant que la sortie diffère: en lieu et place d'un unique neurone de sortie, un tensor 2D y est présent. Chaque cellule de ce tableau peut prendre des valeurs entre $0$ et $1$ (fonction d'activation \textit{sigmoïde}), où $1$ indique la présence d'une voiture, et $0$ son absence. 
 
-Les labels en sortie n'indique donc plus le nombre de véhicules présents, mais s'il y a un en chaque cellule de l'image. C'est donc un tableau à deux dimensions. 
+Les labels en sortie n'indiquemt donc plus le nombre de véhicules présents, mais s'il y a un en chaque cellule de l'image. C'est donc un tableau à deux dimensions. 
 
 Lors des quelques tests effectués avec des modèles de tailles diverses, il semble que le principe décrit peut être fonctionnel. Cependant, il n'a pas été largement exploré et a été mis de côté, de part les grandes complexités nécessaires et les temps d'entrainements longs, tels que décrits en section suivante.
 
@@ -836,7 +837,7 @@ C'est pourquoi l'utilisation d'API de détection d'objet a été préférée. En
 
 \subsection{API de détection d'objets}\label{conception.model.object}
 
-L'utilisation d'une API de détection d'objets présentent de meilleurs résultats. Ici sont décrit leurs conceptions.
+L'utilisation d'une API de détection d'objets présente de meilleurs résultats. Ici sont décrit leurs conceptions.
 
 \subsubsection{Tensorflow}
 L'API de détection d'objets de \textit{TensorFlow} a été utilisée.
@@ -847,7 +848,7 @@ Concernant la conception d'un modèle, deux choix étaient possibles:
     \item Il est aussi possible d'utiliser des modèles préconçus. 
 \end{itemize}
 
-Comme vu précédemment en section \ref{conception.model.limitations} \itnameref{conception.model.limitations}, l'utilisation d'un modèle prédéfinis et pré-entrainé est préférable. La figure \ref{fig:tensorflow_models} en présente quelques uns disponibles. Ceux-ci ont été entrainé sur le \textit{dataset} \textit{Coco}\footnote{\textit{Coco} est un grand corpus d'images annotées de divers objets (animaux, véhicules, objets du quotidiens, etc.) \autocite{data:coco}}. Le temps de traitement d'une image est indiquée dans la colonne \textit{speed}, quant à \textit{COCO mAP}, il s'agit d'une mesure prenant en compte plusieurs sous-métriques telle que la précision moyenne des \textit{bounding box} des objets \footnote{Plus d'informations concernant la métrique \textit{COCO mAP} sont disponibles sur \url{http://cocodataset.org/\#detection-eval}}. Plus la valeur \textit{mAP} est grande, meilleure est la détection.
+Comme vu précédemment en section \ref{conception.model.limitations} \itnameref{conception.model.limitations}, l'utilisation d'un modèle prédéfini et pré-entrainé est préférable. La figure \ref{fig:tensorflow_models} en présente quelques uns disponibles. Ceux-ci ont été entrainé sur le \textit{dataset} \textit{Coco}\footnote{\textit{Coco} est un grand corpus d'images annotées de divers objets (animaux, véhicules, objets du quotidiens, etc.) \autocite{data:coco}}. Le temps de traitement d'une image est indiqué dans la colonne \textit{speed}, quant à \textit{COCO mAP}, il s'agit d'une mesure prenant en compte plusieurs sous-métriques telle que la précision moyenne des \textit{bounding box} des objets \footnote{Plus d'informations concernant la métrique \textit{COCO mAP} sont disponibles sur \url{http://cocodataset.org/\#detection-eval}}. Plus la valeur \textit{mAP} est grande, meilleure est la détection.
 
 \begin{figure}[!ht]
     \includegraphics[width=130mm]{img/conception/nn/tensorflow_models.png}
@@ -878,7 +879,7 @@ Comme vu précédemment, il est préférable d'utiliser un modèle pré-entrain�
 \section{Evaluation des modèles} \label{conception.eval}
 Il a été choisi d'évaluer les modèles par rapport aux résultats qui sont finalement attendus, soit le nombre de voitures présentes sur le parking.
 
-En \textit{machine learning}, les méthodes classiques d'évaluations consistent souvent aux calculs des précisions et rappels reposant sur une matrice de confusion. Cependant, c'est ici un problème de regression, où on cherche à approcher au mieux le nombre de véhicules présent sur le parking. Une métrique souvent utilisée est la \textit{RMSE}, pour \textit{Root Mean Squared Error}. \autocite{wiki:rmse}
+En \textit{machine learning}, les méthodes classiques d'évaluations consistent souvent aux calculs des précisions et rappels reposant sur une matrice de confusion. Cependant, c'est ici un problème de régression, où on cherche à approcher au mieux le nombre de véhicules présent sur le parking. Une métrique souvent utilisée est la \textit{RMSE}, pour \textit{Root Mean Squared Error}. \autocite{wiki:rmse}
 
 Pour chaque image du corpus d'évaluation, le nombre de voitures présentes est prédit par l'algorithme ($\hat{n}$), qui est comparé au nombre de voitures réelles ($n$), tiré de l'annotation. La formule décrite ci-après présente le calcul effectué:
 \[

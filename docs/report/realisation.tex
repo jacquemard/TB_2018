@@ -156,9 +156,9 @@ def _scharr_hsv(image):
 \end{lstlisting}
 % spellcheck-language
 
-Dans le cadre de l'anonymisation des données, il a semblé important qu'aucune information concernant les utilisateurs de puisse apparaître. C'est pourquoi le nom de l'image est basée sur son hash (fonction de hash fournie par Python. Un hash complexe n'est pas nécessaire). 
+Dans le cadre de l'anonymisation des données, il a semblé important qu'aucune information concernant les utilisateurs puisse apparaître. C'est pourquoi le nom de l'image est basé sur son hash (fonction de hash fournie par Python. Un hash complexe n'est pas nécessaire). 
 
-L'image est ensuite sauvegardée à un format \textit{bitmap} (\textit{.bmp}), sans pertes de compression. La date et heure de création et de modification du fichier est aussi modifiée pour que les données soient au plus anonymisées.
+L'image est ensuite sauvegardée à un format \textit{bitmap} (\textit{.bmp}), sans pertes de compression. La date et l'heure de création et de modification du fichier sont aussi modifiées pour que les données soient au plus anonymisées.
 
 \section{Traitement du corpus \textit{PKLot}} \label{realisation.dataset}
 
@@ -253,7 +253,7 @@ Une implémentation de \textit{Yolo} a aussi été utilisée. Pour ce faire, il 
 
 Une fois celui-ci téléchargé, l'attribut \textit{OPENMP} du fichier \textit{Makefile} a été défini à 1 afin que les entrainements puissent être effectués sur tous les cœurs de la machine disponible. Puis, le code a été compilé à l'aide de la commande \textit{make} linux. Il faut noter que cette commande n'est pas nativement disponible sous Windows.
 
-Dans un second temps, il est nécessaire de préparer les labels pour l'entrainement. Puisque les formats \textit{VOC} ont été créé pour le corpus \textit{PKLot}, un script \textit{Python} fourni par \textit{Darknet} a été utilisé. Les fichiers de configurations nécessaires à l'entrainement sur le \textit{dataset} ont aussi été modifiés. 
+Dans un second temps, il est nécessaire de préparer les labels pour l'entrainement. Puisque les formats \textit{VOC} ont été créés pour le corpus \textit{PKLot}, un script \textit{Python} fourni par \textit{Darknet} a été utilisé. Les fichiers de configurations nécessaires à l'entrainement sur le \textit{dataset} ont aussi été modifiés. 
 
 \begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Yolo}}, label={lst:yolo_train}, numbers=none] 
 ./darknet detector train cfg/coco.data cfg/yolov3.cfg darknet53.conv.74

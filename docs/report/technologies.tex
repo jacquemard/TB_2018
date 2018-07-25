@@ -50,7 +50,7 @@ Une image d'un certain nombre de pixel en largeur et en hauteur peut être redim
 Il est important de noter que la réduction de la résolution d'une image induit irrémédiablement à une perte d'information. 
 
 
-\subsection{Détection de bord}\label{techno.traitement.bord}
+\subsection{Détection de bords}\label{techno.traitement.bord}
 Certains filtres permettent de mettre en valeur sur une images les bords des objets. Il sont souvent basés sur des matrices de convolutions. Celles-ci sont décrites plus amplement en section en section \ref{techno.nn.convolution} \itnameref{techno.nn.convolution}. 
 
 \begin{figure}[ht]
@@ -112,7 +112,7 @@ Pour résumer, une matrice de convolution décrit un filtre. Cette matrice est a
 
 Il semblait nécessaire et important de décrire rapidement le fonctionnement de ces matrices de convolutions afin de faire le parallèle avec la détection de bords qui a été décrites en section \ref{techno.traitement.bord} \itnameref{techno.traitement.bord}. En effet, la détection de bord consiste en une matrice de convolution définie qui sera appliquée sur une image. En \textit{Machine Learning}, les matrices de convolutions sont "déduites" au fur et à mesure des itérations. Ainsi, il est possible qu'un réseau de neurones à convolutions apprenne de lui-même à effectuer une détection de bord, si tel est nécessaire. C'est pourquoi, ce traitement peut accélérer l'apprentissage, mais ne semble pas dans l'absolu nécessaire.
 
-\subsection{Détection d'objet}\label{techno.nn.object}
+\subsection{Détection d'objets}\label{techno.nn.object}
 
 Une approche possible afin de résoudre le problème présenté est de chercher à détecter les voitures présentes dans l'image. Une fois ces objets détectés, il est suffisant ensuite de compter le nombre de voitures prédites par l'algorithme. 
 
@@ -122,7 +122,7 @@ En général, ces algorithmes se basent sur des réseaux de neurones à convolut
 
 \paragraph{Faster R-CNN}
 
-L'architecture \textit{Faster R-CNN}\autocite{faster-rcnn} présentée en figure \ref{fig:faster-rcnn} consiste en 2 étapes. Dans un premier temps, un réseau de neurones à convolutions permet de rechercher les zones d'intérêts (\textit{Regions of Interest}). Par la suite, chacune de ces zones est évaluée par un second réseau de neurones, afin de définir si la région appartient à certaine classe, ou à aucune d'entre elles.
+L'architecture \textit{Faster R-CNN}\autocite{faster-rcnn} présentée en figure \ref{fig:faster-rcnn} consiste en 2 étapes. Dans un premier temps, un réseau de neurones à convolutions permet de rechercher les zones d'intérêts (\textit{Regions of Interest}). Par la suite, chacune de ces zones est évaluée par un second réseau de neurones, afin de définir si la région appartient à certaines classesaucune d'entre elles.
 
 \begin{figure}[ht]
     \includegraphics[width=120mm]{img/bases_technologiques/faster-rcnn.jpg}
@@ -134,7 +134,7 @@ L'architecture \textit{Faster R-CNN}\autocite{faster-rcnn} présentée en figure
 
 \paragraph{\textit{Yolo}}
 
-L'architecture présentée par \textit{Yolo}\footnote{Yolo (You Only Look Once). \autocite{yolov3}} consiste en un unique réseau de neurones à convolutions. Conceptuellement, par couche de convolutions successive, l'image est finalement réduite à une grille la subdivisant. Chaque cellule de cette grille indique s'il y a un objet détecté dans l'image original à la position correspondante. \autocite{coursera:object}
+L'architecture présentée par \textit{Yolo}\footnote{Yolo (You Only Look Once). \autocite{yolov3}} consiste en un unique réseau de neurones à convolutions. Conceptuellement, par couche de convolutions successive, l'image est finalement réduite à une grille la subdivisant. Chaque cellule de cette grille indique s'il y a un objet détecté dans l'image originale à la position correspondante. \autocite{coursera:object}
 
 \begin{figure}[ht]
     \includegraphics[width=120mm]{img/bases_technologiques/yolo.png}
