@@ -42,9 +42,9 @@ def current_num():
 def image_received(image):
     image = io.imread(image)
     num_cars = predictor.predict_num_cars(image)
+    add_value(num_cars)
 
     print("image received, num_car: {}, mean: {}".format(num_cars, current_num()))
-    add_value(num_cars)
 
 agent = CameraAgent(camera, image_received, seconds=15, blocking=False)
 
