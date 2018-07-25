@@ -39,7 +39,7 @@ Elle expose un \textit{endpoint} \textit{HTTP} permettant de récupérer l'image
     \label{fig:image_request}
 \end{figure} 
 
-\subsection{Agent}
+\subsection{Agent}\label{realisation.capture.agent}
 Un agent a été développé, déployé sur la VM. Celui-ci permet de définir un intervalle auquel des images seront demandées à la caméra. Il permet donc de gérer la connexion à celle-ci, mais aussi les pertes de liaisons. A la réception d'une image, il permet de définir une méthode de traitement (décrite en section \ref{conception.traitement} et \ref{realisation.traitement}). 
 Il permet aussi de définir, si tel est souhaité, une heure de début et une heure de fin durant lesquelles les requêtes seront effectuées. Lorsqu'on sort de cet intervalle, aucune photo ne sera capturée. Dans notre cas, celui-ci est utilisé afin d'éviter une multitude d'images prises du parking vide aux heures de nuit.
 
@@ -162,7 +162,7 @@ L'image est ensuite sauvegardée à un format \textit{bitmap} (\textit{.bmp}), s
 
 \section{Traitement du corpus \textit{PKLot}} \label{realisation.dataset}
 
-Les images fournies par \textit{PKLot} sont annotées par place de parc marquée au sol. Cependant, il est possible que certaines voitures ne soient pas garée sur l'une de celle-ci. 
+Les images fournies par \textit{PKLot} sont annotées par place de parc marquée au sol. Cependant, il est possible que certaines voitures ne soient pas stationnées sur l'une de celle-ci. 
 
 Si lors de l'entrainement, l'image segmentée par place de parc est utilisée, cela ne poserait aucun problème. Cependant, dans le cadre de ce projet, les modèles sont entrainés sur l'ensemble de l'image. Ainsi, certaines voitures présentes n'ont pas été annotées comme telles. Si ce \textit{dataset} n'était pas traité, certaines voitures seraient considérés comme étant de l'arrière-plan, et ne seraient pas détectée. 
 
@@ -240,7 +240,7 @@ Afin d'utiliser un corpus d'entrainement à l'aide de \textit{Tensorflow}, des f
 Un fichier de configuration (\textit{.config}) est aussi nécessaire. Celui-ci indique où se situe les fichiers \textit{.record}, le modèle pré-entrainé, etc. Par la suite, l'entrainement est exécuté en ligne de commande.
 
 % spellcheck-language "en"
-\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Tensorflow Object Detection API}}, label={lst:voc}, numbers=none] 
+\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Tensorflow Object Detection API}}, label={lst:cmd_train}, numbers=none] 
 python /home/ubuntu/tensorflow_models/research/object_detection/train.py \
 --logtostderr \
 --train_dir=/home/ubuntu/DS/PKLot/tensorflow_ds/training/ \
@@ -255,7 +255,7 @@ Une fois celui-ci téléchargé, l'attribut \textit{OPENMP} du fichier \textit{M
 
 Dans un second temps, il est nécessaire de préparer les labels pour l'entrainement. Puisque les formats \textit{VOC} ont été créé pour le corpus \textit{PKLot}, un script \textit{Python} fourni par \textit{Darknet} a été utilisé. Les fichiers de configurations nécessaires à l'entrainement sur le \textit{dataset} ont aussi été modifiés. 
 
-\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Yolo}}, label={lst:voc}, numbers=none] 
+\begin{lstlisting}[caption={Exécution d'un entrainement à l'aide de \textit{Yolo}}, label={lst:yolo_train}, numbers=none] 
 ./darknet detector train cfg/coco.data cfg/yolov3.cfg darknet53.conv.74
 \end{lstlisting}
 % spellcheck-language
@@ -266,11 +266,7 @@ Comme l'indique les tests en section \ref{tests.final} \itnameref{tests.final}, 
 
 Une classe, \textit{TensorflowPredictor}, a été créée, basée sur des codes d'exemples disponibles (dont les sources sont précisiées dans le code source). Lors de son instanciation, le chemin vers le modèle qu'on souhaite utiliser est passé en paramètre, ce qui a pour effet de le charger en mémoire. Ensuite, il est possible d'utiliser cet objet afin de prédire le nombre de voitures présentes sur une image. Le script permet aussi une exécution en ligne de commande afin de pouvoir générer les \textit{bounding box} d'une image.
 
-\section{REST API}
-
-\todo{Moyenne sur plusieurs images à la suite du parking: utilisation du modèle}
-
-\todo{Préciser la structure du projet}
+\todo{Préciser la structure du projet, et liens github}
 
 
 

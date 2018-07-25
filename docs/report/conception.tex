@@ -12,11 +12,7 @@ Cette section présente l'architecture du système de capture d'image du parking
 Il faudra remarquer que les choix effectués ici non seulement influence la caméra qui sera choisie en section \ref{conception.techno.camera} \itnameref{conception.techno.camera}, mais aussi, ces choix dépendent de celle-ci. Ainsi, ces deux travaux (choix de l'architecture de capture d'image et choix de la caméra) ont été réalisés en parallèle.
 
 \subsubsection{Architecture logique}\label{conception.architecture.capture.logique}
-%\nomenclature{VM}{machine virtuelle, pour \textit{Virtual Machine} en anglais}
-%\newacronym[longplural={Virtual Machines}]{VM}{VM}{Virtual Machine}
 
-%\todo{NOMENCLATURE PAS FONCTIONNEL}
- 
 La caméra réseau sera connectée au réseau local de la HEIG-VD. Elle aura donc une adresse IP, qu'il sera possible d'utiliser afin de communiquer avec elle. Une machine virtuelle (abrégée \textit{VM}, pour \textit{Virtual Machine}) a été mise à disposition de ce projet. Située sur le réseau de l'école, elle permettra de récupérer ses images.
 
 \begin{figure}[!ht]
@@ -91,8 +87,25 @@ Comme indiqué au paragraphe \itnameref{conception.architecture.camera.physique.
 \end{itemize}
 
 \subsection{Distribution des informations à l'utilisateur}
+Dans le but de pouvoir fournir le nombre de place libre à l'utilisateur, un simple \textit{endpoint} a été développé à l'aide de \textit{Flask}\footnote{\textit{Flask} est une librairie \textit{Python} permettant de rapidement exposer une API \textit{REST}.\autocite{lib:flask}}. Il faut noter que la distribution de ces informations n'est pas le point principal de ce projet, c'est pourquoi il est assez succinct.
+D'autres systèmes auraient pu être mis en place, cependant, une telle API semblait être l'idéal. En effet, pour une application si simple, elle est rapidement développée. Aussi, une \textit{REST API} est une technologie couramment utilisée et permet une certaine interopérabilité. Ainsi, une fois l'API exposée, d'autres applications peuvent être écrites l'utilisant, comme une interface web.  
 
-\todo{Info à l'utilisateurs}
+La détection des voitures à partir d'une image prend un certain temps, de l'ordre de la dizaine de seconde. Ainsi, plutôt que la prédiction soit effectuée à chaque requête sur l'\textit{endpoint} exposé, ce qui bloque la réponse, il a été préféré que cette détection soit effectuée en arrière-plan. Pour ce faire, le script interroge la caméra à intervalle régulier à l'aide d'un agent (décrit en section \ref{realisation.capture.agent} \itnameref{realisation.capture.agent}). La prédiction du nombre de voitures présentes est effectuées à l'arrivée d'une image, et est sauvegardée en mémoire.
+
+Lorsqu'un utilisateur souhaite obtenir l'état actuel du parking, il interroge l'API \textit{REST}. A la réception de la requête, le nombre de voitures présentes est lu en mémoire, et une réponse sous la forme d'un objet \textit{JSON} contenant le nombre places libres ainsi que d'autres informations est renvoyé à l'utilisateur. Le code \textit{JSON} correspondant est présenté au listing \ref{lst:detect_json}.
+
+% spellcheck-language en
+\begin{lstlisting}[caption={\textit{JSON} reçu par l'utilisateur}, label={lst:detect_json}] 
+{
+    "date": "2018-07-25 12:38:38", 
+    "free_place": 17, 
+    "num_cars": 6, 
+    "occupied_rate": 0.2608695652173913
+}
+\end{lstlisting}
+% spellcheck-language
+
+Afin de réduire les erreurs de prédiction, le nombre de voitures présentes sur le parking renvoyé à l'utilisateur est calculé à partir d'une moyenne des 4 dernières images prises pas la caméra.
 
 %% ------------------------------------------ %%
 %%           CHOIX TECHNOLOGIQUES             %%
@@ -871,5 +884,3 @@ Pour chaque image du corpus d'évaluation, le nombre de voitures présentes est 
 \[
     \sqrt{\sum (n - \hat{n})^2 }    
 \]
-
-\todo{parler de la détection sur open-cv ?}

@@ -63,8 +63,6 @@ $16000$        & $22.88589282$ \\ \bottomrule
 
 Le modèle entrainé 4000 fois semble le meilleur lors de l'évaluation. La cause est sans doute un sur-entrainement du modèle à 16000 itérations, ce qui ne permet pas de le généraliser suffisamment.
 
-\todo{Graphiques ? Parler genre qu'avec les caméras où ya beaucoup de voiture, ça marche moins bien}
-
 \section{Yolo v3}
 
 Le modèle \textit{Yolo} a aussi été évalué. Un modèle pré-entrainé sur le corpus d'images \textit{Coco}\autocite{data:coco} à été utilisé.
@@ -97,4 +95,8 @@ A la vues des résultats précédent, il semble que le meilleur algorithme soit 
 
 
 \section{Tests en conditions réels}
-parler vite fait des résultats sur la caméra
+Une fois le système mis en place (caméra, prédiction du taux d'utilisation, \textit{REST} API), il aurait été souhaité d'effectuer une évaluation approfondie de la détection des voitures. Cependant, pour cause de protection des données des utilisateurs du parking, seul quelques observations ont pu être effectuées. 
+
+En général, il a pu être observé que le système semble viable, où seules 1 ou 2 voitures ne sont pas détectées. Il a pu être remarqué que le modèle ne détecte que très mal les voitures présentes sur le bord de l'image, où seul une partie de celle-ci est visible. 
+
+Aussi, comme on pouvait si attendre, les voitures présentes derrière les arbres ne sont que très rarement jamais détectées, ceci dû à la verdure qui les cachent.  Ce n'est pas un problème en sois: il suffit de considérer le parking derrière les arbres comme ne faisant pas parti du parking dont on souhaite connaître l'état. Si il est tout de même souhaité que ces voitures doivent être détectées, il serait possible d'ajouter une seconde caméra.
