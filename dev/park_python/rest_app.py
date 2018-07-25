@@ -61,4 +61,4 @@ def root():
 
 if __name__ == '__main__':
     agent.start()
-    app.run(debug=True)
+    app.run(debug=False)
