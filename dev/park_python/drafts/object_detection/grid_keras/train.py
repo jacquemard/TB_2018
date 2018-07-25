@@ -1,3 +1,10 @@
+from pathlib import Path
+import os
+import sys
+cur_path = Path(os.path.abspath(__file__) )
+lib_path = str(cur_path.parent.parent.parent.parent.resolve())
+sys.path.insert(0, lib_path)
+
 from skimage import io
 from skimage.viewer.viewers import ImageViewer
 import os
@@ -6,12 +13,7 @@ from pathlib import Path
 import glob
 import random
 import math
-import model
-
-import sys
-cur_path = Path(__file__)
-lib_path = str(cur_path.parent.parent.parent.parent.resolve())
-sys.path.insert(0, lib_path)
+#import model
 from dataset_helper import pklot
 
 
@@ -19,7 +21,7 @@ HOME_PATH = str(Path.home())
 
 TRAIN_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_splitted/dev"
 TEST_DATASET = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_splitted/test"
-BASE_IMAGE = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_splitted/dev/2013-03-13_07_35_01.jpg"
+BASE_IMAGE = HOME_PATH + "/DS/PKLot/PKLot/UFPR05_splitted/dev/2013-03-13_13_45_09.jpg"
 
 LOG_PATH = "./keras_log"
 CHECKPOINT_PATH = "./keras_checkpoints"
@@ -173,7 +175,7 @@ checkpoint = ModelCheckpoint(CHECKPOINT_PATH + "/{epoch:02d}-{val_loss:.2f}.hdf5
 # fitting
 m = model_func()
 #m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
-m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
+#m.fit_generator(train_generator, epochs=50, callbacks=[tb_call_back, checkpoint], validation_data=test_generator, validation_steps=50)
 
 #m.fit(x_train, y_train, epochs=50, callbacks=[tb_call_back, checkpoint], validation_split=0.2)
 #m.predict(x_train)
