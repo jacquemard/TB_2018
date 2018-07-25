@@ -15,7 +15,7 @@ PASSWORD = "Lfg3hgPhLdNYW"
 
 MODEL_FILE = str(cur_path.parent.resolve()) + "/final_models/tensorflow/pklotfull_4000_frozen_graph.pb"
 
-MAX_NUM_CARS = 40
+MAX_NUM_CARS = 23
 
 VALUES_LENGTH = 4
 
@@ -52,13 +52,23 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
+    cur_num = current_num()
+
+    free_place = MAX_NUM_CARS - cur_num
+    if free_place < 0:
+        free_place = 0
+    
+    occupied_rate = free_place / MAX_NUM_CARS
+
     obj = {
         'date':strftime("%Y-%m-%d %H:%M:%S", gmtime()),
-        'num_cars': current_num()
+        'num_cars': cur_num, 
+        'free_place': free_place,
+        'occupied_rate': occupied_rate
     }
     return jsonify(obj)
 
 agent.start()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80, host='0.0.0.0')
+    app.run(debug=False, port=80, host='0.0.0.0')
