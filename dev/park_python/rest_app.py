@@ -58,7 +58,7 @@ def root():
     }
     return jsonify(obj)
 
+agent.start()
 
 if __name__ == '__main__':
-    agent.start()
-    app.run(debug=False)
+    app.run(debug=True, port=80, host='0.0.0.0')
