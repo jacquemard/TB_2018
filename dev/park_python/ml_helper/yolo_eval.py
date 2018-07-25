@@ -1,13 +1,18 @@
-from yolo_predictor import YoloPredictor
+import sys
 import os
-from tensorflow_api_predictor import TensorflowPredictor
+from pathlib import Path
+cur_path = Path(os.path.abspath(__file__) )
+lib_path = str(cur_path.parent.parent.resolve())
+sys.path.insert(0, lib_path)
+
+from yolo_predictor import YoloPredictor
 from dataset_helper import pklot
 
 IMAGES_PATH = "/home/ubuntu/DS/PKLot/tensorflow_ds/images_splitted/test"
 IMAGE_EXT = ".jpg"
 MODEL_PATH = "../final_models/yolo/yolov3_orig.weights"
 RESULT_PATH = "yolo_eval.csv"
-XMLS_PATH = "/home/ubuntu/DS/PKLot/tensorflow_ds/annotations/xmls"
+XMLS_PATH = "/home/ubuntu/DS/PKLot/tensorflow_ds/original_xmls"
 
 predictor = YoloPredictor(MODEL_PATH)
 result = open(RESULT_PATH, "w")
