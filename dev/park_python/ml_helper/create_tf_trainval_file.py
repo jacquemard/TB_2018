@@ -1,3 +1,16 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Used to create a trainval file for the tensorflow library from #
+# a folder. Each images within it add a line to the trainval     #
+# file.                                                          #
+##################################################################
+
 import os
 
 def create_trainval_file(input_path, ext, output_file):

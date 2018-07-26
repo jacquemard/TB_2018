@@ -1,3 +1,15 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Class used to predict an image file using a keras model.       #
+# It can be used from the command line.                          #
+##################################################################
+
 from skimage import io
 import keras
 from pathlib import Path

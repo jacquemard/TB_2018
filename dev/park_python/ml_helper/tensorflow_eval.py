@@ -1,3 +1,16 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Used to validate a tensorflow model over a dataset.            #
+# The number of cars predicted and wanted are written within a   #
+# csv file.                                                      #
+##################################################################
+
 import sys
 import os
 from pathlib import Path

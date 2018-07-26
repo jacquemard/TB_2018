@@ -1,3 +1,15 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Class which can be used to log things, saved locally, sent     #
+# within an email, etc.                                          #
+##################################################################
+
 import logging
 from logging.handlers import SMTPHandler, TimedRotatingFileHandler
 

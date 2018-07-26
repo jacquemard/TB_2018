@@ -1,3 +1,22 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Main app exposing a REST API. A user can request the root      #
+# endpoint to get the current parking state.                     #
+# A JSON is sent back to the client:                             # 
+# {                                                              #
+#     'date':'2018-07-12 12:12:14',                              #
+#     'num_cars': 4,                                             #
+#     'free_place': 18,                                          #
+#     'occupied_rate': 0.432                                     #
+# }                                                              #
+##################################################################
+
 from pathlib import Path
 import os
 import sys

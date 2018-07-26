@@ -1,3 +1,4 @@
+# cloned from https://github.com/pjreddie/darknet.git
 from ctypes import *
 import math
 import random
