@@ -136,7 +136,7 @@ Ainsi, il est possible d'agir rapidement lors d'une perte de connexion à la cam
 
 La figure \ref{fig:image_process} présente la récupération et le traitement des images qui est effectué.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \includegraphics[width=110mm]{img/realisation/image_process.png}
     \centering
     \caption{Requêtes d'images et traitement}
@@ -300,4 +300,4 @@ Dans un second temps, il est nécessaire de préparer les labels pour l'entraine
 \section{Utilisation du modèle final \textit{Tensorflow}} 
 Comme l'indique les tests en section \ref{tests.final} \itnameref{tests.final}, un modèle utilisant l'API de \textit{Tensorflow} a été choisi. 
 
-Une classe, \textit{TensorflowPredictor}, a été créée, basée sur des codes d'exemples disponibles (dont les sources sont précisiées dans le code source). Lors de son instanciation, le chemin vers le modèle qu'on souhaite utiliser est passé en paramètre, ce qui a pour effet de le charger en mémoire. Ensuite, il est possible d'utiliser cet objet afin de prédire le nombre de voitures présentes sur une image. Le script permet aussi une exécution en ligne de commande afin de pouvoir générer les \textit{bounding box} d'une image.
+Une classe, \textit{TensorflowPredictor}, a été créée, basée sur des codes d'exemples disponibles (dont les sources sont précisées dans le code source). Lors de son instanciation, le chemin vers le modèle qu'on souhaite utiliser est passé en paramètre, ce qui a pour effet de le charger en mémoire. Ensuite, il est possible d'utiliser cet objet afin de prédire le nombre de voitures présentes sur une image. Le script permet aussi une exécution en ligne de commande afin de pouvoir générer les \textit{bounding box} d'une image.
