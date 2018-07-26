@@ -70,7 +70,7 @@ for root, _, files in os.walk(PKLOT_PATH) :
     for f in files:
         if f.endswith(IMAGE_EXT):
 '''
-#a = [task(root, f) for f in files for root, _, files in os.walk(PKLOT_PATH) if f.endswith(IMAGE_EXT)]
+
 # Processing the images with parallels job
 if __name__ == "__main__":
     Parallel(n_jobs=4)(delayed(processing)(root, f) for root, _, files in os.walk(PKLOT_PATH) for f in files if f.endswith(IMAGE_EXT))

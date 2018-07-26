@@ -74,33 +74,9 @@ def load_data(path):
         x.append(image)
         y.append(grid)
 
-    '''
-    path = Path(path)
-    for f in path.glob("*/*.bmp"):
-        label = int(f.parts[-2])
-        #print(label)
-        image = io.imread(f)
-        #print(image.shape)
-        #images.append((image, label))
-        x.append(image)
-        y.append(label)
-    
-    #random.shuffle(images)
-    #i = np.array(images)
-
-    # normalizing labels
-    y = y / np.max(y) 
-    
-    return (np.array(x), y)  #.reshape((len(y), 1))
-    '''
-
     return (np.array(x), np.array(y))
 
 x_train, y_train = load_data(TRAIN_DATASET)
-print("x_shape: {}".format(x_train.shape))
-print("y_shape: {}".format(y_train.shape))
-#print("x--------------\n{}".format(x_train))
-#print("y--------------\n{}".format(y_train))
 
 
 # Defining model
@@ -122,12 +98,6 @@ def model_func():
     model.add(BatchNormalization())
     model.add(Activation("relu"))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
-    print(model.output_shape)
-    #model.add(Dropout(0.2))
-    #model.add(Flatten())
-    #model.add(Dense(200))
-    #model.add(Activation("relu"))
-    #model.add(Dropout(0.2))
 
     # using padding (padding = 'same') is inconsistent with keras and tensorflow 
     # with odd kernel / even input, wich was the case here 
@@ -136,9 +106,6 @@ def model_func():
     # so, the input has been padded manually
     
     height = math.ceil(model.output_shape[1]/GRID_SIZE)
-    print(height)
-    print(model.output_shape)
-    print(GRID_SIZE)
     width = math.ceil(model.output_shape[2]/GRID_SIZE)
     
     top_pad = 0
@@ -146,17 +113,10 @@ def model_func():
     bottom_pad = (height * GRID_SIZE) - model.output_shape[1]
     right_pad = (width * GRID_SIZE) - model.output_shape[2]
 
-    print(bottom_pad, " ", right_pad)
-
     model.add(ZeroPadding2D(padding=((top_pad, bottom_pad), (left_pad, right_pad))))
     model.add(Conv2D(1, kernel_size=(height, width), strides=(height, width), padding='valid'))
     model.add(Activation("sigmoid"))
 
-    """
-    height = math.floor(model.output_shape[1]/GRID_SIZE)
-    width = math.floor(model.output_shape[2]/GRID_SIZE)
-    model.add(Conv2D(1, kernel_size=(height, width), strides=(height, width), padding='valid'))
-    """
 
     model.compile(loss='mean_squared_error', optimizer='rmsprop')
     model.summary()

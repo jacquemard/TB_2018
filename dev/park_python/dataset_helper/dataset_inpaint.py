@@ -47,12 +47,3 @@ if __name__ == '__main__':
     ext = args.ext[0]
 
     dataset_inpaint(path, ext, mask)
-
-#dst = inpaint.inpaint_biharmonic(image_defect, mask, multichannel=True)
-
-"""
-cv.imshow('dst', dst)
-
-cv.waitKey(0)
-cv.destroyAllWindows()
-"""

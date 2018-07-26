@@ -19,8 +19,6 @@ from shutil import copyfile
 import argparse
 
 
-#EXTS = ["_processed.bmp", ".jpg", ".xml"]
-
 TEST_RATE = 0.1
 DEV_RATE = 0.1
 
