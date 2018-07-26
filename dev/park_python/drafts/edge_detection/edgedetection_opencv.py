@@ -6,7 +6,7 @@
 #                   remi.jacquemard@heig-vd.ch                   #
 #                           July 2018                            #
 # -------------------------------------------------------------- #
-# Draft: used to detect edges from an image                      #
+# Draft: used to detect edges from an image with OpenCV          #
 ##################################################################
 
 import cv2 as cv
