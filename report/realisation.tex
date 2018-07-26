@@ -1,4 +1,24 @@
 \chapter{Réalisation}\label{realisation}
+\section{Structure du projet}
+
+En premier lieu, il a été souhaité de définir la structure de dossier de développement du projet (dossier \textit{dev}). Elle est définie ci-après.
+
+\begin{description}
+    \item[\textit{tensorflow\_models}] API de détection d'objets de \textit{Tensorflow}
+    \item[\textit{park\_python}] Le développement effectué
+    \begin{description}
+        \item[\textit{camera}] Connexion à la caméra et récupération automatique d'images
+        \item[\textit{dataset\_helper}] Méthodes d'aides au traitement de \textit{dataset}, comme pouvoir séparer celui en 3 sous dossiers \textit{test}, \textit{dev} et \textit{train}
+        \item[\textit{final\_models}] Modèles finaux utilisés
+        \item[\textit{logger}] Système de log développé
+        \item[\textit{ml\_helper}] Fonctions d'aide à l'entrainement et à l'utilisation des modèles. Contient notamment des \textit{predictor} permettant de calculer le nombre de voitures présentes en fonction d'une image
+        \item[\textit{drafts}] Création et entrainement des modèles
+        \begin{description}
+            \item[\textit{edge\_detection}] Détection de 
+        \end{description}
+    \end{description}
+\end{description}
+
 
 \section{Capture d'images}\label{realisation.capture}
 \subsection{Emplacement de la caméra}
