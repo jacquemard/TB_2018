@@ -1,3 +1,14 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Draft: used to explore different type of image processing.     #
+##################################################################
+
 from skimage import io, transform, filters, exposure, util, color
 from skimage.viewer.viewers import ImageViewer, CollectionViewer
 from skimage.color.adapt_rgb import adapt_rgb, each_channel, hsv_value

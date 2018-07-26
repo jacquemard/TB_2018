@@ -1,3 +1,17 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Helpers and classes to connect to a camera and retreive        #
+# images.                                                        #
+##################################################################
+
+
+
 import requests
 from requests.auth import HTTPBasicAuth
 from io import BytesIO

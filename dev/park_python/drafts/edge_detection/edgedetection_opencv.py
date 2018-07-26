@@ -1,3 +1,14 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Draft: used to detect edges from an image                      #
+##################################################################
+
 import cv2 as cv
 import numpy as np
 

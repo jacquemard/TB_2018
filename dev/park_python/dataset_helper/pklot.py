@@ -1,3 +1,16 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Helper methods to handle the PKLot dataset                     #
+# When called from the command line, PKLot xmls can be convert   #
+# to VOC xml files.                                              #
+##################################################################
+
 from pathlib import Path
 import os
 import sys

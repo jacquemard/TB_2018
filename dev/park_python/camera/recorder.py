@@ -1,3 +1,15 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# A recorder which will connect to a camera, process images      #
+# received and save them localy                                  #
+##################################################################
+
 from park_python.camera.capture import CameraClient, CameraAgent
 from park_python.logger.custom_logger import CustomLogger
 import skimage
@@ -9,6 +21,7 @@ import os
 import logging
 import timeit
 import warnings
+
 from datetime import time
 from pathlib import Path
 

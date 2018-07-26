@@ -1,3 +1,14 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Draft: used to detect edges from an image with skimage         #
+##################################################################
+
 #import skimage as sk
 from skimage import io, filters, color, exposure, util, morphology
 from skimage.viewer.viewers import ImageViewer, CollectionViewer

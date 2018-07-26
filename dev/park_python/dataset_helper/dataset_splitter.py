@@ -1,3 +1,16 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Usefull to split a dataset to 3 folders: test, train and dev   #
+# Each rate can be set, and it can be called from the command    #
+# line.                                                          #
+##################################################################
+
 import glob
 import os
 import re
