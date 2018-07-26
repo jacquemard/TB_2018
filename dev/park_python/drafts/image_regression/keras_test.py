@@ -1,3 +1,15 @@
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# First test creating a keras model, handling parking detection  #
+# with regression.                                               #
+##################################################################
+
 from keras import Sequential
 from keras import backend as K
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout

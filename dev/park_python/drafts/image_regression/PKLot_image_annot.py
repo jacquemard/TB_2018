@@ -1,4 +1,14 @@
-#import park_python.camera.image_processing as process
+##################################################################
+#        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
+#                       DE CAMERAS VIDEOS                        #
+# -------------------------------------------------------------- #
+#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#                   remi.jacquemard@heig-vd.ch                   #
+#                           July 2018                            #
+# -------------------------------------------------------------- #
+# Used to label PKLot image for regression                       #
+##################################################################
+
 from skimage import io
 import os
 from lxml import etree
