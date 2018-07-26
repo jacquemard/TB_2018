@@ -2,8 +2,9 @@
 #        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
 #                       DE CAMERAS VIDEOS                        #
 # -------------------------------------------------------------- #
-#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#              Rémi Jacquemard - TB 2018 - HEIG-VD               #
 #                   remi.jacquemard@heig-vd.ch                   #
+#               https://github.com/remij1/TB_2018                #
 #                           July 2018                            #
 # -------------------------------------------------------------- #
 # Usefull to split a dataset to 3 folders: test, train and dev   #

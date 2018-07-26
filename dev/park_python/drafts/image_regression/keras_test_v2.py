@@ -2,11 +2,12 @@
 #        MESURE DU TAUX D'OCCUPATION DE PARKINGS A L'AIDE        #
 #                       DE CAMERAS VIDEOS                        #
 # -------------------------------------------------------------- #
-#               Rémi Jacquemard - TB 2018 - HEIG-VD              #
+#              Rémi Jacquemard - TB 2018 - HEIG-VD               #
 #                   remi.jacquemard@heig-vd.ch                   #
+#               https://github.com/remij1/TB_2018                #
 #                           July 2018                            #
 # -------------------------------------------------------------- #
-# Second test creating a keras model, handling parking detection  #
+# Second test creating a keras model, handling parking detection #
 # with regression.                                               #
 ##################################################################
 
