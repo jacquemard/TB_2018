@@ -13,7 +13,7 @@ Des modèles de réseaux de neurones sont aussi présentés. Certains de ceux-ci
 Une petite API _REST_ est aussi présentée dans ce projet qui permet de fournir l'état actuel d'un parking à un utilisateur.
 
 ## Rapport
-Le rapport effectué dans le cadre de ce travail est disponible à la racine du projet, sous le nom de _TB2018\_Report\_Parking_.
+Le rapport effectué dans le cadre de ce travail est disponible à la racine du projet, sous le nom de [TB2018\_Report\_Parking](./TB2018\_Report\_Parking.pdf) .
 
 ## Structure de fichier
 - **report** : Rapport latex du projet
